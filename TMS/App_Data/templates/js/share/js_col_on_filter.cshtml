@@ -1,0 +1,65 @@
+﻿@using CHUNOApp.Template;
+@if (@Model.IsForeignKey && !@Model.IsImage && !@Model.IsFile)
+{
+<text>
+if (CommonHelper.IsSearchableValue(object.@Model.Name)) {
+    $.extend(filterobj, { @Model.Name: object.@Model.Name });
+}
+</text>
+}
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+else if(@Model.IsImage){
+
+}
+else if (@Model.IsFile)
+{
+
+}
+else if (@Model.IsYear)
+{
+<text>
+if (!CommonHelper.IsNullOrEmpty(object.@Model.Name)) {
+    filterobj = { @Model.Name: object.@Model.Name };
+}
+</text> 
+}
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+else if (@Model.Type == EType.DATETIME)
+{
+    <TODO></TODO>
+}
+else if(@Model.Type==EType.BIT)
+{
+<text>
+if (!CommonHelper.IsNullOrEmpty(object.@Model.Name)) {
+    filterobj = { @Model.Name: object.@Model.Name };
+}
+</text>
+}
+else if (@Model.Type == EType.INT)
+{
+<text>
+if (!CommonHelper.IsNullOrEmpty(object.@Model.Name)) {
+    filterobj = { @Model.Name: object.@Model.Name };
+}
+</text>
+}
+else if (@Model.Type == EType.FLOAT)
+{
+
+}
+else if (@Model.Type == EType.NTEXT)
+{
+
+}
+else if (@Model.Type == EType.NVARCHAR || @Model.Type ==EType.VARCHAR)
+{
+<text>
+if (!CommonHelper.IsNullOrEmpty(object.@Model.Name)) {
+    filterobj = { @Model.Name: object.@Model.Name };
+}</text>
+}

@@ -1,0 +1,254 @@
+﻿@using CHUNOApp.Template;
+<!-- *****@Model.TableName Form ***** -->
+<script type="text/javascript">
+//as child
+CHUNOApp.controller('ChildController_@Model.TableName', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    var self = this;
+    self.isSearching=false;
+
+    $scope.ChildControllers["@Model.TableName"] = self;
+    //===================================
+    //Properties
+    self.ParentObjectId = 0;
+
+    //---FormObject---
+    self.FormObject = new DataObject("@Model.TableName", $scope);
+    self.NewObject = function () {
+        var newobj = {
+            Id: 0,
+            @foreach(var col in @Model.Columns)
+            {
+            @iTemplate.JS_Column_On_NewObject(col);
+            }
+            Version: 0,
+            IsActive: true
+        };
+
+        newobj.@Model.RefColumn = self.ParentObjectId;
+        return newobj;
+    }
+    self.DataObject = self.NewObject();
+
+
+
+    //---ModalAPI---
+    $scope.ModalAPI = {};
+
+    //--------------------------------
+    self.ClearForm = function(){
+        self.DataObject = self.NewObject();
+    }
+
+    self.AddItem = function(){
+        var newobj = self.NewObject();
+
+        self.EditObject(newobj);
+    }
+
+    self.Edit = function (object) {
+        //TODO LoadObject again
+
+        //copyobject
+        var copyobject = self.NewObject();
+        CommonHelper.CopyFields(object, copyobject);
+
+        //morefields
+        //TODO
+
+        //============================================
+        //check permission
+        copyobject._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
+        copyobject._CanDelete = self.FormConfig._CanDelete;
+
+        //====================================
+        self.EditObject(copyobject);
+    }
+
+    self.EditObject = function (object){
+
+        $timeout(function () {
+            $scope.ModalAPI.SetObject(object);
+            $("#Modal_@Model.TableName").modal('show');
+
+        }, 100);
+    }
+
+    self.Save = function (object) {
+        self.FormObject.SetObject(object);
+        var Id = self.FormObject.SaveObject();
+        if (Id > 0) {
+            object.Id = Id;
+        }
+    }
+    self.Delete = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [@Model.Title] " + object.Id + " - " + 'TODO - object.Name' + "?",
+        function () {
+            if (self.FormObject.DeleteObject(object.Id)) {
+
+                self.ReloadTable();
+                ShowSuccessMessage("Đã xóa thành công!");
+
+            }
+        });
+    }
+
+    self.ReloadTable = function () {
+        self.TableForm.reload();
+    }
+
+    self.Search = function(){
+        if (self.DataObject == undefined) return;
+        //===================================
+        var object = self.DataObject;
+
+        var filterobj = {};
+        //parent column id
+        {
+            $.extend(filterobj, { @Model.RefColumn: self.ParentObjectId });
+        }
+
+        @foreach (var col in @Model.Columns)
+        {
+            if (col.IsFilter)
+            {
+            @iTemplate.JS_Column_On_Filter(col);
+            }
+        }
+
+        self.TableForm.search(filterobj);   
+    }
+
+    //---InitForm---
+    self.InitForm = function (parentobj) {
+        self.ParentObjectId = parentobj.Id;
+        self.DataObject = self.NewObject();
+        //========================
+        var config = new DataFormConfig();
+        {
+            config.dataobject = '@Model.TableName';
+            config.columns = ['Id', 
+                    @foreach (var col in @Model.Columns)
+                    {
+                    @iTemplate.JS_Column_On_FormConfig(col)
+                    }
+                ].join(';'); 
+            config.sort = '@(@Model.TableName).Id DESC';
+            config.condition = '@(@Model.TableName).@Model.RefColumn = ' + self.ParentObjectId  + ' AND (@(@Model.TableName).IsActive=1 )';
+            config.action = 'get'; //getall/get
+            config.startrow = 0;
+            config.endrow = 10;
+        }
+
+        self.FormConfig = config;
+        self.FormConfig._CanCreate = true;
+        self.FormConfig._CanUpdate = true;
+        self.FormConfig._CanDelete = true;
+
+        self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+            var config = {};
+            $.extend(config, self.FormConfig);
+            //===========================   
+            var filter = params.filter();
+            var sorting = params.sorting();
+            var pagesize = params.count();
+            var page = params.page();
+            //===========================       
+            //condition
+            var conditionarr = [];
+            for (var key in filter) {
+                var column = '@(@Model.TableName).' + key;
+                if (key.indexOf('.') >= 0)
+                    column = key;
+                var cond = CommonHelper.CreateCondition(column, filter[key]);
+                conditionarr.push(cond);
+            }
+
+            if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+            //sort
+            var sortnarr = [];
+            for (var key in sorting) {
+                var column = '@(@Model.TableName).' + key;
+                if (key.indexOf('.') >= 0)
+                    column = key;
+                sortnarr.push(column + " " + sorting[key] + "");
+            }
+            if (config.sort != '') sortnarr.push(config.sort);
+            config.sort = sortnarr.join(",");
+            //===========================
+            return config;
+        });
+
+    }
+
+    
+}]);
+
+</script>
+
+<!----- MODAL SCRIPT -------------->
+<script type="text/javascript">
+CHUNOApp.controller('controller_modal_@(@Model.TableName)', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    var self = this;
+    self.IsEditingDetail = true;
+
+    self.ParentObjectId = 0;
+    self.IsShow = false;
+    self.SetShownModal = function (isShow) {
+        self.IsShow = isShow;
+        if (!isShow) self.DataObject =  $scope.child.NewObject();
+        //if (isShow)
+        //    self.ParentObjectId = $scope.child.ParentObjectId;
+    }
+
+    self.DataObject = {};
+    self.NewObject =function(){
+        return $scope.child.NewObject();
+    }
+
+    self.Save = function () {
+        setTimeout(function () {
+            $scope.child.Save(self.DataObject);
+            if (self.DataObject.Id > 0) {
+
+                $("button[data-dismiss='modal']:visible").click();
+                $('#Modal_AccountRole').modal('hide');
+
+
+                ShowSuccessMessage("Đã lưu thành công!");
+                self.DataObject = self.NewObject();
+
+                $scope.child.ReloadTable();
+            }
+        }, 100);
+    }
+
+    //===========================
+    $scope.ModalAPI.SetObject = function (object) {
+        self.DataObject = object;
+    }
+
+    //==========================
+    //init modal
+    self.InitModal = function () {
+        $('#Modal_@Model.TableName').on('show.bs.modal', function (e) {
+            var modalId = $(this).attr("id");
+            var scope = angular.element(document.getElementById(modalId)).scope();
+            scope.$apply(function () {
+                scope.modal.SetShownModal(true);
+            });
+        }).on('hide.bs.modal', function (e) {
+            var modalId = $(this).attr("id");
+            var scope = angular.element(document.getElementById(modalId)).scope();
+            scope.$apply(function () {
+                scope.modal.SetShownModal(false);
+            });
+        });
+    }
+}]);
+
+</script>

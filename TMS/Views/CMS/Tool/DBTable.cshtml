@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Tables";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+
+
+@Scripts.Render("~/bundles/cms/ToolDBTable")
+    
+<script type="text/javascript">
+    var _tool_service_generatedbtable = '@Url.Action("GenerateDBTable", "Tool")';
+    var _tool_service_generatetableconfig = '@Url.Action("GenerateTableConfig", "Tool")';
+    var _tool_service_generatechildtableconfig = '@Url.Action("GenerateChildTableConfig", "Tool")';
+
+    var _tool_service_createview = '@Url.Action("CreateView", "Tool")';
+</script>
+<div  ng-controller="ToolDBTableController as ctrl">
+<!-- START : MAIN TABLE --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : !ctrl.IsShowDetail}">
+    <div ng-if="!ctrl.IsShowDetail">
+        <!-- TOP BUTTONS -------------------->
+        <div class="row" style="padding-top: 5px">
+            <div class="col-md-5 pull-right text-right" >
+
+                <button class="btn btn-primary"  ng-disabled="!ctrl.FormConfig._CanUpdate " ng-click="ctrl.GenerateDBTable()">
+                    <i class="fa fa-rocket"></i> Tạo từ CSDL
+                </button>
+
+                <button class="btn btn-success  "  ng-disabled="!ctrl.FormConfig._CanCreate" ng-click="ctrl.AddItem()">
+                    <i class="fa fa-plus white"></i> Thêm
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH FORM -------------------->
+        <div class="row" style="padding-bottom: 10px; padding-top: 5px">
+            <form name="ctrl.searchForm" novalidate ng-submit="ctrl.Search()">
+
+                <div class=" col-xs-4">
+                    <input type="text" class="form-control" placeholder="Từ khóa tìm kiếm" ng-model="ctrl.searchTerm" />
+                    @*ng-model="ctrl.tableParams.filter().name"*@
+                </div>
+                <div class="col-xs-2">
+                    <div class="btn-group">
+                
+                    <button id="btn-search" class="btn  btn-primary search" type="submit" ng-disabled="ctrl.searchForm.$invalid">
+                        @*<i class="fa fa-search" ></i>*@
+                        <i class="fa fa-search" ng-hide="ctrl.isSearching"></i><i class="fa fa-spinner white loading" ng-show="ctrl.isSearching"></i>
+                    </button>
+                    <button class="btn btn-default " ng-disabled="!ctrl.TableForm.tableParams.hasFilter()" ng-click="ctrl.TableForm.tableParams.filter({})">
+                            <i class="fa fa-times" ></i> Clear
+                    </button>
+                    
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="control-height">
+                    <label class="col-name">Is Active</label>
+
+                    <select class="col-value" ng-model="ctrl.IsActiveS">
+                        <option value=""> ---- </option>
+                        <option value="1">YES</option>
+                        <option value="0">NO</option>
+                        
+                    </select>
+                     </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- TABLE -------------------->
+        <div class="row">
+            <div class="col-md-12  table-responsive">
+                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                    ng-form="ctrl.TableForm._tableForm" 
+                    ng-table="ctrl.TableForm.tableParams"
+                    demo-tracked-table="ctrl.TableForm._tableTracker"
+                    disable-filter="ctrl.TableForm.isAdding" >
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                        <td title="'#'" class="col-center">
+                            <span>{{ ((ctrl.TableForm.tableParams.page() - 1) * ctrl.TableForm.tableParams.count()) + ($index +1) }}</span>
+                        </td>
+
+                        <!--------- data columns -------------->
+                        <td title="'TableName'"  sortable="'TableName'" ng-switch=" ctrl.TableForm.isAdding && row.isEditing" ng-class="name.$dirty ? 'bg-warning' : ''" ng-form="TableName" demo-tracked-table-cell>
+                            <span ng-switch-default class="editable-text"><a href="#" ng-bind="row.TableName" ng-click="ctrl.ShowDetail(row)"></a></span>
+                            <div class="controls" ng-class="TableName.$invalid && TableName.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                                <input type="text" name="TableName" ng-model="row.TableName" class="editable-input form-control input-sm" required />
+                            </div>
+                        </td>
+
+                        <td title="'TableTitle'" sortable="'TableTitle'" ng-switch="row.isEditing || ctrl.TableForm.isEditing" ng-class="TableTitle.$dirty ? 'bg-warning' : ''" ng-form="TableTitle" demo-tracked-table-cell>
+                            <span ng-switch-default class="editable-text">{{row.TableTitle}}</span>
+                            <div class="controls" ng-class="TableTitle.$invalid && TableTitle.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                                <input type="text" name="TableTitle" ng-model="row.TableTitle" class="editable-input form-control input-sm" required/>
+                            </div>
+                        </td>
+                        
+                        <td title="'IsActive'" sortable="'IsActive'" ng-switch="row.isEditing || ctrl.TableForm.isEditing"  ng-form="IsActive" demo-tracked-table-cell>
+                            <span ng-switch-default class="editable-text">{{row.IsActive}}</span>
+                            <div class="controls"  ng-switch-when="true">
+                                <input type="checkbox" name="IsActive" ng-model="row.IsActive" class="editable-input " /> 
+                            </div>
+                        </td>
+
+                        <!---------command buttons -------------->  
+                        <td width="100px" >
+                            <!---edit--->
+                            <button class="btn btn-default btn-sm" ng-click="ctrl.TableForm.edit(row)" 
+                                ng-if="!row.isEditing && ctrl.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-primary btn-sm" ng-click="ctrl.TableForm.save(row, rowForm)" 
+                                ng-if="row.isEditing && ctrl.FormConfig._CanUpdate" ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>             
+                            <!---cancel--->
+                            <button class="btn btn-default btn-sm" ng-click="ctrl.TableForm.cancel(row, rowForm)"
+                                ng-if="row.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+                            
+                            <!----del--->
+                            <button class="btn btn-danger btn-sm" ng-click="ctrl.TableForm.del(row)" 
+                                ng-if="!row.isEditing && ctrl.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <!--------------- table footer------------------>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"><label>Số records : {{ctrl.TableForm.tableParams.total()}} </label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END     : MAIN TABLE --------------------------------------------->
+
+<!-- START   : DETAIL  --------------------------------------------->
+ <div class="container-fluid none-display" ng-class="{'active-content' : ctrl.IsShowDetail}"
+     ng-controller="ToolDBTableConfigController as configctrl">
+    <div ng-if="ctrl.IsShowDetail"  >
+         @Html.Partial("~/Views/CMS/Tool/DBTableConfigDetail.cshtml")
+    </div>
+</div>
+<!-- END     : DETAIL  --------------------------------------------->    
+
+</div>
+
+

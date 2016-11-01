@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Config";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+
+<h4>Config</h4>
+
+<div class="box box-body" ng-controller="TempAutocompleteController as ctrl">
+    <h5></h5>
+    <div class="row">
+        <div class="col-md-6">
+            
+            <!--START-------autocomplete example--------------->
+            autocomplete
+            <input my-autocomplete 
+                autocomplete-id="auto-id"
+                autocomplete-table="t_tool_table"
+                autocomplete-condition=""
+
+                autocomplete-column-value="id" autocomplete-column-name="name"
+                autocomplete-column-filters="id,name"
+                
+                autocomplete-model-id="#auto-id-value"
+                class="form-control "
+                placeholder="Tìm kiếm" />
+            <input type="text" id="auto-id-value" ng-model="ctrl.giatri" style="display: none;"/> <!---dont use hidden : not working with angularjs--->
+            <span >{{ctrl.giatri}}</span>
+            <!--END ---------autocomplete example------------->
+
+            <br />
+            dropdown
+            <select class="form-control"  ng-model="ctrl.giatri"
+                my-dropdown
+                dropdown-id="dropdownid" 
+                dropdown-table="t_tool_table" 
+                dropdown-condition=""
+
+                dropdown-column-value="id"
+                dropdown-column-name="name" 
+
+                dropdown-empty-value=""
+                dropdown-empty-text="--Chọn nhóm hàng--" 
+                
+                check-empty="" check-empty-message="Vui lòng chọn nhóm hàng." 
+                ></select>
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/bundles/cms/TempAutocomplete")

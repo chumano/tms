@@ -1,0 +1,337 @@
+﻿<div>
+    <!-- TOP BUTTONS -------------------->
+    <div class="row" style="padding-top: 5px">
+        <div class="col-md-6 pull-right text-right">
+            <button class="btn btn-primary" ng-if="(configctrl.ObjectForm.Id== -1 || ctrl.IsEditingDetail) && configctrl.ObjectForm._CanUpdate" ng-click="ctrl.SaveForm(false)">
+                <i class="fa fa-check white"></i>
+                <span>Lưu</span>
+            </button>
+
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm.Id != -1 && !ctrl.IsEditingDetail && configctrl.ObjectForm._CanUpdate" ng-click="ctrl.EditDetail()">
+                <i class="fa fa-edit white"></i>
+                <span>Sửa</span>
+            </button>
+            <button class="btn btn-danger" ng-if="configctrl.ObjectForm.Id != -1 && !ctrl.IsEditingDetail && configctrl.ObjectForm._CanDelete" ng-click="ctrl.DeleteObject(configctrl.ObjectForm)">
+                <i class="fa fa-trash white"></i>
+                <span>Xóa</span>
+            </button>
+            <button class="btn btn-default" ng-click="ctrl.CloseDetail()">
+                <i class="fa fa-arrow-left"></i>
+                <span>Trở về</span>
+            </button>
+        </div>
+
+        <div class="col-sm-6 pull-left">
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(false)"
+                title="Load những column chưa có">
+                <i class="fa fa-edit white"></i>
+                <span>Load Columns</span>
+            </button>
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(true)"
+                title="Xóa những column và load lại">
+                <i class="fa fa-edit white"></i>
+                <span>Update Columns</span>
+            </button>
+
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadChildTables()"
+                title="Load những bảng con">
+                <i class="fa fa-edit white"></i>
+                <span>Load Child Table</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- BODY DETAIL -------------------->
+    <div class="row">
+        
+        <div class="form-group col-md-4">
+            <div class="row">
+                <label class="col-sm-4 control-label control-height">TableName </label>
+                <div class="col-sm-7">
+                    <span ng-if="!ctrl.IsEditingDetail" ng-bind="configctrl.ObjectForm.TableName || '(Chưa có)'" class=" control-height"></span>
+                    <input class="form-control" ng-model="configctrl.ObjectForm.TableName "
+                        ng-if="ctrl.IsEditingDetail"
+                        check-length="50" check-length-message="Chiều dài tối ta là {0}." />
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-4 control-label control-height">TableTitle </label>
+                <div class="col-sm-7">
+                    <span ng-if="!ctrl.IsEditingDetail" ng-bind="configctrl.ObjectForm.TableTitle || '(Chưa có)'" class=" control-height"></span>
+                    <input class="form-control" ng-model="configctrl.ObjectForm.TableTitle "
+                        ng-if="ctrl.IsEditingDetail"
+                        check-length="50" check-length-message="Chiều dài tối ta là {0}." />
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <label class="col-sm-4 control-label control-height">Loại view</label>
+                <div class="col-sm-8">
+                    <select class="form-control" ng-model="configctrl.viewtype">
+                        <option ng-repeat="item in configctrl.list_viewtype" value="{{item.id}}" ng-bind="item.name"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-success" ng-click="configctrl.CreateView()" ng-disabled="configctrl.IsCreatingView">
+                        <i class="fa fa-spinner white loading" ng-show="configctrl.IsCreatingView"></i>
+                        <i class="fa fa-edit white" ng-hide="configctrl.IsCreatingView"></i>
+                        <span>Tạo view</span>
+                    </button>
+
+                    <button class="btn btn-success" ng-click="configctrl.PreView()" >
+                        <span>Xem</span>
+                    </button>
+                 </div>
+            </div>
+        </div>
+    
+        <div class="form-group col-md-8">
+          @*  <p>Thông tin cơ bản</p>
+            <p>parent 1: {{ctrl.Message}}</p>
+            <p>parent 2: {{configctrl.parentMessage}}</p>
+            <p>parent 3: {{Message}}</p>
+            <p>parent 4: {{configctrl.parentMessage2}}</p>
+            <p>current : {{configctrl.Message}}</p>*@
+             <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+                ng-form="configctrl.ChildTableForm._tableForm" 
+                ng-table="configctrl.ChildTableForm.tableParams"
+                demo-tracked-table="configctrl.ChildTableForm._tableTracker">
+                <tr ng-repeat="row in $data"  ng-form="rowForm" demo-tracked-table-row="row">
+                    <td title="'#'" class="col-center">
+                        <span>{{ ((configctrl.ChildTableForm.tableParams.page() - 1) * configctrl.ChildTableForm.tableParams.count()) + ($index +1) }}</span>
+                    </td>
+                   @* <td> {{rowForm.$pristine}} - {{rowForm.$invalid}} </td>*@
+                    <!--------- data columns -------------->
+                    @*<td title="'DBTableId'"   ng-class="" demo-tracked-table-cell>
+                        <span class="editable-text">{{row.DBTableId}}</span>
+                    </td>*@
+
+                    <td title="'DBChildTableId'"  ng-switch="configctrl.ChildTableForm.isEditing || row.isEditing" ng-class="DBChildTableId.$dirty ? 'bg-warning' : ''" ng-form="DBChildTableId" demo-tracked-table-cell>
+                        <span ng-switch-default class="editable-text">{{row.DBChildTableId_TableName}}</span>
+                        <div class="controls" ng-class="DBChildTableId.$invalid && DBChildTableId.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <!--<select class="form-control"  ng-model="row.DBChildTableId"
+                                my-dropdown
+                                dropdown-id="dropdown_DBChildTableId" 
+                                dropdown-table="T_TOOL_DBTable" 
+                                dropdown-condition=""
+                                dropdown-column-value="Id"
+                                dropdown-column-name="TableName" 
+                                dropdown-empty-value=""
+                                dropdown-empty-text="--Chọn bảng con --" 
+                                check-empty="" check-empty-message="Vui lòng chọn bảng." 
+                                ></select>-->
+
+                            <input my-autocomplete 
+                                autocomplete-id="auto-id"
+                                autocomplete-table="t_tool_dbtable"
+                                autocomplete-condition=""
+                                ng-model="row.DBChildTableId_TableName"
+                                autocomplete-column-value="id" autocomplete-column-name="TableName"
+                                autocomplete-column-filters="id,TableName,TableTitle"
+                                
+                                autocomplete-model-id="#auto-id-value"
+                                class="form-control "
+                                placeholder="Tìm kiếm" />
+                            <input type="text" id="auto-id-value" name="DBChildTableId" ng-model="row.DBChildTableId" class="none-display" required/> 
+                        </div>
+                    </td>
+
+                   <td title="'RefColumn'"  ng-switch=" configctrl.ChildTableForm.isEditing || row.isEditing" ng-class="name.$dirty ? 'bg-warning' : ''" ng-form="RefColumn" demo-tracked-table-cell>
+                        <span ng-switch-default class="editable-text">{{row.RefColumn}}</span>
+                        <div class="controls" ng-class="RefColumn.$invalid && RefColumn.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <input type="text" name="RefColumn" ng-model="row.RefColumn" class="editable-input form-control input-sm" required />
+                        </div>
+                    </td>
+
+                    <td title="'IsOnlyOne'"  ng-class="IsOnlyOne.$dirty ? 'bg-warning' : ''" ng-form="IsOnlyOne" demo-tracked-table-cell>
+                        <input type="checkbox" name="IsOnlyOne" ng-model="row.IsOnlyOne" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    </td>
+
+                    <td title="'ChildType'"  ng-switch="configctrl.ChildTableForm.isEditing || row.isEditing" ng-class="ChildType.$dirty ? 'bg-warning' : ''" ng-form="ChildType" demo-tracked-table-cell>
+                        <span ng-switch-default class="editable-text">{{row.ChildType}}</span>
+                        <div class="controls" ng-class="ChildType.$invalid && ChildType.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <select class="form-control" ng-model="row.ChildType">
+                                <option value="ON_DETAIL_TAB">ON_DETAIL_TAB</option>
+                                <option value="ON_MASTER">ON_MASTER</option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td title="'IsUse'" ng-class="IsUse.$dirty ? 'bg-warning' : ''" ng-form="IsUse" demo-tracked-table-cell>
+                       <input type="checkbox" name="IsUse" ng-model="row.IsUse" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    </td>
+
+                    <!---------command buttons -------------->  
+                    <td width="100px" >
+                        <!---edit--->
+                        <button class="btn btn-default btn-sm" ng-click="configctrl.ChildTableForm.edit(row)" 
+                            ng-if="!row.isEditing "><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-primary btn-sm" ng-click="configctrl.ChildTableForm.save(row, rowForm)" 
+                            ng-if="row.isEditing" ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>             
+                        <!---cancel--->
+                        <button class="btn btn-default btn-sm" ng-click="configctrl.ChildTableForm.cancel(row, rowForm)"
+                            ng-if="row.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+                            
+                        <!----del--->
+                        <button class="btn btn-danger btn-sm" ng-click="configctrl.ChildTableForm.del(row)" 
+                            ng-if="!row.isEditing"><span class="glyphicon glyphicon-trash"></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+        <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+            ng-form="configctrl.TableConfigForm._tableForm" 
+            ng-table="configctrl.TableConfigForm.tableParams"
+            demo-tracked-table="configctrl.TableConfigForm._tableTracker">
+            <tr ng-repeat="row in $data"  ng-form="rowForm" demo-tracked-table-row="row">
+                <td title="'#'" class="col-center">
+                    <span>{{ ((configctrl.TableConfigForm.tableParams.page() - 1) * configctrl.TableConfigForm.tableParams.count()) + ($index +1) }}</span>
+                </td>
+
+                <!--------- data columns -------------->
+                <td title="'ColumnName'"  ng-switch=" configctrl.TableConfigForm.isAdding && row.isEditing" ng-class="name.$dirty ? 'bg-warning' : ''" ng-form="ColumnName" demo-tracked-table-cell>
+                    <span ng-switch-default class="editable-text">{{row.ColumnName}}</span>
+                    <div class="controls" ng-class="ColumnName.$invalid && ColumnName.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                        <input type="text" name="ColumnName" ng-model="row.ColumnName" class="editable-input form-control input-sm" required />
+                    </div>
+                </td>
+
+                <td title="'ColumnTitle'"  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing" ng-class="ColumnTitle.$dirty ? 'bg-warning' : ''" ng-form="ColumnTitle" demo-tracked-table-cell>
+                    <span ng-switch-default class="editable-text">{{row.ColumnTitle}}</span>
+                    <div class="controls" ng-class="ColumnTitle.$invalid && ColumnTitle.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                        <input type="text" name="ColumnTitle" ng-model="row.ColumnTitle" class="editable-input form-control input-sm" required/>
+                    </div>
+                </td>
+                        
+                <td title="'ColumnType'" ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing" ng-class="ColumnType.$dirty ? 'bg-warning' : ''" ng-form="ColumnType" demo-tracked-table-cell>
+                    <span ng-switch-default class="editable-text">{{row.ColumnType}}</span>
+                    <div class="controls" ng-class="ColumnType.$invalid && ColumnType.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                        <select class="form-control" ng-model="row.ColumnType">
+                            <option value="bit">bit</option>
+                            <option value="int">int</option>
+                            <option value="float">float</option>
+                            <option value="varchar">varchar</option>
+                            <option value="nvarchar">nvarchar</option>
+                            <option value="ntext">ntext</option>
+                            <option value="datetime">datetime</option>
+                        </select>
+                    </div>
+                </td>
+
+                <td title="'ForeignKey'"  ng-class="IsForeignKey.$dirty ? 'bg-warning' : ''" ng-form="IsForeignKey" demo-tracked-table-cell>
+                    IsForeignKey : <input type="checkbox" name="IsForeignKey" ng-model="row.IsForeignKey" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    
+                    <div ng-show="row.IsForeignKey && !row.IsImage && !row.IsFile">
+                    <!------------------------------------------------>
+                    <div  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        ForeignTable : <span ng-switch-default class="editable-text">{{row.ForeignTable}}</span>
+                        <div class="controls" ng-class="ForeignTable.$invalid && ForeignTable.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <input type="text" name="ForeignTable" ng-model="row.ForeignTable" class="editable-input form-control input-sm"  />
+                        </div>
+                    </div>
+
+                    <div  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        ForeignColumnKey : <span ng-switch-default class="editable-text">{{row.ForeignColumnKey}}</span>
+                        <div class="controls" ng-class="ForeignColumnKey.$invalid && ForeignColumnKey.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <input type="text" name="ForeignColumnKey" ng-model="row.ForeignColumnKey" class="editable-input form-control input-sm"  />
+                        </div>
+                    </div>
+
+                    <div  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        ForeignColumnName : <span ng-switch-default class="editable-text">{{row.ForeignColumnName}}</span>
+                        <div class="controls" ng-class="ForeignColumnName.$invalid && ForeignColumnName.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <input type="text" name="ForeignColumnName" ng-model="row.ForeignColumnName" class="editable-input form-control input-sm"  />
+                        </div>
+                    </div>
+
+                    <div  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        ForeignKeyType : <span ng-switch-default class="editable-text">{{row.ForeignKeyType}}</span>
+                        <div class="controls" ng-class="ForeignKeyType.$invalid && ForeignKeyType.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <select class="form-control" ng-model="row.ForeignKeyType">
+                                <option value="">---</option>
+                                <option value="DROPDOWN">DROPDOWN</option>
+                                <option value="AUTOCOMPLETE">AUTOCOMPLETE</option>
+                                <option value="SELECT_ON_MODAL">SELECT_ON_MODAL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div  ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        ForeignKeyModal : <span ng-switch-default class="editable-text">{{row.ForeignKeyModal}}</span>
+                        <div class="controls" ng-class="ForeignKeyModal.$invalid && ForeignKeyModal.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <select class="form-control" ng-model="row.ForeignKeyModal">
+                                <option value="">---</option>
+                                <option value="NONE">NONE</option>
+                                <option value="ON_FLY_MODAL">ON_FLY_MODAL</option>
+                            </select>
+                        </div>
+                    </div>
+                     <!------------------------------------------------>
+                    </div>
+                </td>
+
+                 <td title="'IsYear/ IsFile/ IsImage'"  ng-class="IsYear.$dirty ? 'bg-warning' : ''" ng-form="IsYear" demo-tracked-table-cell>
+                    Nullable : <input type="checkbox" name="IsNullable" ng-model="row.IsNullable" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                     <br />
+                    Year : <input type="checkbox" name="IsYear" ng-model="row.IsYear" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                     <br />
+                    File : <input type="checkbox" name="IsFile" ng-model="row.IsFile" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    <br />
+                    Image : <input type="checkbox" name="IsImage" ng-model="row.IsImage" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                 </td>
+
+               
+
+                <td title="'UI'"  ng-class="UI_IsView.$dirty ? 'bg-warning' : ''" ng-form="UI_IsView" demo-tracked-table-cell>
+                    IsView :<input type="checkbox" name="UI_IsView" ng-model="row.UI_IsView" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    <br />
+                    IsFilter : <input type="checkbox" name="UI_IsFilter" ng-model="row.UI_IsFilter" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    <div ng-switch="row.isEditing || configctrl.TableConfigForm.isEditing">
+                        Position : <span ng-switch-default class="editable-text">{{row.UI_Position}}</span>
+                        <div class="controls" ng-class="UI_Position.$invalid && UI_Position.$dirty ? 'has-error' : ''" ng-switch-when="true">
+                            <select class="form-control" ng-model="row.UI_Position">
+                                <option value="">---</option>
+                                <option value="LEFT">LEFT</option>
+                                <option value="RIGHT">RIGHT</option>
+                            </select>
+                    </div>
+                    </div>    
+                </td>
+
+                
+                <!---------command buttons -------------->  
+                <td width="100px" >
+                    <!---edit--->
+                    <button class="btn btn-default btn-sm" ng-click="configctrl.TableConfigForm.edit(row)" 
+                        ng-if="!row.isEditing "><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-primary btn-sm" ng-click="configctrl.TableConfigForm.save(row, rowForm)" 
+                        ng-if="row.isEditing " ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>             
+                    
+                    <!---cancel--->
+                    <button class="btn btn-default btn-sm" ng-click="configctrl.TableConfigForm.cancel(row, rowForm)"
+                        ng-if="row.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+                            
+                    <!----del--->
+                    <button class="btn btn-danger btn-sm" ng-click="configctrl.TableConfigForm.del(row)" 
+                        ng-if="!row.isEditing"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+             <!--------------- table footer------------------>
+            <tfoot>
+                <tr>
+                    <td colspan="11"><label>Số cột : {{configctrl.TableConfigForm.tableParams.total()}} </label></td>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+    </div>
+</div>

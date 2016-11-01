@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Tables";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+
+<h4>Tables</h4>
+<div class="box box-body" ng-controller="TempTablesController as ctrl">
+    <div class="row">
+        <div class="col-md-6">
+            <form name="ctrl.searchForm" novalidate ng-submit="ctrl.applyGlobalSearch()">
+            <div >
+                <label class="col-xs-2">Name</label>
+                <div class="controls col-xs-5">
+                    <input type="text" class="form-control" placeholder="Name filter" ng-model="ctrl.globalSearchTerm" />
+                    @*ng-model="ctrl.tableParams.filter().name"*@
+                </div>
+                <div class="col-xs-5">
+                    <div class="brn-group">
+                
+                    <button id="btn-search" class="btn  btn-primary search" type="submit" ng-disabled="ctrl.searchForm.$invalid">
+                        @*<i class="fa fa-search" ></i>*@
+                        <i class="fa fa-search" ng-hide="ctrl.isSearching"></i><i class="fa fa-spinner white loading" ng-show="ctrl.isSearching"></i>
+                    </button>
+                    <button class="btn btn-default " ng-disabled="!ctrl.tableParams.hasFilter()" ng-click="ctrl.tableParams.filter({})">
+                         <i class="fa fa-times" ></i> Clear
+                    </button>
+                    
+                    </div>
+                </div>
+                
+            </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="brn-group pull-right">
+                
+                <button class="btn btn-default" ng-if="ctrl.isEditing" ng-click="ctrl.cancelChanges()">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button class="btn btn-primary" ng-if="!ctrl.isEditing" ng-click="ctrl.isEditing = true">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button class="btn btn-primary" ng-if="ctrl.isEditing" ng-disabled="!ctrl.hasChanges() || ctrl.tableTracker.$invalid" ng-click="ctrl.saveChanges()">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button class="btn btn-default" ng-click="ctrl.add()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <!--START-------------table-------------------->
+    <table ng-table="ctrl.tableParams" class="table table-bordered table-hover table-condensed editable-table" 
+        ng-form="ctrl.tableForm" disable-filter="ctrl.isAdding" demo-tracked-table="ctrl.tableTracker">
+        <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+
+          <td title="'#'">
+            <span>{{ ((ctrl.tableParams.page() - 1) * ctrl.tableParams.count()) + ($index +1) }}</span>
+          </td>
+
+          @* 
+          <td title="'#'">
+            <a target="_blank" ng-href="#{{row.id}}">{{row.id}}</a>
+          </td>
+          *@
+
+          <!--------- data columns -------------->
+          <td title="'Name'"  sortable="'name'" ng-switch="row.isEditing" ng-class="name.$dirty ? 'bg-warning' : ''" ng-form="name" demo-tracked-table-cell>
+            <span ng-switch-default class="editable-text">{{row.name}}</span>
+            <div class="controls" ng-class="name.$invalid && name.$dirty ? 'has-error' : ''" ng-switch-when="true">
+              <input type="text" name="name" ng-model="row.name" class="editable-input form-control input-sm" required />
+            </div>
+          </td>
+
+          <td title="'Age'" sortable="'age'" ng-switch="row.isEditing || ctrl.isEditing" ng-class="age.$dirty ? 'bg-warning' : ''" ng-form="age" demo-tracked-table-cell>
+            <span ng-switch-default class="editable-text">{{row.age}}</span>
+            <div class="controls" ng-class="age.$invalid && age.$dirty ? 'has-error' : ''" ng-switch-when="true">
+              <input type="number" name="age" ng-model="row.age" class="editable-input form-control input-sm" required/>
+            </div>
+          </td>
+          
+          <!---------command buttons -------------->  
+          <td width="100px" >
+            <button class="btn btn-primary btn-sm" ng-click="ctrl.save(row, rowForm)" ng-if="row.isEditing" ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>
+            <button class="btn btn-default btn-sm" ng-click="ctrl.cancel(row, rowForm)" ng-if="row.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+            <button class="btn btn-default btn-sm" ng-click="ctrl.edit(row)" ng-if="!row.isEditing"><span class="glyphicon glyphicon-pencil"></span></button>
+            <button class="btn btn-danger btn-sm" ng-click="ctrl.del(row)" ng-if="!row.isEditing"><span class="glyphicon glyphicon-trash"></span></button>
+          </td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td colspan="4">SUM : 10000</td>
+            </tr>
+        </tfoot>
+      </table>
+    <div style="clear:both"></div>
+    <!--END  -------------table-------------------->
+
+  </div>
+
+
+@Scripts.Render("~/bundles/cms/TempTables")

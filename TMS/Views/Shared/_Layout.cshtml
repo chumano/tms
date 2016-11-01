@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html ng-app="AwesomeAngularMVCApp" ng-controller="LandingPageController">
+<head>
+    <title ng-bind="models.helloAngular" ></title>
+    <meta charset="utf-8" />
+    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    *@
+
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <!------------header ---------------------->
+    <div class="container">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" ng-click="navbarProperties.isCollapsed = !navbarProperties.isCollapsed">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Awesome Angular MVC APP</a>
+                </div>
+                <div class="navbar-collapse collapse" collapse="navbarProperties.isCollapsed">
+                    <ul class="nav navbar-nav">
+                        <li><a ui-sref="stateOne({ donuts: 12 })">State One</a></li>
+                        <li><a ui-sref="stateTwo">State Two</a></li>
+                        <li><a ui-sref="stateThree({ donuts: 4 })">State Three</a></li>
+                        <li><a ui-sref="chuno">chuno</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a ui-sref="loginRegister">Login / Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------- content------------------>
+    <div class="container mainContent">
+        @RenderBody()
+    </div>
+
+    <!--------------- scripts------------------>
+    @*
+    <!--- angularjs--->  
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+    *@
+
+
+    @Scripts.Render("~/libs/jquery")
+    @Scripts.Render("~/libs/bootstrap")
+
+    @Scripts.Render("~/libs/angularjs")
+
+    @Scripts.Render("~/bundles/AwesomeAngularMVCApp")
+</body>
+</html>

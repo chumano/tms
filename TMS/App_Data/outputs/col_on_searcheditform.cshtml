@@ -1,0 +1,50 @@
+﻿
+<div class="row form-group">
+    <label class="col-md-4  ">Name </label>
+    <div class="col-md-8">
+        <input class="form-control" ng-model="master.DataObject.Name" required
+            placeholder="Nhập [Name]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Email </label>
+    <div class="col-md-8">
+        <input class="form-control" ng-model="master.DataObject.Email" required
+            placeholder="Nhập [Email]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Phone </label>
+    <div class="col-md-8">
+        <input class="form-control" ng-model="master.DataObject.Phone" 
+            placeholder="Nhập [Phone]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Phòng ban/Cơ quan </label>
+    <div class="col-md-8">
+        <select class="form-control " ng-model="master.DataObject.DepartId" required
+            my-dropdown
+            dropdown-id="dd_DepartId"
+            dropdown-table="T_Master_Department"
+            dropdown-condition="IsActive=1"
+            dropdown-column-value="Id"
+            dropdown-column-name="Name"
+            dropdown-empty-value=""
+            dropdown-empty-text="-- Chọn --"
+            check-empty="" check-empty-message="Vui lòng chọn [Phòng ban/Cơ quan].">
+        </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Hình đại diện </label>
+    <div class="col-md-8">
+        <input type="file" name="file" id="input_IMG_Id" accept="image/*"  class="none-display" />
+        <span><i class="fa fa-spinner white loading" ng-show="master.isLoadingImage"></i></span>
+        <img id="img_IMG_Id" ng-src="{{GetImageSrc(master.DataObject.IMG_Id)}}" class="img-thumbnail img-clickable" title="" />
+    </div>
+</div>

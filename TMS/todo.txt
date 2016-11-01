@@ -1,0 +1,10 @@
+﻿1. Refresh lại dropdown khi thêm mới/xóa object ở Modal
+2. Thêm Modal cho foreigncol ở single-view
+3. Thêm Modal cho foreigncol ở master-detail [search, editmaster, child]
+	chú ý: bảng con có IsOnlyOne : liên kết 1-1 với bảng cha
+
+
+5. Tạo template Detail on MASTER
+	chú ý: bảng con có IsOnlyOne : liên kết 1-1 với bảng cha
+
+6. Kiểm tra quyển . Hiện tại _CanCreate _CanUpdate _CanDelete = true

@@ -1,0 +1,36 @@
+﻿<!-- Left side column. contains the sidebar -->
+      <aside class="main-sidebar" ng-controller="MenuController">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+          <!-- search form -->
+          <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+
+            <li class="treeview" ng-class="{'active' : IsParrentCurrent(menu)}" ng-repeat="menu in ListMenu">
+              <a href="{{menu.url}}">
+                <i class="{{menu.cssclass}}"></i> <span ng-bind="menu.name"></span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu" ng-if="HasChilds(menu)">
+                  <li ng-class="{'active' : (cmenu.url.toLowerCase() == CurrentUrl)}" ng-repeat="cmenu in menu.childs">
+                    <a href="{{cmenu.url}}"><i class="{{cmenu.cssclass}}"></i> <span ng-bind="cmenu.name"></span></a>
+                </li>
+              </ul>
+            </li>
+            <li class="header">LABELS</li>
+            <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Warning</a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>

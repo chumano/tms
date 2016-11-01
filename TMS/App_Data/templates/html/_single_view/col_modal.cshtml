@@ -1,0 +1,139 @@
+﻿@using CHUNOApp.Template;
+@{
+    
+}
+
+<!-- *****MODAL COLUMN : @Model.TableName Form ***** -->
+<!--  MODEL IS TABLEINFO -->
+
+<!-- @(@Model.TableName) MODAL -->
+<div ng-controller="controller_modalcol_@(@Model.TableName) as modal" >
+<div id="ModalCol_@Model.TableName" class="modal fade " role="dialog" ng-init="modal.InitModal()">
+    <div class="modal-dialog modal-lg">
+        <!-- MODAL CONTENT-->
+        <div class="modal-content" ng-if="modal.IsShow">
+            <div class="modal-header bg-light-blue white border-6">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title bold">@Model.Title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding: 1px 15px; ">
+                    <!-- MODAL FORM -->
+                    <!---------------->
+                    <!-- FORM SEARCH -->
+                    <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                        <div class="col-sm-12">
+                        <form name="dataForm" novalidate ng-submit="modal.Search()">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @foreach (var col in @Model.Columns)
+                                    {
+                                        if ( col.IsFilter && col.Position == EPosition.LEFT)
+                                        {
+                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(col);
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-6">
+                                    @foreach (var col in @Model.Columns)
+                                    {
+                                        if (col.IsFilter && col.Position == EPosition.RIGHT)
+                                        {
+                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(col);
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- buttons -->
+                            <div class="row" style="margin-top:10px">
+                                <div class="col-md-12" >
+
+                                        <!--- Thêm --->
+                                    <button type="button" class="btn btn-success" ng-show="!modal.isEditing"  ng-disabled="!modal.FormConfig._CanCreate || dataForm.$invalid" ng-click="modal.SaveForm()">
+                                        <i class="fa fa-plus white" ng-hide="modal.isSaving"></i>
+                                        <i class="fa fa-spinner white loading" ng-show="modal.isSaving"></i> 
+                                        Thêm
+                                    </button>
+
+                                    <!--- Cập nhật --->
+                                    <button type="button" class="btn btn-warning" ng-show="modal.isEditing"  ng-disabled="!modal.FormConfig._CanUpdate || dataForm.$invalid" ng-click="modal.SaveForm()" >
+                                        <i class="fa fa-edit white" ng-hide="modal.isSaving"></i> 
+                                        <i class="fa fa-spinner white loading" ng-show="modal.isSaving"></i>
+                                        Cập nhật
+                                    </button>
+
+                                    <!--- Clear --->
+                                    <button class="btn btn-primary" ng-click="modal.ClearForm()" type="button">
+                                        <i class="fa fa-undo white"></i> Clear
+                                    </button>
+
+                                    <!--- Search --->
+                                    <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                                        <i class="fa fa-search" ng-hide="modal.isSearching"></i>
+                                        <i class="fa fa-spinner white loading" ng-show="modal.isSearching"></i>
+                                        Tìm kiếm
+                                    </button>
+                                </div>
+                            </div>
+                        </form>   
+                        </div>
+                    </div>
+
+                    <!-- TABLE -->
+                    <div class="table-responsive">
+                    <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                        ng-form="modal.TableForm._tableForm" 
+                        ng-table="modal.TableForm.tableParams" >
+                        <tr ng-repeat="row in $data" >
+                            <td title="'#'" class="col-center">
+                                <span>{{ ((modal.TableForm.tableParams.page() - 1)  *modal.TableForm.tableParams.count()) + ($index +1) }}</span>
+                            </td>
+
+                            @{var modal_count_column = 2;}
+                            <!--------- data columns -------------->
+                            @foreach (var col in @Model.Columns)
+                            {
+   
+                                if (col.IsView)
+                                {
+                                    @iTemplate.HTML_Column_In_Table(col);
+                                    modal_count_column++;
+                                }
+                            }
+
+                            <!---------command buttons -------------->  
+                            <td width="100px" >
+                                <!---edit--->
+                                <button class="btn btn-default btn-sm" ng-click="modal.EditObject(row)" 
+                                    ng-if="modal.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                           
+                                <!----del--->
+                                <button class="btn btn-danger btn-sm" ng-click="modal.DeleteObject(row)" 
+                                    ng-if="modal.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                        </tr>
+                        <!--------------- table footer------------------>
+                        <tfoot>
+                            <tr>
+                                <td colspan="@modal_count_column"><label>Số records : {{modal.TableForm.tableParams.total()}} </label></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+
+            <!-- MODAL BUTTONS -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <i class="fa-undo fa"></i>
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,18 @@
+﻿@using CHUNOApp.Template;
+$("#img_@Model.Name").click(function () {
+    if(self.IsEditingDetail)
+        $("#input_@Model.Name").click();
+});
+$("#input_@Model.Name").change(function (e) {
+    self.isLoadingImage = true;
+    $scope.$apply();
+    setTimeout(function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#img_@Model.Name").attr('src', e.target.result);
+            self.isLoadingImage = false;
+            $scope.$apply();
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }, 100);
+});

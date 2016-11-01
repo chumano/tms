@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "INDEX";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+
+<!-- Default box -->
+<div class="box box-body" ng-controller="TempInputsController as ctrl">
+    year picker : 
+        <input type="text" id="datepicker" class="date-picker-year form-control"
+            year-picker
+            year-picker-id="datepicker"
+            year-start="2010"
+            year-end="2020"
+            ng-model="ctrl.year" />
+    <span>{{ctrl.year}}</span>
+
+    <br />
+    date :
+    <input data-inputmask="'alias': 'date'" class="form-control" />
+    <br />
+    phone :<input class="mask-phone form-control" data-inputmask-regex="(01\d{9})|(09\d{8})" />
+    phone 2:
+    <input class="mask-phone form-control" />
+
+    <br />
+    email :
+    <input data-inputmask="'mask': '*{1,20}@@*{1,20}[.*{2,6}][.*{1,2}]'" class="form-control" />
+
+    <br />
+    currency :
+    <input class="mask-currency form-control" ng-model="ctrl.giatri" />
+</div>
+<!-- /.box -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+</script>
+
+@Scripts.Render("~/bundles/cms/TempInputs")

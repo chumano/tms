@@ -1,0 +1,132 @@
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\AwesomeAngularMVCApp.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\AwesomeAngularMVCApp.pdb
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Antlr3.Runtime.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.SqlServer.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Core.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Cookies.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Facebook.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Google.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.OAuth.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Twitter.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Web.Infrastructure.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Newtonsoft.Json.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Owin.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Helpers.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Mvc.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Optimization.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Razor.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Deployment.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Razor.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\WebGrease.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Helpers.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Mvc.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Optimization.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Razor.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Deployment.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Razor.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Antlr3.Runtime.pdb
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Newtonsoft.Json.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.SqlServer.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Core.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Facebook.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Cookies.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.OAuth.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Google.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Twitter.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.csprojResolveAssemblyReference.cache
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.dll
+D:\STARTUP\resources\angularmvctutorial\angularmvctutorial-master\Part Two\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\AwesomeAngularMVCApp.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\AwesomeAngularMVCApp.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Antlr3.Runtime.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.Integration.Mvc.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.Integration.WebApi.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.SqlServer.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Core.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Cookies.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Facebook.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Google.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.OAuth.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Twitter.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Web.Infrastructure.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Newtonsoft.Json.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Owin.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\RazorEngine.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Common.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Interfaces.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.OrmLite.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.OrmLite.SqlServer.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Text.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Net.Http.Formatting.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Helpers.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Http.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Http.WebHost.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Mvc.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Optimization.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Razor.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Deployment.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Razor.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\WebGrease.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.Integration.Mvc.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Autofac.Integration.WebApi.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\RazorEngine.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Common.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Common.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Interfaces.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Interfaces.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\ServiceStack.Text.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Net.Http.Formatting.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Http.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Http.WebHost.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Helpers.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Mvc.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Optimization.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.Razor.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Deployment.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\System.Web.WebPages.Razor.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Antlr3.Runtime.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Newtonsoft.Json.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\EntityFramework.SqlServer.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Core.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Facebook.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Cookies.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.OAuth.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Google.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.Twitter.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.dll
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.pdb
+D:\STARTUP\projects\AwesomeAngularMVCApp\AwesomeAngularMVCApp\obj\Debug\AwesomeAngularMVCApp.csprojResolveAssemblyReference.cache

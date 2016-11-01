@@ -1,0 +1,610 @@
+﻿@using CHUNOApp.Template;
+@* ----------------------------comment-------------------------- *@
+@("@"){
+    ViewBag.Title = "@Model.Title";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+@if (@Model.Bundle != "")
+{
+<text>@("@")Scripts.Render("~/bundles/cms/@Model.Bundle");</text>
+}
+
+
+@* ----------------------------comment-------------------------- *@
+<div  ng-controller="@iTemplate.ControllerName(@Model.TableName) as master">
+<!-- START : MAIN  --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
+    <div >
+        <!-- TOP BUTTONS -------------------->
+        <div class="row" style="padding-top: 5px">
+            <div class="col-sm-6" >
+                <h4>{{master.ObjectTitle}}</h4>
+            </div>
+            <div class="col-md-6 pull-right text-right" >
+
+                <button class="btn btn-success  "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
+                    <i class="fa fa-plus white"></i> Thêm
+                </button>
+            </div>
+        </div>
+
+        <!-- FORM SEARCH-------------------->
+        <div class="box box-primary box-body">
+        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+            <div class="col-sm-12">
+            <form name="dataForm" novalidate ng-submit="master.Search()">
+                <div class="row">
+                    <div class="col-md-6">
+                        @foreach (var col in @Model.Columns)
+                        {
+                            if (col.IsFilter && col.Position == EPosition.LEFT)
+                            {
+                                @iTemplate.HTML_Column_In_SearchForm(col);
+                            }
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        @foreach (var col in @Model.Columns)
+                        {
+                            if (col.IsFilter && col.Position == EPosition.RIGHT)
+                            {
+                                @iTemplate.HTML_Column_In_SearchForm(col);
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="row" style="margin-top:10px">
+                     <div class="col-md-6" >
+
+                        <!--- Clear --->
+                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                            <i class="fa fa-undo white"></i> Clear
+                        </button>
+
+                        <!--- Search --->
+                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        
+            </div>
+        </div>
+        </div>
+        
+        <!-- TABLE -------------------->
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                    ng-form="master.TableForm._tableForm" 
+                    ng-table="master.TableForm.tableParams"
+                    demo-tracked-table="master.TableForm._tableTracker"
+                    disable-filter="master.TableForm.isAdding" >
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                        <td title="'#'" class="col-center">
+                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                        </td>
+                        @{var count_column = 2;}
+                        <!--------- data columns -------------->
+                        @foreach (var col in @Model.Columns)
+                        {
+                            if (col.IsView)
+                            {
+                                @iTemplate.HTML_Column_In_Table(col);
+                                                                count_column++;
+                            }
+                        }
+                        <!---------command buttons -------------->  
+                        <td width="100px" >
+                            <!---edit--->
+                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+
+                            <!----del--->
+                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <!--------------- table footer------------------>
+                    <tfoot>
+                        <tr>
+                            <td colspan="@count_column"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- END   : MAIN  --------------------------------------------->
+
+<!-- START : DETAIL --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : master.IsShowDetail}"
+     ng-controller="@iTemplate.ControllerName("detail_" + @Model.TableName) as detail">
+    <div ng-if="master.IsShowDetail"  >
+        <!-- TOP BUTTONS -------------------------->
+        <div class="row" style="padding-top: 5px">
+            <div class="col-sm-6" ng-switch="detail.IsNew()" >
+                <h4 ng-switch-default > Thêm mới : {{master.ObjectTitle}}</h4>
+                <h4 ng-switch-when="false"> Chỉnh sửa : {{master.ObjectTitle}}</h4>
+            </div>
+
+            <div class="col-md-6 pull-right text-right">
+                <button class="btn btn-primary" ng-if="master.CurrentTab=='@Model.TableName' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
+                    <i class="fa fa-check white"></i>
+                    <span>Lưu</span>
+                </button>
+
+                <button class="btn btn-warning" ng-if="master.CurrentTab=='@Model.TableName' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
+                    <i class="fa fa-edit white"></i>
+                    <span>Sửa</span>
+                </button>
+               
+                <button class="btn btn-default" ng-click="master.CloseDetail()">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>Trở về</span>
+                </button>
+            </div>
+
+        </div>
+        
+        <!-- NAV TAB   ---------------------------->
+        <div class="row"><div class="col-sm-12">
+            <div class="tabbable" style="padding-top: 10px">
+                <ul class="nav nav-tabs padding-left-18">
+                    <li class="active" ng-click="master.SetCurrentTab('@Model.TableName')">
+                        <a data-toggle="tab">
+                            <i class="blue fa-heart fa"></i>
+                            <span>@Model.Title</span>
+                        </a>
+                    </li>
+
+                    <!---------------------------------------------->
+                    <!------------------CHILD NAV TAB--------------->
+                    <!---------------------------------------------->
+                    
+                    @foreach (var tbl in @Model.ChildTables)
+                    {
+                    <li ng-if="!detail.IsNew()" class="" ng-click="master.SetCurrentTab('@tbl.TableName')" >
+                        <a data-toggle="tab">
+                            <i class="blue fa-star fa"></i>
+                            <span>@tbl.Title</span>
+                        </a>
+                    </li>
+                    }
+                   
+                </ul>
+            </div>
+        </div></div>
+
+        <!-- START BODY-DETAIL -------------------->
+        <div class="row ">
+        <div class="col-sm-12">
+            <div class="tab-content no-border active">
+                <!-- MAIN CONTENT TAB -->
+                <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='@Model.TableName')  }">
+                    <div class="box box-primary box-body"  ng-if="master.CurrentTab =='@Model.TableName'">
+                    <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @foreach (var col in @Model.Columns)
+                                    {
+                                        if (col.Position == EPosition.LEFT)
+                                        {
+                                            @iTemplate.HTML_Column_In_EditForm(col);
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-md-6">
+                                    @foreach (var col in @Model.Columns)
+                                    {
+                                        if (col.Position == EPosition.RIGHT)
+                                        {
+                                            @iTemplate.HTML_Column_In_EditForm(col);
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------------->
+                <!------------------CHILD CONTENT TAB--------------->
+                <!-------------------------------------------------->
+                @foreach (var tbl in @Model.ChildTables)
+                {
+                @Model.HTML_ChildTable_Detail_OnTab(tbl);
+                }
+            </div>
+        </div>
+        </div>
+        <!-- END   BODY-DETAIL -------------------->
+
+        <!-- START : MODEL --------------------------------------------->
+        <!----- MODAL OF FOREIGN COLUMN------->
+        
+        <!-- END   : MODEL --------------------------------------------->
+        <div ng-init="detail.InitForeignModals()"></div>
+    </div>
+</div>
+<!-- END   : DETAIL --------------------------------------------->
+
+</div>
+
+
+<!----- MASTER SCRIPT ------------->
+<script type="text/javascript">
+CHUNOApp.controller('@iTemplate.ControllerName(@Model.TableName)', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    $scope.masterController = this;
+
+    var self = this;
+    self.ObjectTitle = "@Model.Title";
+    //========================================================
+    //Controller Properties
+    
+    self.isLoadingImage = false;
+
+    self.IsShowDetail = false;
+    self.CurrentTab = '@Model.TableName';
+
+    $scope.DetailAPI = {};
+    //======================================
+    //form config
+    var config = new DataFormConfig();
+    {
+        config.dataobject = '@Model.TableName';
+        config.columns = ['Id',
+            @foreach (var col in @Model.Columns)
+            {
+            @iTemplate.JS_Column_On_FormConfig(col)
+            }
+            ].join(';'); //ko dc
+        config.sort = '@iTemplate.TableDotColumn(@Model.TableName, "Id") DESC';
+        config.condition = '(@iTemplate.TableDotColumn(@Model.TableName, "IsActive") = 1 )';
+        config.action = 'get'; //getall/get
+        config.startrow = 0;
+        config.endrow = 10;
+    }
+
+    self.FormConfig = config;
+    self.FormConfig._CanCreate = true;
+    self.FormConfig._CanUpdate = true;
+    self.FormConfig._CanDelete = true;
+
+    //form object
+    self.NewObject = function () {
+        return {
+            Id: 0,   
+            @foreach (var col in @Model.Columns)
+            {
+            @iTemplate.JS_Column_On_NewObject(col)
+            }
+            Version: 0,
+            IsActive: true
+        };
+    }
+    self.DataObject = self.NewObject();
+
+    self.FormObject = new DataObject('@Model.TableName', $scope);
+    self.FormObject.SetObject(self.DataObject);
+    //======================================
+    self.ClearForm = function () {       
+        self.DataObject = self.NewObject();
+    }
+
+    self.AddItem = function () {
+        //create newobject
+        var newobject = self.NewObject();
+
+        //============================================
+        self.ShowDetailObject(newobject);
+    };
+
+    self.EditObject = function (object, rowForm) {
+        //load object
+        var loadobject = self.FormObject.GetObject(object.Id); //GetObject(value, colname)
+             
+        //copy object
+        var copyobject = self.NewObject();
+        //copyobject có thuộc tính nào thì object mới đưa vào
+        CommonHelper.CopyFields(loadobject, copyobject);
+        
+        //morefields
+        //TODO
+        @foreach (var col in @Model.Columns)
+        {
+            if (col.IsForeignKey && !col.IsImage && !col.IsFile)
+            {
+        <text>copyobject.@iTemplate.NameOfForeignColumn(@col.Name, @col.ForeignColumnName) = object.@iTemplate.NameOfForeignColumn(@col.Name, @col.ForeignColumnName);</text>
+            }
+        }
+        //============================================
+        self.ShowDetailObject(copyobject);
+    }
+
+    self.ShowDetailObject = function(object){
+        //============================================
+        //check permission
+        object._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
+        object._CanDelete = self.FormConfig._CanDelete;
+
+        //====================================
+        //set object to detail view
+        $scope.DetailAPI.SetObject(object);
+
+        //show detail
+        self.IsShowDetail = true;
+
+        //set default tab
+        self.SetCurrentTab('@Model.TableName');
+    }
+
+    
+
+    self.DeleteObject = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [@Model.Title] " + object.Id + " - " + object.Name + "?",
+            function () {
+                if (self.FormObject.DeleteObject(object.Id)) {
+
+                    self.ReloadTable(self.TableForm);
+                    ShowSuccessMessage("Đã xóa thành công!");
+                }
+            });
+    }
+
+    //======================================
+    self.CloseDetail = function () {
+        if ($scope.DetailAPI.IsEditing() && !$scope.DetailAPI.IsNew()) {
+            $scope.DetailAPI.SetEditing(false) ; //tử trạng thái đang chỉnh sửa -> only view
+        }
+        else {
+            $scope.DetailAPI.SetEditing(false);
+            self.IsShowDetail = false; //
+        }
+    }
+
+    self.SetCurrentTab = function (tab) {
+        if (tab != self.CurrentTab) {
+            self.CurrentTab = tab;
+        }
+    }
+
+    //======================================
+    //tableform
+    self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+        var config = {};
+        $.extend(config, self.FormConfig);
+        //===========================    
+        var filter = params.filter();
+        var sorting = params.sorting();
+        var pagesize = params.count();
+        var page = params.page();
+        //===========================    
+        //condition
+        var conditionarr = [];
+        for (var key in filter) {
+            var column = '@Model.TableName' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            var cond = CommonHelper.CreateCondition(column, filter[key]);
+            conditionarr.push(cond);
+        }
+        if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+        //sort
+        var sortnarr = [];
+        for (var key in sorting) {
+            var column = '@Model.TableName' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            sortnarr.push(column + " " + sorting[key] + "");
+        }
+
+        if (config.sort != '') sortnarr.push(config.sort);
+        config.sort = sortnarr.join(",");
+        //===========================
+        return config;
+    });
+
+    self.ReloadTable = function (tableForm) {
+        tableForm.reload();
+    }
+    //======================================
+    self.Search = function () {
+        if (self.DataObject == undefined) return;
+        //===================================
+        var object = self.DataObject;
+        var filterobj = {};
+
+        @foreach (var col in @Model.Columns)
+        {
+            if (col.IsFilter)
+            {
+            @iTemplate.JS_Column_On_Filter(col);
+            }
+        }
+        self.TableForm.search(filterobj);
+    };
+
+    self.showloading = function () { self.isSearching = true; }
+    self.hideloading = function () { self.isSearching = false; }
+
+    //=======================================
+    //init - data
+    $timeout(function(){
+        var startup_object = @("@")Model.objectid;
+        if(startup_object > 0){
+            var loadobject = self.FormObject.GetObject(startup_object); //GetObject(value, colname)
+
+            //check object exist
+            if(loadobject.Id){
+                //morefields
+                //TODO
+
+                self.ShowDetailObject(loadobject);
+            }
+        }
+    },200);
+}
+]);
+
+</script>
+
+<!----- DETAIL SCRIPT ------------->
+<script type="text/javascript">
+    CHUNOApp.controller('@iTemplate.ControllerName("detail_" + @Model.TableName)', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+     function ($scope, NgTableParams, $controller, $q, $timeout) {
+         $controller('CommonController', { $scope: $scope });
+
+
+         var self = this;
+         //========================================================
+         //Controller Properties
+         self.IsEditingDetail = false;
+
+         self.FormObject = new DataObject("@Model.TableName", $scope);
+
+         //========================================================
+         //Controller Methods
+         self.IsNew =function(){
+             return self.DataObject.Id <=0;
+         }
+
+         self.EditDetail = function () {
+             self.IsEditingDetail = true;
+         }
+
+         self.SaveForm = function () {
+             self.isSaving = true;
+             setTimeout(function () {
+                //change something wrong
+                @foreach (var col in @Model.Columns)
+                {
+                    if (col.IsForeignKey)
+                    { //dùng cho cả IsImage và IsFile
+                <text>
+                if (self.DataObject.@col.Name == '' || self.DataObject.@col.Name == 0)
+                    self.DataObject.@col.Name = '';
+                </text>
+                    }
+                }
+                //=====================
+                //save img
+                @foreach (var col in @Model.Columns)
+                {
+                    if (col.IsImage)
+                    {
+                    @iTemplate.JS_Column_Image_Save(col);
+                    }
+                }
+            
+                //---------------------
+                var isAdd = self.DataObject.Id <= 0 ? true : false;
+                self.SaveObject(self.DataObject);
+
+                //self.ReloadTable(self.TableForm);
+
+                self.isSaving = false;
+                $scope.$apply();
+            }, 100);
+         }
+
+         self.SaveObject = function (object) {
+             self.FormObject.SetObject(object);
+             var Id = self.FormObject.SaveObject();
+             if (Id > 0) {
+                 self.DataObject.Id = Id;
+                 $("button[data-dismiss='modal']:visible").click();
+                 ShowSuccessMessage("Đã tạo thành công!");
+             }
+             return Id;
+         }
+
+         self.ReloadTable = function (tableForm) {
+             tableForm.reload();
+         }
+
+         
+         //==========================================================
+         //=================Child Table Detail=======================
+         //==========================================================
+         $scope.ChildControllers = {};
+         
+         //==========================================================
+         //==================END Child Table Detail =================
+         //==========================================================
+
+         self.InitForeignModals = function () {
+             if (typeof init_modals !== 'undefined') init_modals();
+         }
+
+         //========================================================
+         //DetailAPI
+         $scope.DetailAPI.SetObject = function (object) {
+             self.DataObject = object;
+
+             if (!(self.DataObject.Id > 0))
+                 self.IsEditingDetail = true; //when add item , isEditing = true n start
+
+             //================================//
+             //===========init - data==========//
+             $timeout(function(){
+                //======================
+                 //init - child controller
+                 @foreach(var tbl in @Model.ChildTables)
+                 {
+                 <text>
+                 $scope.ChildControllers["@tbl.TableName"].InitForm(self.DataObject);
+                 </text>
+                 }
+
+                 //======================
+                 //init - handlers
+             
+                 @foreach (var col in @Model.Columns)
+                 {
+                     if (col.IsImage)
+                     {
+                     @iTemplate.JS_Column_Image_Init_Hanlder(col);
+                     }
+                 }
+             },100);
+         };
+         $scope.DetailAPI.IsEditing = function () {
+             return self.IsEditingDetail;
+         };
+         $scope.DetailAPI.IsNew = function () {
+             return !(self.DataObject.Id > 0);
+         };
+         $scope.DetailAPI.SetEditing = function (isediting) {
+             self.IsEditingDetail = isediting;
+         };
+         //========================================================
+     }
+    ]);
+
+
+</script>
+
+<!-- ========================================================== -->
+<!-- =======================CHILD CONTROLLER=================== -->
+@foreach(var tbl in @Model.ChildTables)
+{
+@Model.JS_ChildTable_Detail_OnTab(tbl);
+}
+<!-- ================== END CHILD CONTROLLER=================== -->
+<!-- ========================================================== -->

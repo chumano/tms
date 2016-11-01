@@ -1,0 +1,802 @@
+﻿@{
+    ViewBag.Title = "Accounts";
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+<div  ng-controller="MasterController as master">
+<!-- START : MAIN  --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
+    <div ng-if="!master.IsShowDetail">
+        <!-- TOP BUTTONS -------------------->
+        <div class="row" style="padding-top: 5px">
+            <div class="col-sm-6" >
+                <h4>{{master.ObjectTitle}}</h4>
+            </div>
+            <div class="col-md-6 pull-right text-right" >
+
+                <button class="btn btn-success  "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
+                    <i class="fa fa-plus white"></i> Thêm
+                </button>
+            </div>
+        </div>
+
+        <!-- FORM -------------------->
+        <div class="box box-primary box-body">
+        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+            <div class="col-sm-12">
+            <form name="dataForm" novalidate ng-submit="master.Search()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div  class="col-md-4  "><label class="">UserName </label></div>
+                            <div class="col-md-8">
+                                <input class="form-control" ng-model="master.DataObject.UserName"
+                                    placeholder="Nhập UserName" required
+                                    check-empty="" check-empty-message="Vui lòng nhập [UserName]."
+                                    check-length="200" check-length-message="Chiều dài tối đa là {0}."
+                                    check-under="UserName" />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row ">
+                            <div  class="col-md-4  "><label class="">User</label></div>
+                            <div class="col-md-8">
+                                <input my-autocomplete  ng-model="master.DataObject.UserId_Name"
+                                    autocomplete-id="auto-user-id"
+                                    autocomplete-table="T_Master_User"
+                                    autocomplete-condition=""
+
+                                    autocomplete-column-value="Id" autocomplete-column-name="Name"
+                                    autocomplete-column-filters="Id,Name"
+                
+                                    autocomplete-model-id="#auto-user-id-value"
+                                    class="form-control "
+                                    placeholder="Tìm kiếm" />
+                                <input type="text" id="auto-user-id-value" ng-model="master.DataObject.UserId" class="none-display"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                     <div class="col-md-6" >
+                        <!--- Clear --->
+                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                            <i class="fa fa-undo white"></i> Clear
+                        </button>
+
+                        <!--- Search --->
+                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        
+            </div>
+        </div>
+        </div>
+
+        <!-- TABLE -------------------->
+        <div class="row">
+            <div class="col-md-12">
+                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                    ng-form="master.TableForm._tableForm" 
+                    ng-table="master.TableForm.tableParams" >
+                    <tr ng-repeat="row in $data" >
+                        <td title="'#'" class="col-center">
+                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                        </td>
+
+                        <!--------- data columns -------------->
+                        <td title="'UserName'"  sortable="'UserName'">
+                            <span class="editable-text"><a href="#" ng-bind="row.UserName" ng-click="master.Edit(row)"></a></span>
+                        </td>
+
+                         <td title="'Password'"  sortable="'Password'">
+                            <span class="editable-text" ng-bind="row.Password" ></span>
+                        </td>
+
+                        <td title="'User'"  sortable="'UserId_Name'">
+                            <span  class="editable-text" ng-bind="row.UserId_Name" />
+                        </td>
+
+                         <td title="'IsSupperUser'"  sortable="'IsSupperUser'">
+                            <input type="checkbox" name="IsSupperUser" ng-model="row.IsSupperUser"  ng-disabled="true"/>
+                        </td>
+
+                        <!---------command buttons -------------->  
+                        <td width="100px" >
+                            <!---edit--->
+                            <button class="btn btn-default btn-sm" ng-click="master.Edit(row)" 
+                                ng-if="master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                           
+                            <!----del--->
+                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                ng-if="master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <!--------------- table footer------------------>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END   : MAIN  --------------------------------------------->
+
+<!-- START : DETAIL --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : master.IsShowDetail}"
+     ng-controller="DetailController as detail">
+    <div ng-if="master.IsShowDetail"  >
+        <!-- TOP BUTTONS -------------------------->
+        <div class="row" style="padding-top: 5px">
+            <div class="col-sm-6" ng-switch="!(detail.DataObject.Id > 0)" >
+                <h4 ng-switch-default > Chỉnh sửa : {{master.ObjectTitle}}</h4>
+                <h4 ng-switch-when="true"> Thêm mới : {{master.ObjectTitle}}</h4>
+            </div>
+
+            <div class="col-md-6 pull-right text-right">
+                <button class="btn btn-primary" ng-if="master.CurrentTab=='Account' && (detail.DataObject.Id== -1 || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
+                    <i class="fa fa-check white"></i>
+                    <span>Lưu</span>
+                </button>
+
+                <button class="btn btn-primary" ng-if="master.CurrentTab=='Account' && detail.DataObject.Id > 0 && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
+                    <i class="fa fa-edit white"></i>
+                    <span>Sửa</span>
+                </button>
+               
+                <button class="btn btn-default" ng-click="master.CloseDetail()">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>Trở về</span>
+                </button>
+            </div>
+
+        </div>
+        <!-- TAB       ---------------------------->
+        <div class="row"><div class="col-sm-12">
+            <div class="tabbable" style="padding-top: 10px">
+                <ul class="nav nav-tabs padding-left-18">
+                    <li class="active" ng-click="master.SetCurrentTab('Account')">
+                        <a data-toggle="tab">
+                            <i class="blue fa-heart fa"></i>
+                            <span>Tài khoản</span>
+                        </a>
+                    </li>
+                    <li class="" ng-click="master.SetCurrentTab('AccountRole')">
+                        <a data-toggle="tab">
+                            <i class="blue fa-star fa"></i>
+                            <span>Quyền của tài khoản</span>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div></div>
+
+        <!-- START BODY-DETAIL -------------------->
+        <div class="row ">
+        <div class="col-sm-12">
+            <div class="tab-content no-border active">
+                <!-- TAB1 -->
+                <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='Account')  }">
+                    <div class="box box-primary box-body"  ng-if="master.CurrentTab =='Account'">
+                    <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div  class="col-md-4  "><label>UserName </label></div>
+                                        <div class="col-md-8">
+                                            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.UserName || '(Chưa có)'" class=""></span>
+                                
+                                            <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.UserName"
+                                                placeholder="Nhập UserName" required
+                                                check-empty="" check-empty-message="Vui lòng nhập [UserName]."
+                                                check-length="200" check-length-message="Chiều dài tối đa là {0}."
+                                                check-under="UserName" />
+                                        </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                        <div  class="col-md-4  "><label>Password </label></div>
+                                        <div class="col-md-8">
+                                            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.Password || '(Chưa có)'" class=""></span>
+                                
+                                            <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.Password"
+                                                placeholder="Nhập Password" required
+                                                check-empty="" check-empty-message="Vui lòng nhập [Password]."
+                                                check-length="200" check-length-message="Chiều dài tối đa là {0}."
+                                                check-under="Password" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                     <div class="row">
+                                        <div  class="col-md-4  "><label>User </label></div>
+                                        <div class="col-md-8">
+                                            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.UserId_Name || '(Chưa có)'" class=""></span>
+                                
+                                             <input ng-class="{'none-display' : !detail.IsEditingDetail}" my-autocomplete  ng-model="detail.DataObject.UserId_Name"
+                                                autocomplete-id="auto_UserId"
+                                                autocomplete-table="T_Master_User"
+                                                autocomplete-condition=""
+
+                                                autocomplete-column-value="Id" autocomplete-column-name="Name"
+                                                autocomplete-column-filters="Id,Name"
+                
+                                                autocomplete-model-id="#auto_value_UserId"
+                                                class="form-control "
+                                                placeholder="Tìm kiếm" />
+                                            <input type="text" id="auto_value_UserId" ng-model="detail.DataObject.UserId" class="none-display"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div  class="col-md-4  "><label>IsSupperUser </label></div>
+                                        <div class="col-md-8">
+                                            <input type="checkbox" ng-model="detail.DataObject.IsSupperUser"  ng-disabled="!detail.IsEditingDetail"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- TAB2 -->
+                <div class="tab-pane " ng-class="{active : (master.CurrentTab =='AccountRole')  }">
+                    <div class="box box-primary box-body" ng-if="master.CurrentTab =='AccountRole'">
+                        <div class="row" >
+                            <div class="col-md-6 pull-right text-right" >
+                                <button class="btn btn-success  "  ng-disabled="!detail.AccountRoleFormConfig._CanCreate" 
+                                    type="button" data-toggle="modal" data-target="#AccountRoleModal">
+                                    <i class="fa fa-plus white"></i> Thêm
+                                </button>
+                            </div>
+                        </div>
+
+                        <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                            ng-form="detail.AccountRoleTableForm._tableForm" 
+                            ng-table="detail.AccountRoleTableForm.tableParams" >
+                            <tr ng-repeat="row in $data" >
+                                <td title="'#'" class="col-center">
+                                    <span>{{ ((detail.AccountRoleTableForm.tableParams.page() - 1)  *detail.AccountRoleTableForm.tableParams.count()) + ($index +1) }}</span>
+                                </td>
+
+                                <!--------- data columns -------------->
+                                <td title="'Role'"  sortable="'RoleId.Name'">
+                                    <span class="editable-text"><a href="#" ng-bind="row.RoleId_Name" ng-click="detail.EditAccountRole(row)"></a></span>
+                                </td>
+
+                                <!---------command buttons -------------->  
+                                <td width="100px" >
+                                    <!---edit--->
+                                    <button class="btn btn-default btn-sm" ng-click="detail.EditAccountRole(row)" 
+                                        ng-if="detail.AccountRoleFormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                           
+                                    <!----del--->
+                                    <button class="btn btn-danger btn-sm" ng-click="detail.DeleteAccountRole(row)" 
+                                        ng-if="detail.AccountRoleFormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                                </td>
+                            </tr>
+                            <!--------------- table footer------------------>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"><label>Số records : {{detail.AccountRoleTableForm.tableParams.total()}} </label></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <!-- END   BODY-DETAIL -------------------->
+
+        <!-- START : MODEL --------------------------------------------->
+         <!-- AccountRoleModal -->
+        <div ng-controller="AccountRoleController as modal">
+        <div id="AccountRoleModal" class="modal fade " role="dialog">
+            <div class="modal-dialog modal-md">
+                <!-- Modal content-->
+                <div class="modal-content" ng-if="modal.IsShow">
+                    <div class="modal-header bg-light-blue white border-6">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title bold">Quản lý Role </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding: 1px 15px; ">
+                        <div class="row">
+                            <div  class="col-md-4  "><label>Role </label></div>
+                            <div class="col-md-8">
+                                 <input my-autocomplete  ng-model="modal.DataObject.RoleId_Name"
+                                    autocomplete-id="auto-role-id"
+                                    autocomplete-table="T_System_Role"
+                                    autocomplete-condition=""
+
+                                    autocomplete-column-value="Id" autocomplete-column-name="RoleName"
+                                    autocomplete-column-filters="Id,RoleName"
+                
+                                    autocomplete-model-id="#auto-role-id-value"
+                                    class="form-control "
+                                    placeholder="Tìm kiếm" />
+                                <input type="text" id="auto-role-id-value" ng-model="modal.DataObject.RoleId" class="none-display"/>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="fa-undo fa"></i>
+                            Đóng
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-click="modal.Save()">
+                            <i class="fa-save fa"></i>
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- END   : MODEL --------------------------------------------->
+        <div ng-init="detail.initModals()"></div>
+    </div>
+</div>
+<!-- END   : DETAIL --------------------------------------------->
+
+</div>
+
+<!----- MASTER SCRIPT ------------->
+<script type="text/javascript">
+    CHUNOApp.controller('MasterController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+     function ($scope, NgTableParams, $controller, $q, $timeout) {
+         $controller('CommonController', { $scope: $scope });
+         $scope.masterController = this;
+
+         var self = this;
+         self.ObjectTitle = "Quản lý Tài khoản";
+         //========================================================
+         //Controller Properties
+         self.IsShowDetail = false;
+         self.isLoadingImage = false;
+         self.CurrentTab = "Account";
+
+         $scope.DetailAPI = {};
+         //======================================
+         //form config
+         var config = new DataFormConfig();
+         {
+             config.dataobject = 'T_Master_Account';
+             config.columns = ['Id', 'UserName', 'Password' ,'UserId', 'UserId.Name , UserId_Name' ,'IsSupperUser'].join(';'); //ko dc
+             config.sort = 'T_Master_Account.Id DESC';
+             config.condition = '(T_Master_Account.IsActive=1 )';
+             config.action = 'get'; //getall/get
+             config.startrow = 0;
+             config.endrow = 10;
+         }
+
+         self.FormConfig = config;
+         self.FormConfig._CanCreate = true;
+         self.FormConfig._CanUpdate = true;
+         self.FormConfig._CanDelete = true;
+
+         //form object
+         self.NewObject = function () {
+             return {
+                 Id: 0,
+                 UserName: '',
+                 Password :'',
+                 UserId: 0,
+                 IsSupperUser: false,
+
+                 UserId_Name : '',
+
+                 Version: 0,
+                 IsActive: true
+             };
+         }
+         self.DataObject = self.NewObject();
+
+
+         self.FormObject = new DataObject("T_Master_Account", $scope);
+
+         //======================================
+         self.ClearForm = function () {
+             self.DataObject = self.NewObject();
+         }
+
+         self.AddItem = function () {
+             //create newobject
+             var newobject = self.NewObject();
+
+             //check permission
+             newobject._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
+             newobject._CanDelete = self.FormConfig._CanDelete;
+
+             //set object to detail view
+             $scope.DetailAPI.SetObject(newobject);
+             self.IsShowDetail = true;
+         };
+
+         self.Edit = function (object, rowForm) {
+             //load object
+             var loadobject = self.FormObject.GetObject(object.Id); //GetObject(value, colname)
+             
+             //copy object
+             var copyobject = self.NewObject();
+             //copyobject có thuộc tính nào thì object mới đưa vào
+             CommonHelper.CopyFields(loadobject, copyobject);
+             //morefields
+             copyobject.UserId_Name = object.UserId_Name;
+
+             //check permission
+             copyobject._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
+             copyobject._CanDelete = self.FormConfig._CanDelete;
+
+             //set object to detail view
+             $scope.DetailAPI.SetObject(copyobject);
+
+             //show detail
+             self.IsShowDetail = true;
+
+             //set default tab
+             self.SetCurrentTab('Account');
+         }
+
+         self.DeleteObject = function (object) {
+             ShowConfirmModal("Bạn có muốn xóa [Account] " + object.Id + " - " + object.UserName + "?",
+                 function () {
+                     if (self.FormObject.DeleteObject(object.Id)) {
+
+                         self.ReloadTable(self.TableForm);
+                         ShowSuccessMessage("Đã xóa thành công!");
+
+                     }
+                 });
+         }
+
+         //======================================
+         self.CloseDetail = function () {
+             if ($scope.DetailAPI.IsEditing() && !$scope.DetailAPI.IsNew()) {
+                 $scope.DetailAPI.SetEditing(false) ; //tử trạng thái đang chỉnh sửa -> only view
+             }
+             else {
+                $scope.DetailAPI.SetEditing(false);
+                self.IsShowDetail = false; //
+             }
+         }
+
+         self.SetCurrentTab = function (tab) {
+             if (tab != self.CurrentTab) {
+                 self.CurrentTab = tab;
+             }
+         }
+         
+         //======================================
+         //tableform
+         self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+             var config = {};
+             $.extend(config, self.FormConfig);
+             //===========================    
+             var filter = params.filter();
+             var sorting = params.sorting();
+             var pagesize = params.count();
+             var page = params.page();
+             //===========================    
+             //condition
+             var conditionarr = [];
+             for (var key in filter) {
+                 var column = 'T_Master_Account.' + key;
+                 if (key.indexOf('.') >= 0)
+                     column = key;
+                 var cond = CommonHelper.CreateCondition(column, filter[key]);
+                 conditionarr.push(cond);
+             }
+             if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+             //sort
+             var sortnarr = [];
+             for (var key in sorting) {
+                 var column = 'T_Master_Account.' + key;
+                 if (key.indexOf('.') >= 0)
+                     column = key;
+                 sortnarr.push(column + " " + sorting[key] + "");
+             }
+
+             if (config.sort != '') sortnarr.push(config.sort);
+             config.sort = sortnarr.join(",");
+             //===========================
+             return config;
+         });
+
+         self.ReloadTable = function (tableForm) {
+             tableForm.reload();
+         }
+
+         //======================================
+         self.Search = function () {
+             if (self.DataObject == undefined) return;
+             //===================================
+             var object = self.DataObject;
+
+             var filterobj = {};
+             if (!CommonHelper.IsNullOrEmpty(object.UserName)) {
+                 $.extend(filterobj, { UserName: object.UserName });
+             }
+
+             if (CommonHelper.IsSearchableValue(object.UserId)) {
+                 $.extend(filterobj, { UserId: object.UserId });
+             }
+
+             self.TableForm.search(filterobj);
+         };
+
+         self.showloading = function () { self.isSearching = true; }
+         self.hideloading = function () { self.isSearching = false; }
+
+         //=======================================
+         //init - data
+
+     }
+    ]);
+
+    
+</script>
+
+<!----- DETAIL SCRIPT ------------->
+<script type="text/javascript">
+    CHUNOApp.controller('DetailController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+     function ($scope, NgTableParams, $controller, $q, $timeout) {
+         $controller('CommonController', { $scope: $scope });
+         $scope.detailController = this;
+
+         var self = this;
+         //========================================================
+         //Controller Properties
+         self.IsEditingDetail = false;
+
+         self.FormObject = new DataObject("T_Master_Account", $scope);
+
+         //========================================================
+         //Controller Methods
+         self.EditDetail = function () {
+             self.IsEditingDetail = true;
+         }
+
+         self.SaveForm = function () {
+             var isAdd = self.DataObject.Id <= 0 ? true : false;
+             self.SaveObject(self.DataObject);
+         }
+
+         self.SaveObject = function (object) {
+             //change something wrong
+
+             //==================================
+             self.FormObject.SetObject(object);
+             var Id = self.FormObject.SaveObject();
+             if (Id > 0) {
+                 self.DataObject.Id = Id;
+                 $("button[data-dismiss='modal']:visible").click();
+
+                 ShowSuccessMessage("Đã lưu thành công!");
+             }
+             return Id;
+         }
+
+         self.ReloadTable = function (tableForm) {
+             tableForm.reload();
+         }
+
+         //========================================================
+         //AccountRole Form
+         self.AccountRoleFormObject = new DataObject("T_System_Role_User_Mapping", $scope);
+         $scope.AccountRoleModalAPI = {};
+
+         self.EditAccountRole = function (object) {
+             $timeout(function () {
+
+                 $scope.AccountRoleModalAPI.SetObject(object);
+                 $("#AccountRoleModal").modal('show');
+
+             }, 100);
+         }
+         self.SaveAccountRole = function (object) {
+             self.AccountRoleFormObject.SetObject(object);
+             var Id = self.AccountRoleFormObject.SaveObject();
+             if (Id > 0) {
+                 object.Id = Id;
+             }
+         }
+         self.DeleteAccountRole = function (object) {
+             ShowConfirmModal("Bạn có muốn xóa Role " + object.Id + " - " + object.RoleId_Name + "?",
+                function () {
+                    if (self.AccountRoleFormObject.DeleteObject(object.Id)) {
+
+                        self.ReloadTable(self.AccountRoleTableForm);
+                        ShowSuccessMessage("Đã xóa thành công!");
+
+                    }
+                });
+         }
+
+         self.ReloadAccountRoleTable = function () {
+             self.ReloadTable(self.AccountRoleTableForm);
+         }
+
+         self.Init_AccountRoleForm = function () {
+             var config = new DataFormConfig();
+             {
+                 config.dataobject = 'T_System_Role_User_Mapping';
+                 config.columns = ['Id', 'AccountId', 'RoleId', 'RoleId.RoleName , RoleId_Name'].join(';'); //ko dc
+                 config.sort = 'T_System_Role_User_Mapping.Id DESC';
+                 config.condition = 'T_System_Role_User_Mapping.AccountId = ' + self.DataObject.Id + ' AND (T_System_Role_User_Mapping.IsActive=1 )';
+                 config.action = 'get'; //getall/get
+                 config.startrow = 0;
+                 config.endrow = 10;
+             }
+
+             self.AccountRoleFormConfig = config;
+             self.AccountRoleFormConfig._CanCreate = true;
+             self.AccountRoleFormConfig._CanUpdate = true;
+             self.AccountRoleFormConfig._CanDelete = true;
+             self.AccountRoleTableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+                 var config = {};
+                 $.extend(config, self.AccountRoleFormConfig);
+                 //===========================   
+                 var filter = params.filter();
+                 var sorting = params.sorting();
+                 var pagesize = params.count();
+                 var page = params.page();
+                 //===========================       
+                 //condition
+                 var conditionarr = [];
+                 for (var key in filter) {
+                     var column = 'T_System_Role_User_Mapping.' + key;
+                     if (key.indexOf('.') >= 0)
+                         column = key;
+                     var cond = CommonHelper.CreateCondition(column, filter[key]);
+                     conditionarr.push(cond);
+                 }
+
+                 if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+                 //sort
+                 var sortnarr = [];
+                 for (var key in sorting) {
+                     var column = 'T_System_Role_User_Mapping.' + key;
+                     if (key.indexOf('.') >= 0)
+                         column = key;
+                     sortnarr.push(column + " " + sorting[key] + "");
+                 }
+                 if (config.sort != '') sortnarr.push(config.sort);
+                 config.sort = sortnarr.join(",");
+                 //===========================
+                 return config;
+             });
+
+         }
+         //========================================================
+         self.initModals = function () {
+             if (typeof init_modals !== 'undefined') init_modals();
+         }
+
+         //========================================================
+         //DetailAPI
+         $scope.DetailAPI.SetObject = function (object) {
+             self.DataObject = object;
+
+             if (!(self.DataObject.Id > 0))
+                 self.IsEditingDetail = true; //when add item , isEditing = true n start
+
+
+             //======================
+             //init - data
+             self.Init_AccountRoleForm();
+             
+
+         };
+         $scope.DetailAPI.IsEditing = function () {
+             return self.IsEditingDetail;
+         };
+         $scope.DetailAPI.IsNew = function () {
+             return !(self.DataObject.Id > 0);
+         };
+         $scope.DetailAPI.SetEditing = function (isediting) {
+             self.IsEditingDetail = isediting;
+         };
+         //========================================================
+     }
+    ]);
+
+
+</script>
+
+<!----- MODAL SCRIPT -------------->
+
+<script type="text/javascript">
+    function init_modals() {
+        $('#AccountRoleModal').on('show.bs.modal', function (e) {
+            var modalId = $(this).attr("id");
+            var scope = angular.element(document.getElementById(modalId)).scope();
+            scope.$apply(function () {
+                scope.modal.SetShownModal(true);
+            });
+        }).on('hide.bs.modal', function (e) {
+            var modalId = $(this).attr("id");
+            var scope = angular.element(document.getElementById(modalId)).scope();
+            scope.$apply(function () {
+                scope.modal.SetShownModal(false);
+            });
+        });
+    }
+
+    CHUNOApp.controller('AccountRoleController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+     function ($scope, NgTableParams, $controller, $q, $timeout) {
+         $controller('CommonController', { $scope: $scope });
+         $scope.AccountRoleController = this;
+         var self = this;
+
+         self.IsShow = false;
+         self.SetShownModal = function (isShow) {
+             self.IsShow = isShow;
+             if (!isShow) self.DataObject = self.NewObject();
+         }
+
+         self.NewObject = function () {
+             return {
+                 Id: 0,
+                 AccountId: $scope.detail.DataObject.Id,
+                 RoleId: 0,
+
+                 RoleId_Name: "",
+
+                 Version: 0,
+                 IsActive: true
+             };
+         }
+
+         self.DataObject = self.NewObject();
+
+         self.Save = function () {
+             setTimeout(function () {
+                 $scope.detail.SaveAccountRole(self.DataObject);
+                 if (self.DataObject.Id > 0) {
+
+                     $("button[data-dismiss='modal']:visible").click();
+                     $('#AccountRoleModal').modal('hide');
+
+
+                     ShowSuccessMessage("Đã lưu thành công!");
+                     self.DataObject = self.NewObject();
+
+                     $scope.detail.ReloadAccountRoleTable();
+                 }
+             }, 100);
+         }
+
+         //===========================
+         $scope.AccountRoleModalAPI.SetObject = function (object) {
+             var copyobject = self.NewObject();
+             CommonHelper.CopyFields(object, copyobject);
+             self.DataObject = copyobject;
+         }
+     }
+    ]);
+
+</script>

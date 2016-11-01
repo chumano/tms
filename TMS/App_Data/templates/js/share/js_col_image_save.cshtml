@@ -1,0 +1,27 @@
+﻿@using CHUNOApp.Template;
+if ($('#input_@Model.Name')[0].files.length > 0) {
+    var file = $('#input_@Model.Name')[0].files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+
+    var imgid = "";
+    $.ajax({
+        url: _data_service_saveimage,
+        type: 'POST',
+        data: formData,
+        async: false,
+        processData: false,  // tell jQuery not to process the data
+        contentType: false,  // tell jQuery not to set contentType
+        success: function (data) {
+            if (typeof (data) == 'string' && data.startsWith("#error")) {
+                ShowErrorMessage(data);
+                imgid = '';
+            }
+            else {
+                imgid = data;
+            }
+        }
+    });
+    //set image id to DataObject
+    self.DataObject.@Model.Name = imgid;          
+}
