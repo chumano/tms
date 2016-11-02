@@ -44,14 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnInfo.cs" />
+    <Compile Include="Common\ColumnInfo.cs" />
     <Compile Include="EditOnTableTemplate.cs" />
-    <Compile Include="GenerateHelper.cs" />
-    <Compile Include="iTemplate.cs" />
+    <Compile Include="Common\GenerateHelper.cs" />
+    <Compile Include="Common\iTemplate.cs" />
     <Compile Include="MasterDetailViewTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleViewTemplate.cs" />
-    <Compile Include="TableInfo.cs" />
+    <Compile Include="Common\TableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

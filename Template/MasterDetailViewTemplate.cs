@@ -78,12 +78,12 @@ namespace Template
         //==================================
         public string JS_ChildTable_Detail_OnTab(TableInfo tbl)
         {
-            return GenerateHelper.CompileTemplate("js/_master_detail/js_childtable_detail_ontab", tbl);
+            return GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab", tbl);
         }
 
         public string HTML_ChildTable_Detail_OnTab(TableInfo tbl)
         {
-            return GenerateHelper.CompileTemplate("html/_master_detail/childtable_detail_ontab", tbl);
+            return GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab", tbl);
         }
     }
 }

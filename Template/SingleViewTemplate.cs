@@ -39,16 +39,12 @@ namespace Template
             int tableid = findtableid(foreigntablename);
             if(tableid>0){
                 SingleViewTemplate model = new SingleViewTemplate(tableid);
-                try
+
+                if (col.IsForeignKey && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
                 {
-                    if (col.IsForeignKey && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
-                    {
-                        return GenerateHelper.CompileTemplate("html/_single_view/col_modal", model);
-                    }
+                    return GenerateHelper.CompileTemplate("html._single_view.col_modal", model);
                 }
-                catch (Exception ex)
-                {
-                }
+
             }
             
             return string.Format("<!-- {0} : NOT IS MODAL-->", col.Name);
@@ -61,16 +57,12 @@ namespace Template
             if (tableid > 0)
             {
                 SingleViewTemplate model = new SingleViewTemplate(tableid);
-                try
+
+                if (col.IsForeignKey && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
                 {
-                    if (col.IsForeignKey && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
-                    {
-                        return GenerateHelper.CompileTemplate("js/_single_view/js_col_modal", model);
-                    }
+                    return GenerateHelper.CompileTemplate("js._single_view.js_col_modal", model);
                 }
-                catch (Exception ex)
-                {
-                }
+               
             }
             
             return string.Format("/*-- {0} : NOT IS MODAL--*/", col.Name);
