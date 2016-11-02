@@ -12,6 +12,7 @@ namespace CHUNOApp
     {
         protected void Application_Start()
         {
+            Common.DBHelper.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TMSConnectionString"].ConnectionString;
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

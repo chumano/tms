@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-
+using Common;
 using RazorEngine;
 using RazorEngine.Configuration; // For extension methods.
 using RazorEngine.Templating;
 
-using CHUNOApp.App_Code;
-using CHUNOApp.Helpers;
 
 namespace CHUNOApp.Template
 {

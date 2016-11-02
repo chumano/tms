@@ -201,13 +201,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Code\DataService.cs" />
-    <Compile Include="App_Code\Helpers\DBHelper.cs" />
-    <Compile Include="App_Code\Helpers\ExtensionHelper.cs" />
     <Compile Include="Template\EditOnTableTemplate.cs" />
     <Compile Include="Template\GenerateHelper.cs" />
-    <Compile Include="App_Code\IDataService.cs" />
-    <Compile Include="App_Code\DataConfig.cs" />
     <Compile Include="Template\iTemplate.cs" />
     <Compile Include="Template\ColumnInfo.cs" />
     <Compile Include="Template\MasterDetailViewTemplate.cs" />
@@ -7243,6 +7238,7 @@
     <Content Include="Views\CMS\Tool\Outputs\test_view.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\outputs\" />
     <Folder Include="App_Data\templates\js\_edit_ontable\" />
     <Folder Include="Scripts\libs\angular-1.5.7\i18n\ngLocale\" />
@@ -7292,9 +7288,13 @@
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataService\DataService.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{adc310a9-ec4a-407a-a19e-a79697e741ae}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataService\Service.csproj">
       <Project>{09756ccd-0bf0-4c2b-bf94-149076e71aa8}</Project>
-      <Name>DataService</Name>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

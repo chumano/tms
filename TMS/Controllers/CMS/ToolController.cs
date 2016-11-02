@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using CHUNOApp.App_Code;
-using CHUNOApp.Helpers;
+using Common;
 using CHUNOApp.Models;
 using CHUNOApp.Template;
 using Microsoft.AspNet.Identity.Owin;
 using ServiceStack.OrmLite;
+using Service;
 
 namespace CHUNOApp.Controllers.CMS
 {

@@ -32,8 +32,8 @@ namespace CHUNOApp
                    .InstancePerHttpRequest();
             #endregion
 
-            builder.RegisterType<CHUNOApp.App_Code.DataService>()
-                .As<CHUNOApp.App_Code.IDataService>()
+            builder.RegisterType<Service.DataService>()
+                .As<Service.IDataService>()
                 .InstancePerHttpRequest();
 
 

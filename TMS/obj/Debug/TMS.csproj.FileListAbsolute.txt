@@ -76,3 +76,7 @@ D:\projects\ITD\code\TMS\TMS\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\projects\ITD\code\TMS\TMS\obj\Debug\TMS.csprojResolveAssemblyReference.cache
 D:\projects\ITD\code\TMS\TMS\obj\Debug\CHUNOApp.dll
 D:\projects\ITD\code\TMS\TMS\obj\Debug\CHUNOApp.pdb
+D:\projects\ITD\code\TMS\TMS\bin\Common.dll
+D:\projects\ITD\code\TMS\TMS\bin\DataService.dll
+D:\projects\ITD\code\TMS\TMS\bin\Common.pdb
+D:\projects\ITD\code\TMS\TMS\bin\DataService.pdb
