@@ -7212,7 +7212,6 @@
     <Folder Include="App_Data\outputs\" />
     <Folder Include="App_Data\templates\" />
     <Folder Include="Scripts\libs\angular-1.5.7\i18n\ngLocale\" />
-    <Folder Include="Template\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

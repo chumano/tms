@@ -14,12 +14,8 @@ namespace TMS
     {
         protected void Application_Start()
         {
-            var assembly = typeof(Template.iTemplate).Assembly;
-            string []p =assembly.GetManifestResourceNames();
-
-            string content = FileHelper.ReadEmbeddedFile(assembly,p[0]);
-
             Common.DBHelper.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TMSConnectionString"].ConnectionString;
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
