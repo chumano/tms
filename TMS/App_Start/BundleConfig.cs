@@ -46,6 +46,11 @@ namespace TMS
                 .Include("~/Scripts/libs/ui-bootstrap-tpls-1.3.3.min.js")
                 .Include("~/Scripts/libs/ng-table/ng-table.js")
                 .Include("~/Scripts/libs/angular-1.5.7/angular-sanitize.min.js")
+                .Include("~/Scripts/libs/angular-translate-2.9.0.1/angular-translate.js")
+                .Include("~/Scripts/libs/angular-cookies-master/angular-cookies.min.js")
+                .Include("~/Scripts/libs/angular-translate-storage-cookie-master/angular-translate-storage-cookie.js")
+                .Include("~/Scripts/libs/angular-translate-storage-local-master/angular-translate-storage-local.js")
+                .Include("~/Scripts/libs/angular-local-storage-master/dist/angular-local-storage.js")
                 );
 
 

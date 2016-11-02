@@ -224,6 +224,29 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\CMS\Common\HeaderController.js" />
+    <Content Include="Scripts\libs\angular-cookies-master\angular-cookies.js" />
+    <Content Include="Scripts\libs\angular-cookies-master\angular-cookies.min.js" />
+    <Content Include="Scripts\libs\angular-cookies-master\index.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\.gitattributes" />
+    <Content Include="Scripts\libs\angular-local-storage-master\.gitignore" />
+    <Content Include="Scripts\libs\angular-local-storage-master\demo\demo-app.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\demo\demo-style.css" />
+    <Content Include="Scripts\libs\angular-local-storage-master\demo\demo.html" />
+    <Content Include="Scripts\libs\angular-local-storage-master\dist\angular-local-storage.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\dist\angular-local-storage.min.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\Gruntfile.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\index.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\src\angular-local-storage.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\test\karma.conf.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\test\mock\localStorageMock.js" />
+    <Content Include="Scripts\libs\angular-local-storage-master\test\spec\localStorageSpec.js" />
+    <Content Include="Scripts\libs\angular-translate-2.9.0.1\angular-translate.js" />
+    <Content Include="Scripts\libs\angular-translate-2.9.0.1\angular-translate.min.js" />
+    <Content Include="Scripts\libs\angular-translate-storage-cookie-master\angular-translate-storage-cookie.js" />
+    <Content Include="Scripts\libs\angular-translate-storage-cookie-master\angular-translate-storage-cookie.min.js" />
+    <Content Include="Scripts\libs\angular-translate-storage-local-master\angular-translate-storage-local.js" />
+    <Content Include="Scripts\libs\angular-translate-storage-local-master\angular-translate-storage-local.min.js" />
     <Content Include="todo.txt" />
     <Content Include="Views\CMS\Tool\test_view.cshtml" />
     <Content Include="Content\autocomplete.css" />
@@ -7161,6 +7184,29 @@
     <Content Include="Scripts\libs\adminlte\dist\js\app.min.js.map">
       <DependentUpon>app.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\libs\angular-translate-2.9.0.1\bower.json" />
+    <Content Include="Scripts\libs\angular-translate-2.9.0.1\README.md" />
+    <Content Include="Scripts\libs\angular-translate-storage-cookie-master\bower.json" />
+    <Content Include="Scripts\libs\angular-translate-storage-cookie-master\package.json" />
+    <Content Include="Scripts\libs\angular-translate-storage-cookie-master\README.md" />
+    <Content Include="Scripts\libs\angular-translate-storage-local-master\bower.json" />
+    <Content Include="Scripts\libs\angular-translate-storage-local-master\package.json" />
+    <Content Include="Scripts\libs\angular-translate-storage-local-master\README.md" />
+    <Content Include="Scripts\libs\angular-cookies-master\angular-cookies.min.js.map" />
+    <Content Include="Scripts\libs\angular-cookies-master\bower.json" />
+    <Content Include="Scripts\libs\angular-cookies-master\LICENSE.md" />
+    <Content Include="Scripts\libs\angular-cookies-master\package.json" />
+    <Content Include="Scripts\libs\angular-cookies-master\README.md" />
+    <Content Include="Scripts\libs\angular-local-storage-master\.bowerrc" />
+    <Content Include="Scripts\libs\angular-local-storage-master\.editorconfig" />
+    <Content Include="Scripts\libs\angular-local-storage-master\.travis.yml" />
+    <Content Include="Scripts\libs\angular-local-storage-master\bower.json" />
+    <Content Include="Scripts\libs\angular-local-storage-master\CHANGELOG.md" />
+    <Content Include="Scripts\libs\angular-local-storage-master\dist\angular-local-storage.min.js.map" />
+    <Content Include="Scripts\libs\angular-local-storage-master\LICENSE" />
+    <Content Include="Scripts\libs\angular-local-storage-master\package.json" />
+    <Content Include="Scripts\libs\angular-local-storage-master\README.md" />
+    <Content Include="Scripts\libs\angular-local-storage-master\test\.jshintrc" />
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.js" />
