@@ -7291,6 +7291,12 @@
     <Content Include="Scripts\libs\Highstock-2.1.8\api\fonts\fontawesome-webfont.woff" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataService\DataService.csproj">
+      <Project>{09756ccd-0bf0-4c2b-bf94-149076e71aa8}</Project>
+      <Name>DataService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
