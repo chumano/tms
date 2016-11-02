@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CHUNOApp.Models
+namespace TMS.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

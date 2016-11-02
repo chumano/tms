@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Common;
 using Service;
 
-namespace CHUNOApp.Controllers
+namespace TMS.Controllers
 {
     public class DataController : Controller
     {

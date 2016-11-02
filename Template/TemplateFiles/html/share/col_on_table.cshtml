@@ -1,0 +1,64 @@
+﻿@using Template;
+@if (@Model.IsForeignKey && !@Model.IsImage && !@Model.IsFile)
+{
+<td title="'@Model.Title'"  sortable="'@iTemplate.TableDotColumn(@Model.Name,@Model.ForeignColumnName)'">
+    <span  class="editable-text"ng-bind="row.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" ></span>
+</td>
+}
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+else if(@Model.IsImage){
+<td title="'@Model.Title'" align="center">
+    <img id="{{'img_'+$index}}" ng-src="{{GetImageSrc(row.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
+</td>
+}
+else if (@Model.IsFile)
+{
+    <TODO></TODO>
+}
+else if (@Model.IsYear)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name" ></span>
+</td>         
+}
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+@*--------------------------------------------------------------------------------------*@
+else if (@Model.Type == EType.DATETIME)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name" ></span>
+</td>
+}
+else if(@Model.Type==EType.BIT)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <input type="checkbox" name="@Model.Name" ng-model="row.@Model.Name"  ng-disabled="true"/>
+</td>
+}
+else if (@Model.Type == EType.INT)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name" ></span>
+</td>
+}
+else if (@Model.Type == EType.FLOAT)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name"></span>
+</td> 
+}
+else if (@Model.Type == EType.NTEXT)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name" ></span>
+</td>
+}
+else if (@Model.Type == EType.NVARCHAR || @Model.Type ==EType.VARCHAR)
+{
+<td title="'@Model.Title'"  sortable="'@Model.Name'">
+    <span  class="editable-text" ng-bind="row.@Model.Name"></span>
+</td>
+}

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace CHUNOApp.Controllers
+namespace TMS.Controllers
 {
     public class RoutesDemoController : Controller
     {

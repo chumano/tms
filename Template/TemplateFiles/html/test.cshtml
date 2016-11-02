@@ -1,0 +1,30 @@
+﻿@using Template;
+@helper ControllerName(string tablename)
+{
+    var c = tablename + "_controller";
+    @c
+}
+@{
+    var randomstr = GenerateHelper.randomstring();
+    var master_controller = @Model.Name + "_controller";
+}
+RAZOR_(A){
+    ViewBag.Title = @Model.Name;
+    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
+}
+
+RAZOR_(A)Scripts.Render("~/bundles/cms/@Model.Name")
+    
+<script type="text/javascript">
+    asd.@Model.Name 
+    @for(int a = 0 ; a<4 ;a++){
+        <text>
+        function @a {
+        }
+        </text>
+    }
+</script>
+<div ng-controller="@master_controller" @ControllerName(@Model.Name)> @Model.Name + "ADSA" </div>
+
+
+@GenerateHelper.randomstring()

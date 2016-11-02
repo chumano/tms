@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using CHUNOApp.Models;
+using TMS.Models;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace CHUNOApp.Controllers
+namespace TMS.Controllers
 {
     [Authorize]
     public class AccountController : Controller

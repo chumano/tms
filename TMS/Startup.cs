@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(CHUNOApp.Startup))]
-namespace CHUNOApp
+[assembly: OwinStartupAttribute(typeof(TMS.Startup))]
+namespace TMS
 {
     public partial class Startup
     {

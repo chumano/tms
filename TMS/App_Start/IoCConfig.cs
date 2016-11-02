@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
-namespace CHUNOApp
+namespace TMS
 {
     public class IoCConfig
     {

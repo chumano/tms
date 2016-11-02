@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Common;
-using CHUNOApp.Models;
-using CHUNOApp.Template;
+using TMS.Models;
+using Template;
 using Microsoft.AspNet.Identity.Owin;
 using ServiceStack.OrmLite;
 using Service;
 
-namespace CHUNOApp.Controllers.CMS
+namespace TMS.Controllers.CMS
 {
     public class ToolController : Controller
     {
@@ -439,7 +439,7 @@ namespace CHUNOApp.Controllers.CMS
                         break;
                 }
                 if (template == null) throw new Exception("not implement template [" + viewtype +"]");
-                template.CreateView();
+                template.CreateView(Server.MapPath(MyConfig.OutputTemplateFolder));
 
                 return Json(true);
             }

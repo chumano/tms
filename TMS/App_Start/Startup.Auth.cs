@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using CHUNOApp.Models;
+using TMS.Models;
 
-namespace CHUNOApp
+namespace TMS
 {
     public partial class Startup
     {

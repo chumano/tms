@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CHUNOApp</RootNamespace>
-    <AssemblyName>CHUNOApp</AssemblyName>
+    <RootNamespace>TMS</RootNamespace>
+    <AssemblyName>TMS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -201,12 +201,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Template\EditOnTableTemplate.cs" />
-    <Compile Include="Template\GenerateHelper.cs" />
-    <Compile Include="Template\iTemplate.cs" />
-    <Compile Include="Template\ColumnInfo.cs" />
-    <Compile Include="Template\MasterDetailViewTemplate.cs" />
-    <Compile Include="Template\SingleViewTemplate.cs" />
+    <Compile Include="App_Code\MyConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -227,29 +222,10 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Template\TableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="todo.txt" />
     <Content Include="Views\CMS\Tool\test_view.cshtml" />
-    <Content Include="App_Data\templates\js\share\js_col_on_formconfig.cshtml" />
-    <Content Include="App_Data\templates\html\_master_detail\test_masterdetail_view.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_searchform.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_editform.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_childsearchform.cshtml" />
-    <Content Include="App_Data\templates\js\_master_detail\js_childtable_detail_ontab.cshtml" />
-    <Content Include="App_Data\templates\html\_master_detail\childtable_detail_ontab.cshtml" />
-    <Content Include="App_Data\templates\js\share\js_col_image_init_handler.cshtml" />
-    <Content Include="App_Data\templates\js\share\js_col_image_save.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_editform_modal.cshtml" />
-    <Content Include="App_Data\templates\html\_single_view\col_modal.cshtml" />
-    <Content Include="App_Data\templates\js\_single_view\js_col_modal.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_searcheditform_on_modal.cshtml" />
-    <Content Include="App_Data\templates\html\_edit_ontable\editontable_view.cshtml" />
-    <Content Include="App_Data\templates\html\_edit_ontable\col_on_edittable.cshtml" />
-    <None Include="App_Data\templates\js\share\js_col_on_filter.cshtml" />
-    <None Include="App_Data\templates\js\share\js_col_on_newobject.cshtml" />
-    <Content Include="App_Data\templates\js\single_view_controller.js" />
     <Content Include="Content\autocomplete.css" />
     <Content Include="Content\font-awesome-4.6.2\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.6.2\css\font-awesome.min.css" />
@@ -7182,11 +7158,6 @@
     <Content Include="Scripts\libs\angular-1.2.29\version.json" />
     <Content Include="Scripts\libs\ng-table\ng-table.less" />
     <Content Include="Scripts\libs\ng-table\ng-table.min.js.map" />
-    <Content Include="App_Data\templates\html\test.cshtml" />
-    <Content Include="App_Data\templates\html\_single_view\test_single_view.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_searcheditform.cshtml" />
-    <Content Include="App_Data\templates\html\share\col_on_table.cshtml" />
-    <Content Include="App_Data\templates\html\template_col.cshtml" />
     <Content Include="Scripts\libs\adminlte\dist\js\app.min.js.map">
       <DependentUpon>app.js</DependentUpon>
     </Content>
@@ -7238,10 +7209,10 @@
     <Content Include="Views\CMS\Tool\Outputs\test_view.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\outputs\" />
-    <Folder Include="App_Data\templates\js\_edit_ontable\" />
+    <Folder Include="App_Data\templates\" />
     <Folder Include="Scripts\libs\angular-1.5.7\i18n\ngLocale\" />
+    <Folder Include="Template\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -7295,6 +7266,10 @@
     <ProjectReference Include="..\DataService\Service.csproj">
       <Project>{09756ccd-0bf0-4c2b-bf94-149076e71aa8}</Project>
       <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Template\Template.csproj">
+      <Project>{35ce8ed4-0baf-4eb8-8319-e533ac397136}</Project>
+      <Name>Template</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

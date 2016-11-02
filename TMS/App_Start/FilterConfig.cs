@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace CHUNOApp
+namespace TMS
 {
     public class FilterConfig
     {

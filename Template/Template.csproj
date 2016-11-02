@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{35CE8ED4-0BAF-4EB8-8319-E533AC397136}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Template</RootNamespace>
+    <AssemblyName>Template</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RazorEngine">
+      <HintPath>..\..\..\..\..\STARTUP\projects\AwesomeAngularMVCApp\packages\RazorEngine.3.9.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ColumnInfo.cs" />
+    <Compile Include="EditOnTableTemplate.cs" />
+    <Compile Include="GenerateHelper.cs" />
+    <Compile Include="iTemplate.cs" />
+    <Compile Include="MasterDetailViewTemplate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleViewTemplate.cs" />
+    <Compile Include="TableInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{adc310a9-ec4a-407a-a19e-a79697e741ae}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_edit_ontable\col_on_edittable.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\single_view_controller.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_edit_ontable\editontable_view.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_detail_ontab.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\test_masterdetail_view.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_single_view\col_modal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\_single_view\test_single_view.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_childsearchform.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_editform.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_editform_modal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_searcheditform.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_searcheditform_on_modal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_searchform.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_table.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\template_col.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\html\test.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_detail_ontab.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\js\_single_view\js_col_modal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\js\share\js_col_image_init_handler.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\js\share\js_col_image_save.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateFiles\js\share\js_col_on_filter.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\share\js_col_on_formconfig.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\share\js_col_on_newobject.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TemplateFiles\js\_edit_ontable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TemplateFiles\TextFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
