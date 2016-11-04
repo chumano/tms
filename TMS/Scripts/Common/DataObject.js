@@ -52,7 +52,6 @@ function DataObject(tableName, $scope) {
         return result;
     }
 
-
     this.SaveListObject = function () {
         var data = "";
         for (var i = 0; i < this.ListObjectData.length; i++) {
