@@ -1,7 +1,12 @@
 ﻿CHUNOApp.controller('MenuController',
-['$scope', '$filter', '$controller', '$interpolate',
-    function ($scope, $filter, $controller, $interpolate) {
-        
+['$scope', '$filter', '$controller', '$interpolate','$translate', 'localStorageService',
+    function ($scope, $filter, $controller, $interpolate, $translate, localStorageService) {
+        //==============================
+        //session variable
+        $scope.CurrentUser = _session_userid;
+        $scope.CurrentUserName = _session_username;
+        //==============================
+        //menu
         $scope.CurrentUrl = window.location.pathname.toLowerCase();
 
         $scope.ListMenu = [
@@ -35,6 +40,26 @@
             }
         ];
 
+        function LoadMenu(){
+            var dataService = new DataService({});
+            dataService.config = {};
+            dataService.config.dataobject = "dbo.UFN_System_Get_Menu";
+            dataService.config.type = "function";
+            dataService.config.functionparameters = $scope.CurrentUser;
+            dataService.config.action = "getall";
+            dataService.config.sort = "MenuLevel,DisplayOrder";
+            {
+                //dataService.EvaluateFieldExpression($interpolate, $scope);
+                var list = dataService.GetListData();
+                $scope.ListMenu = list;
+            }
+        }
+
+        //load menu
+        if ($scope.CurrentUser > 0) {
+            //$scope.ListMenu = LoadMenu();
+        }
+        
         $scope.IsParrentCurrent = function (menu) {
             var isparrent = false;
             if ($scope.HasChilds(menu)) {
@@ -61,4 +86,65 @@
                 return true;
             else;
         }
-    }]);
+
+        //==============================
+        //language
+        $scope.currentLanguage = 'en';
+        var cookieLanguage = $translate.storage().get('NG_TRANSLATE_LANG_KEY');
+        if (cookieLanguage)
+            $scope.currentLanguage = cookieLanguage;
+        var cur = localStorageService.get("currentLanguage");
+        //localStorageService.clearAll(/^\d+$/);
+        //localStorageService.clearAll();
+
+        $scope.changeLanguage = function (key) {
+            if ($scope.currentLanguage != key)
+                $translate.use(key);
+            $scope.currentLanguage = key;
+
+            localStorageService.set("currentLanguage", key);
+        };
+
+        //==============================
+        //login - logout
+        $scope.LogIn = function () {
+            if (FValidation.CheckControls("")) {
+                var result = AjaxSync(_account_login, '{ "username": "' + $scope.LoginInfo.Username + '", "password": "' + $scope.LoginInfo.Password + '"}');
+                if (result) {
+                    if (typeof (Storage) !== "undefined") {
+                        // Store
+                        if ($scope.LoginInfo.Remember) {
+                            localStorage.setItem("TMS_Username", $scope.LoginInfo.Username);
+                            localStorage.setItem("TMS_Password", $scope.LoginInfo.Password);
+                            localStorage.setItem("TMS_Remember", $scope.LoginInfo.Remember);
+                        }
+                        else {
+                            localStorage.setItem("TMS_Username", "");
+                            localStorage.setItem("TMS_Password", "");
+                            localStorage.setItem("TMS_Remember", $scope.LoginInfo.Remember);
+                        }
+                    }
+
+                    location.reload();
+                }
+                else {
+                    ShowErrorMessage("Tài khoản không hợp lệ.");
+                }
+            }
+        }
+
+        $scope.LogOut = function () {
+            var result = AjaxSync(_account_logout, '{ }');
+            if (result) {
+                location.reload();
+            }
+        }
+
+        $scope.LoginInfo =
+        {
+            Username: "",
+            Password: "",
+            Remember: false
+        };
+
+}]);

@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Accounts";
-    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
 }
 <div  ng-controller="MasterController as master">
 <!-- START : MAIN  --------------------------------------------->
@@ -105,8 +104,8 @@
                             <span  class="editable-text" ng-bind="row.UserId_Name" />
                         </td>
 
-                         <td title="'IsSupperUser'"  sortable="'IsSupperUser'">
-                            <input type="checkbox" name="IsSupperUser" ng-model="row.IsSupperUser"  ng-disabled="true"/>
+                         <td title="'IsDeveloper'"  sortable="'IsDeveloper'">
+                            <input type="checkbox" name="IsDeveloper" ng-model="row.IsDeveloper"  ng-disabled="true"/>
                         </td>
 
                         <!---------command buttons -------------->  
@@ -243,9 +242,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div  class="col-md-4  "><label>IsSupperUser </label></div>
+                                        <div  class="col-md-4  "><label>IsDeveloper </label></div>
                                         <div class="col-md-8">
-                                            <input type="checkbox" ng-model="detail.DataObject.IsSupperUser"  ng-disabled="!detail.IsEditingDetail"/>
+                                            <input type="checkbox" ng-model="detail.DataObject.IsDeveloper"  ng-disabled="!detail.IsEditingDetail"/>
                                         </div>
                                     </div>
                                 </div>
@@ -383,7 +382,7 @@
          var config = new DataFormConfig();
          {
              config.dataobject = 'T_Master_Account';
-             config.columns = ['Id', 'UserName', 'Password' ,'UserId', 'UserId.Name , UserId_Name' ,'IsSupperUser'].join(';'); //ko dc
+             config.columns = ['Id', 'UserName', 'Password' ,'UserId', 'UserId.Name , UserId_Name' ,'IsDeveloper'].join(';'); //ko dc
              config.sort = 'T_Master_Account.Id DESC';
              config.condition = '(T_Master_Account.IsActive=1 )';
              config.action = 'get'; //getall/get
@@ -403,7 +402,7 @@
                  UserName: '',
                  Password :'',
                  UserId: 0,
-                 IsSupperUser: false,
+                 IsDeveloper: false,
 
                  UserId_Name : '',
 

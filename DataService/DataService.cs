@@ -293,9 +293,9 @@ namespace Service
         #endregion
 
         //========================================
-        public Dictionary<string, object> Login(string loginId, string password)
+        public Dictionary<string, object> Login(string username, string password)
         {
-            string statement = string.Format("exec [dbo].[USP_System_Login] @Login = '{0}', @Password = '{1}'", loginId, password);
+            string statement = string.Format("exec [dbo].[USP_System_Login] @Login = '{0}', @Password = '{1}'", username, password);
 
             DataTable tbl = null;
             using (var db = dbFactory.OpenDbConnection())
@@ -316,6 +316,13 @@ namespace Service
             }
 
             return null;
+        }
+
+        public void Logout(int userId)
+        {
+            string statement = string.Format("exec [dbo].[USP_System_Logout] @UserId = {0}", userId);
+
+            DBHelper.ExecuteSql(statement);
         }
 
         public IList<Dictionary<string, object>> ExecuteSQL(int userId, string sql)

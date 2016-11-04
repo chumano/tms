@@ -162,9 +162,12 @@
         }
 
         $scope.ReloadMasterDrodowns = function (tableName) {
-            var dropdownid = $scope.DropdownIdByObject[tableName];
-            if (dropdownid) {
-                $scope.ReloadDropdown(dropdownid);
+            if ($scope.DropdownIdByObject)
+            {
+                var dropdownid = $scope.DropdownIdByObject[tableName];
+                if (dropdownid) {
+                    $scope.ReloadDropdown(dropdownid);
+                }
             }
         }
         //END   : dropdown =======================================================

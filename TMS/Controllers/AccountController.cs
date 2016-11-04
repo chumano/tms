@@ -1,74 +1,81 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using TMS.Models;
 using Microsoft.AspNet.Identity.Owin;
+using System;
+using Service;
 
 namespace TMS.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private ApplicationUserManager _userManager;
-        private ApplicationSignInManager _signInManager;
-
-        public AccountController() { }
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(IDataService _dataService)
+            : base(_dataService)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-            private set { _userManager = value; }
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
-            private set { _signInManager = value; }
-        }
-
-        [AllowAnonymous]
         public ActionResult Login()
         {
-            return View();
+            if (SessionCollection.IsLogIn)
+            {
+                return RedirectToAction(SessionCollection.DefaultAction, SessionCollection.DefaultController);
+            }
+            else
+            {
+                return View();
+            }
         }
 
-        [AllowAnonymous]
-        public ActionResult Register()
+        [HttpGet]
+        public ActionResult Info()
         {
-            return View();
+            return PartialView("Info");
         }
+
+
+        public ActionResult Error()
+        {
+            if (SessionCollection.IsLogIn)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<bool> Login(LoginViewModel model)
+        public ActionResult Login(string username, string password)
         {
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-            switch (result)
+            try
             {
-                case SignInStatus.Success:
-                    return true;
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return false;
+                var result = dataService.Login(username, password);
+                SessionCollection.CurrentUserId = (int)result["UserId"];
+                SessionCollection.UserName = result["UserName"].ToString();
+               
+                SessionCollection.DefaultAction = result["DefaultAction"].ToString();
+                SessionCollection.DefaultController = result["DefaultController"].ToString();
+                SessionCollection.IsDeveloper = (bool)result["IsDeveloper"];
+                SessionCollection.IsLogIn = true;
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                return Json(false);
             }
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<bool> Register(RegisterViewModel model)
+        public ActionResult Logout()
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await UserManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded) return false;
-            await SignInManager.SignInAsync(user, false, false);
-            return true;
+            dataService.Logout(SessionCollection.CurrentUserId);
+            SessionCollection.ClearSession();
+            SessionCollection.IsLogOut = true;
+            return Json(true);
         }
+
+        
     }
 }

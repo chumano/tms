@@ -63,17 +63,22 @@ namespace TMS
 
 
             //styles
-            bundles.Add(new StyleBundle("~/Content/css")
+            bundles.Add(new StyleBundle("~/common/css")
                 .Include("~/Content/jquery-ui.css")
                 .Include("~/Scripts/libs/bootstrap/css/bootstrap.css")
                 .Include("~/Content/font-awesome-4.6.2/css/font-awesome.min.css")
                 .Include("~/Content/ionicons-2.0.1/css/ionicons.min.css")
                 .Include("~/Scripts/libs/ng-table/ng-table.css")
+                .Include("~/Scripts/libs/iCheck/square/blue.css") //iCheck box
 
                 .Include("~/Content/autocomplete.css")
-                .Include("~/Content/Site.css")
+                
                 .Include("~/Content/FValidation.css")
                 );
+
+            bundles.Add(new StyleBundle("~/Content/site")
+               .Include("~/Content/Site.css")
+               );
         }
 
         public static void CMSBundles(BundleCollection bundles)

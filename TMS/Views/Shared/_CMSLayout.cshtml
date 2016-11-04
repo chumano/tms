@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html ng-app="CHUNOApp">
+<head>
+    <title>.:: CHUNOTool - @ViewBag.Title ::.</title>
+    <meta charset="utf-8" />
+    <!--[if lt IE 9]>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <![endif]-->
+
+    
+    @Styles.Render("~/common/css")
+    @Styles.Render("~/adminlte/css")
+
+    @if (TMS.SessionCollection.IsLogIn)
+    {
+         @Styles.Render("~/Content/site")
+    }
+    
+    <!--------------------------app config ------------------------------>
+    <script type="text/javascript">
+        var _data_service_count = '@Url.Action("CountData", "Data")';
+        var _data_service_getdata = '@Url.Action("GetData", "Data")';
+
+        var _data_service_saveobject = '@Url.Action("SaveObject", "Data")';
+        var _data_service_savecomplexobject = '@Url.Action("SaveComplexObject", "Data")';
+        var _data_service_savelistobject = '@Url.Action("SaveListObject", "Data")';
+        var _data_service_getobject = '@Url.Action("GetObject", "Data")';
+        var _data_service_deleteobject = '@Url.Action("DeleteObject", "Data")';
+
+        var _data_service_getimage = '@Url.Action("GetImage", "Data")';
+        var _data_service_saveimage = '@Url.Action("SaveImage", "Data")';
+
+        var _account_login = '@Url.Action("Login", "Account")';
+        var _account_logout = '@Url.Action("Logout", "Account")';
+
+        //======================
+        var _session_userid = '@TMS.SessionCollection.CurrentUserId';
+        var _session_username = '@Html.Raw(TMS.SessionCollection.UserName)';
+    </script>
+
+    <!---------------libs scripts------------------>
+    @Scripts.Render("~/libs/jquery")
+    @Scripts.Render("~/libs/bootstrap")
+
+    @Scripts.Render("~/libs/angularjs")
+
+    @Scripts.Render("~/adminlte/js")
+
+    <script src="@Url.Content("~/Scripts/libs/slimScroll/jquery.slimscroll.min.js")" type="text/javascript"></script>
+    <!--------------my scripts------------------->
+    @Scripts.Render("~/common/js")
+
+    @Scripts.Render("~/bundles/CHUNOApp")
+</head>
+@if(TMS.SessionCollection.IsLogIn)
+{
+<body class="skin-blue sidebar-mini header-fixed fixed  wysihtml5-supported ">
+    <div class="wrapper">
+        <section ng-controller="MenuController">
+        <!-----------------header ----------------->
+        @Html.Partial("~/Views/CMS/Shared/Header.cshtml")
+        <!---------------- navs-------------------->
+        @Html.Partial("~/Views/CMS/Shared/Menu.cshtml")
+
+        </section>
+        <!--------------- content------------------>
+        <div class="content-wrapper">
+            <!-- Main content -->
+            @RenderBody()
+        </div>
+
+        <!--------------- footer ------------------>
+        @Html.Partial("~/Views/CMS/Shared/Footer.cshtml")
+
+    </div>
+    <!----------confirm model---------------->
+    <div id="confirmModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xác nhận!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="modal-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default modal-cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary modal-ok">OK</button>
+            </div>
+        </div>
+      </div>
+    </div>
+</body>
+}
+else
+{
+<body class="hold-transition login-page">
+    @RenderBody()
+</body>
+}
+</html>

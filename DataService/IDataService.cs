@@ -8,7 +8,8 @@ namespace Service
 {
     public interface IDataService
     {
-        Dictionary<string, object> Login(string LoginId, string Password);
+        Dictionary<string, object> Login(string username, string Password);
+        void Logout(int userId);
 
         DataTable GetDataFromConfiguration(int userId, DataConfig config);
         IList<Dictionary<string, object>> GetDataFromConfigurationJsonable(int userId, DataConfig config);

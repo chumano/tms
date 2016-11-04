@@ -1,5 +1,11 @@
-﻿    <header class="main-header" ng-controller="HeaderController">
-        <a href="../../default2.aspx" class="logo" translate="FORM.TITLE"><b>Admin</b>LTE</a>
+﻿    <header class="main-header">
+         <!-- Logo -->
+        <a href="@Url.Action("Index","CMS")" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>ITD</b></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>ITD</b> - TMS</span>
+        </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -10,13 +16,6 @@
             <span class="icon-bar"></span>
           </a>
 
-          <a href="#"  ng-click="changeLanguage('vn')" role="button">
-                <span class="">VN</span>
-          </a>
-
-            <a href="#"  ng-click="changeLanguage('en')" role="button">
-                <span class="">EN</span>
-          </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
@@ -132,7 +131,7 @@
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="#" class="btn btn-default btn-flat" ng-click="LogOut()">Sign out</a>
                     </div>
                   </li>
                 </ul>

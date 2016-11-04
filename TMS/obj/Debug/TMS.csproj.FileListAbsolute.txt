@@ -1,3 +1,4 @@
+D:\projects\ITD\code\TMS\TMS\bin\TemplateFiles\TextFile.txt
 D:\projects\ITD\code\TMS\TMS\bin\TMS.dll
 D:\projects\ITD\code\TMS\TMS\bin\TMS.pdb
 D:\projects\ITD\code\TMS\TMS\bin\Antlr3.Runtime.dll
@@ -82,4 +83,3 @@ D:\projects\ITD\code\TMS\TMS\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\projects\ITD\code\TMS\TMS\obj\Debug\TMS.csprojResolveAssemblyReference.cache
 D:\projects\ITD\code\TMS\TMS\obj\Debug\TMS.dll
 D:\projects\ITD\code\TMS\TMS\obj\Debug\TMS.pdb
-D:\projects\ITD\code\TMS\TMS\bin\TemplateFiles\TextFile.txt
