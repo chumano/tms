@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace StoreManagement.Common
+namespace Common
 {
     using System;
     using System.Collections.Generic;

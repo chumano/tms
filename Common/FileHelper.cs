@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreManagement.Common
+namespace Common
 {
     public class FileHelper
     {
@@ -13,6 +14,25 @@ namespace StoreManagement.Common
         {
             string text = File.ReadAllText(filepath);
             return text;
+        }
+
+        public static string ReadEmbeddedFile(Assembly assembly, string filepath)
+        {
+            string result ="";
+            try
+            {
+                using (Stream stream = assembly.GetManifestResourceStream(filepath))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+            catch (Exception Exception)
+            {
+                throw new Exception("Error-EmbeddedFile: " + filepath);
+            }
+
+            return result;
         }
 
         #region file content type

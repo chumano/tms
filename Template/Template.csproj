@@ -54,12 +54,6 @@
     <Compile Include="Common\TableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{adc310a9-ec4a-407a-a19e-a79697e741ae}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="TemplateFiles\html\_edit_ontable\col_on_edittable.cshtml" />
     <EmbeddedResource Include="TemplateFiles\js\single_view_controller.js" />
   </ItemGroup>
@@ -129,6 +123,12 @@
     <Content Include="TemplateFiles\TextFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{7ef5fe5f-2fc9-4bd8-9298-bc57655c3208}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
