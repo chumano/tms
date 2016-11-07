@@ -53,6 +53,7 @@
                 var list = dataService.GetListData();
                 $scope.ListMenu = list;
             }
+
         }
 
         //load menu
