@@ -40,6 +40,22 @@
             }
         ];
 
+        function findAddChild(condition, array) {
+            var returnList = [];
+            array.forEach(function(item, index) {
+                if (item.Parent==condition) {
+                    returnList.push({
+                        id: '',
+                        url: item.Url,
+                        name: item.Menu,
+                        cssclass: item.CssClass,
+                        childs: findAddChild(item.MenuId, array)
+                    });
+                }
+            });
+            return returnList;
+        }
+
         function LoadMenu(){
             var dataService = new DataService({});
             dataService.config = {};
@@ -51,20 +67,19 @@
             {
                 //dataService.EvaluateFieldExpression($interpolate, $scope);
                 var list = dataService.GetListData();
-                $scope.ListMenu = list;
+                return findAddChild('', list);
             }
-
         }
 
         //load menu
         if ($scope.CurrentUser > 0) {
-            //$scope.ListMenu = LoadMenu();
+            $scope.ListMenu = LoadMenu();
         }
-        
+
         $scope.IsParrentCurrent = function (menu) {
             var isparrent = false;
             if ($scope.HasChilds(menu)) {
-                for(var i = 0;  i< menu.childs.length;i++) 
+                for(var i = 0;  i< menu.childs.length;i++)
                 {
                     var cmenu = menu.childs[i];
                     if ($scope.CurrentUrl == cmenu.url.toLowerCase()) {
