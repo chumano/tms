@@ -27,6 +27,8 @@
             <!--END ---------autocomplete example------------->
 
             <br />
+
+            <!------------------DROPDOWN------------------------>
             dropdown
             <select class="form-control"  ng-model="ctrl.giatri"
                 my-dropdown
@@ -42,9 +44,24 @@
                 
                 check-empty="" check-empty-message="Vui lòng chọn nhóm hàng." 
                 ></select>
+
+             <!------------------YesNo DropDown------------------------>
+             <br />  yeno-dropdown : {{ctrl.yesno}}
+             <select class="form-control" yes-no-dropdown ng-model="ctrl.yesno"></select>
         </div>
     </div>
 </div>
 
 
-@Scripts.Render("~/bundles/cms/TempAutocomplete")
+<script type="text/javascript">
+    CHUNOApp.controller('TempAutocompleteController', ['$scope', '$filter', '$controller',
+    function ($scope, $filter, $controller) {
+        this.giatri = 4;
+
+        this.yesno = 'false';
+        //append function to this $scope
+        $controller('CommonController', { $scope: $scope });
+
+    }
+    ]);
+</script>

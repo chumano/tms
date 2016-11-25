@@ -104,11 +104,7 @@ namespace TMS
             bundles.Add(new ScriptBundle("~/bundles/cms/TempTables")
                .Include("~/Scripts/CMS/Controllers/TempTablesController.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/cms/TempInputs")
-               .Include("~/Scripts/CMS/Controllers/TempInputsController.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/cms/TempAutocomplete")
-               .Include("~/Scripts/CMS/Controllers/TempAutocompleteController.js"));
+           
             //----------------------------------------------------------------
             //cms
             bundles.Add(new StyleBundle("~/adminlte/css")

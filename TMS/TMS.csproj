@@ -228,6 +228,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\CMS\Factories\number-directive.js" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.css" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.min.css" />
     <Content Include="Scripts\libs\adminlte\dist\css\skins\skin-black-light.css" />
@@ -1053,8 +1054,6 @@
     <Content Include="Scripts\CMS\Common\FValidationScript.js" />
     <Content Include="Scripts\CMS\Controllers\ToolDBTableConfigController.js" />
     <Content Include="Scripts\CMS\Controllers\ToolDBTableController.js" />
-    <Content Include="Scripts\CMS\Controllers\TempAutocompleteController.js" />
-    <Content Include="Scripts\CMS\Controllers\TempInputsController.js" />
     <Content Include="Scripts\CMS\Controllers\TempTablesController.js" />
     <Content Include="Scripts\CMS\Common\MenuController.js" />
     <Content Include="Scripts\CMS\Factories\autocomplete-directive.js" />

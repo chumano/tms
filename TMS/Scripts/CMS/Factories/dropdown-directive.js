@@ -101,23 +101,7 @@ CHUNOApp.directive('objectDropdown', function () {
 });
 
 
-CHUNOApp.directive('convertToNumber', function () {
-    var directive = {
-        require: 'ngModel'
-    };
 
-    directive.restrict = 'A';
-    directive.link = function (scope, element, attrs, ngModel) {
-        ngModel.$parsers.push(function (val) {
-            return parseInt(val, 10); //set value to ng-model
-        });
-        ngModel.$formatters.push(function (val) {
-            return '' + val; //get value from ng-model
-        });
-    }
-
-    return directive;
-});
 
 CHUNOApp.directive('yesNoDropdown', function ($parse, $interpolate) {
     var directive = {
