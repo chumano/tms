@@ -14,7 +14,7 @@
 <div class="container-fluid none-display" ng-class="{'active-content' : true}">
     <div >
         <!-- TOP BUTTONS -------------------->
-        <div class="row" style="padding-top: 5px">
+        <div class="row" >
             <div class="col-sm-12" >
                 <h4>{{master.ObjectTitle}}</h4>
             </div>
@@ -22,7 +22,7 @@
 
         <!-- FORM -------------------->
         <div class="box box-primary box-body">
-        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+        <div class="row " >
             <div class="col-sm-12">
             <form name="dataForm" novalidate ng-submit="master.Search()">
                 <div class="row">
@@ -31,7 +31,7 @@
                         {
                             if(col.Position==EPosition.LEFT)
                             {
-                                @iTemplate.HTML_Column_In_SearchEditForm(col);
+                                @iTemplate.HTML_Column_In_SearchEditForm("master",col);
                             }
                         }
                     </div>
@@ -41,14 +41,14 @@
                         {
                             if(col.Position==EPosition.RIGHT)
                             {
-                                @iTemplate.HTML_Column_In_SearchEditForm(col);
+                                @iTemplate.HTML_Column_In_SearchEditForm("master",col);
                             }
                         }
                     </div>
                 </div>
 
                 <!-- buttons -->
-                <div class="row" style="margin-top:10px">
+                <div class="row" >
                      <div class="col-md-6" >
                         <!--- Thêm --->
                         <button type="button" class="btn btn-success" ng-show="!master.isEditing"  ng-disabled="!master.FormConfig._CanCreate || dataForm.$invalid" ng-click="master.SaveForm()">
@@ -100,7 +100,7 @@
                         {
                             if(col.IsView)
                             {
-                                @iTemplate.HTML_Column_In_Table(col);
+                                @iTemplate.HTML_Column_In_Table("row",col);
                                 count_column++;
                             }
                         }
@@ -167,7 +167,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         config.columns = ['Id',
             @foreach(var col in @Model.Columns)
             {
-            @iTemplate.JS_Column_On_FormConfig(col)
+            @iTemplate.JS_Column_On_FormConfig("",col)
             }
             ].join(';'); //ko dc
         config.sort = '@iTemplate.TableDotColumn(@Model.TableName,"Id") DESC';
@@ -187,7 +187,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         return {
             Id: 0,   
             @foreach(var col in @Model.Columns){
-            @iTemplate.JS_Column_On_NewObject(col)
+            @iTemplate.JS_Column_On_NewObject("",col)
             }
             Version: 0,
             IsActive: true
@@ -239,34 +239,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
             {
                 if(col.IsImage)
                 {
-            <text>
-            if ($('#input_@col.Name')[0].files.length > 0) {
-                var file = $('#input_@col.Name')[0].files[0];
-                var formData = new FormData();
-                formData.append('file', file);
-
-                var imgid = "";
-                $.ajax({
-                    url: _data_service_saveimage,
-                    type: 'POST',
-                    data: formData,
-                    async: false,
-                    processData: false,  // tell jQuery not to process the data
-                    contentType: false,  // tell jQuery not to set contentType
-                    success: function (data) {
-                        if (typeof (data) == 'string' && data.startsWith("#error")) {
-                            ShowErrorMessage(data);
-                            imgid = '';
-                        }
-                        else {
-                            imgid = data;
-                        }
-                    }
-                });
-                //set image id to DataObject
-                self.DataObject.@col.Name = imgid;          
-            }
-            </text>
+            @iTemplate.JS_Column_Image_Save("",col);
                 }
             }
             
@@ -356,7 +329,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         {
             if(col.IsFilter)
             {
-            @iTemplate.JS_Column_On_Filter(col);
+            @iTemplate.JS_Column_On_Filter("",col);
             }
         }
         self.TableForm.search(filterobj);
@@ -372,24 +345,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
     {
         if(col.IsImage)
         {
-    <text>
-    $("#img_@col.Name").click(function () {
-        $("#input_@col.Name").click();
-    });
-    $("#input_@col.Name").change(function (e) {
-        self.isLoadingImage = true;
-        $scope.$apply();
-        setTimeout(function () {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("#img_@col.Name").attr('src', e.target.result);
-                self.isLoadingImage = false;
-                $scope.$apply();
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        }, 100);
-    });
-    </text>
+    @iTemplate.JS_Column_Image_Init_Hanlder("",col);
         }
     }
 

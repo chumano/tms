@@ -30,7 +30,7 @@
                                     {
                                         if ( col.IsFilter && col.Position == EPosition.LEFT)
                                         {
-                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(col);
+                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL("modal",col);
                                         }
                                     }
                                 </div>
@@ -40,7 +40,7 @@
                                     {
                                         if (col.IsFilter && col.Position == EPosition.RIGHT)
                                         {
-                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(col);
+                                            @iTemplate.HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL("modal",col);
                                         }
                                     }
                                 </div>
@@ -98,7 +98,7 @@
    
                                 if (col.IsView)
                                 {
-                                    @iTemplate.HTML_Column_In_Table(col);
+                                    @iTemplate.HTML_Column_In_Table("row",col);
                                     modal_count_column++;
                                 }
                             }

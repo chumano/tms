@@ -21,24 +21,7 @@
             </button>
         </div>
 
-        <div class="col-sm-6 pull-left">
-            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(false)"
-                title="Load những column chưa có">
-                <i class="fa fa-edit white"></i>
-                <span>Load Columns</span>
-            </button>
-            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(true)"
-                title="Xóa những column và load lại">
-                <i class="fa fa-edit white"></i>
-                <span>Update Columns</span>
-            </button>
-
-            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadChildTables()"
-                title="Load những bảng con">
-                <i class="fa fa-edit white"></i>
-                <span>Load Child Table</span>
-            </button>
-        </div>
+        
     </div>
 
 
@@ -96,7 +79,18 @@
             <p>parent 3: {{Message}}</p>
             <p>parent 4: {{configctrl.parentMessage2}}</p>
             <p>current : {{configctrl.Message}}</p>*@
-             <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+
+            <!---     table childs --->
+            <div>
+                <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadChildTables()"
+                title="Load những bảng con">
+                    <i class="fa fa-edit white"></i>
+                    <span>Load Child Table</span>
+                </button>
+            </div>
+
+            <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
                 ng-form="configctrl.ChildTableForm._tableForm" 
                 ng-table="configctrl.ChildTableForm.tableParams"
                 demo-tracked-table="configctrl.ChildTableForm._tableTracker">
@@ -182,12 +176,31 @@
                     </td>
                 </tr>
             </table>
+            </div>
         </div>
     </div>
 
+    <!-------------------table columns----------------------->
+    <div class="row">
+        <div class="col-sm-6 pull-left">
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(false)"
+                title="Load những column chưa có">
+                <i class="fa fa-edit white"></i>
+                <span>Load Columns</span>
+            </button>
+            <button class="btn btn-primary" ng-if="configctrl.ObjectForm._CanUpdate" ng-click="configctrl.LoadColumnInfos(true)"
+                title="Xóa những column và load lại">
+                <i class="fa fa-edit white"></i>
+                <span>Update Columns</span>
+            </button>
+
+           
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12">
-
+        
+        <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
             ng-form="configctrl.TableConfigForm._tableForm" 
             ng-table="configctrl.TableConfigForm.tableParams"
@@ -332,6 +345,8 @@
                 </tr>
             </tfoot>
         </table>
+        </div>
+
         </div>
     </div>
 </div>

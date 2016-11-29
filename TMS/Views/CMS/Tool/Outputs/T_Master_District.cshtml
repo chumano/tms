@@ -1,7 +1,6 @@
 ﻿
 @{
     ViewBag.Title = "Huyện";
-    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
 }
 <div  ng-controller="controller_T_Master_District as master">
 <!-- START : MAIN  --------------------------------------------->
@@ -9,31 +8,9 @@
     <div >
         <!-- TOP BUTTONS -------------------->
         <div class="row" style="padding-top: 5px">
-            <div class="col-sm-6" >
+            <div class="col-sm-12" >
                 <h4>{{master.ObjectTitle}}</h4>
             </div>
-            <div class="col-sm-6 pull-right text-right" >
-                
-
-                <button class="btn btn-default" ng-click="master.CancelAll()" ng-if="master.isEditing">
-                    <i class="fa fa-remove"></i>
-                </button>
-
-                <button class="btn btn-primary" ng-click="master.SaveAll()" ng-if="master.isEditing" ng-disabled="!master.TableForm.hasChanges()">
-                    <i class="fa fa-check white"></i>
-                </button>
-
-                <button class="btn btn-warning" ng-click="master.EditAll()" ng-if="!master.isEditing" ng-disabled="!master.FormConfig._CanUpdate">
-                    <i class="fa fa-edit white"></i>
-                    <span>Sửa</span>
-                </button>
-                
-                <button class="btn btn-success "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
-                    <i class="fa fa-plus white"></i> Thêm
-                </button>
-                
-            </div>
-
         </div>
 
         <!-- FORM -------------------->
@@ -44,17 +21,29 @@
                 <div class="row">
                     <div class="col-md-6">
 
+<!--  MODEL IS COLUMNINFO -->
+
 <div class="row form-group">
-    <label class="col-md-4  ">Name </label>
+    <div  class="col-md-4  "><label>Name </label></div>
     <div class="col-md-8">
+
+        
+        
+        
         <input class="form-control" ng-model="master.DataObject.Name" required
             placeholder="Nhập [Name]" />
     </div>
 </div>
 
+<!--  MODEL IS COLUMNINFO -->
+
 <div class="row form-group">
-    <label class="col-md-4  ">ProvinceId </label>
+    <div  class="col-md-4  "><label>ProvinceId </label></div>
     <div class="col-md-8">
+
+        
+        
+        
         <select class="form-control " ng-model="master.DataObject.ProvinceId" 
             my-dropdown
             dropdown-id="dd_ProvinceId"
@@ -77,7 +66,20 @@
                 <!-- buttons -->
                 <div class="row" style="margin-top:10px">
                      <div class="col-md-6" >
-                        
+                        <!--- Thêm --->
+                        <button type="button" class="btn btn-success" ng-show="!master.isEditing"  ng-disabled="!master.FormConfig._CanCreate || dataForm.$invalid" ng-click="master.SaveForm()">
+                            <i class="fa fa-plus white" ng-hide="master.isSaving"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSaving"></i> 
+                            Thêm
+                        </button>
+
+                        <!--- Cập nhật --->
+                        <button type="button" class="btn btn-warning" ng-show="master.isEditing"  ng-disabled="!master.FormConfig._CanUpdate || dataForm.$invalid" ng-click="master.SaveForm()" >
+                            <i class="fa fa-edit white" ng-hide="master.isSaving"></i> 
+                            <i class="fa fa-spinner white loading" ng-show="master.isSaving"></i>
+                            Cập nhật
+                        </button>
+
                         <!--- Clear --->
                         <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
                             <i class="fa fa-undo white"></i> Clear
@@ -96,7 +98,6 @@
             </div>
         </div>
         </div>
-        
         <!-- TABLE -------------------->
         <div class="row">
             <div class="col-md-12 table-responsive">
@@ -111,50 +112,21 @@
                         </td>
 
                         <!--------- data columns -------------->
-
-<td  title="'Name'"  sortable="'Name'" ng-form="Name"  demo-tracked-table-cell>
-    <span  ng-if="!(row.isEditing || master.TableForm.isEditing)" class="editable-text" ng-bind="row.Name" ></span>
-    <div ng-if="(row.isEditing || master.TableForm.isEditing)" class="controls" ng-class="Name.$invalid && Name.$dirty ? 'has-error' : ''">
-        <input type="text" name="Name" ng-model="row.Name" class="editable-input form-control input-sm" required />
-    </div>
+<td title="'Name'"  sortable="'Name'">
+    <span  class="editable-text" ng-bind="row.Name"></span>
 </td>
-
-<td  title="'ProvinceId'"  sortable="'ProvinceId.Name'" ng-form="ProvinceId" demo-tracked-table-cell>
-    <span ng-if="!(row.isEditing || master.TableForm.isEditing)" class="editable-text" ng-bind="row.ProvinceId_Name" ></span>
-    <div ng-if="(row.isEditing || master.TableForm.isEditing)" class="controls" ng-class="ProvinceId.$invalid && ProvinceId.$dirty ? 'has-error' : ''" >
-        <select class="form-control"  ng-model="row.ProvinceId"  name="ProvinceId" 
-            my-dropdown
-            dropdown-id="ProvinceId" 
-            dropdown-table="T_Master_Province" 
-            dropdown-condition="IsActive=1"
-            dropdown-column-value="Id"
-            dropdown-column-name="Name" 
-            dropdown-empty-value=""
-            dropdown-empty-text="--Chọn --" 
-        check-empty="" check-empty-message="Vui lòng chọn." 
-        ng-change="master.TableForm.SetValue('ProvinceId' ,row)">
-
-        </select>
-    </div>
+<td title="'ProvinceId'"  sortable="'ProvinceId.Name'">
+    <span  class="editable-text" ng-bind="row.ProvinceId_Name" ></span>
 </td>
                         <!---------command buttons -------------->  
                         <td width="100px" >
                             <!---edit--->
-                            <button class="btn btn-default btn-sm" ng-click="master.TableForm.edit(row)" 
-                                ng-if="!(row.isEditing || master.TableForm.isEditing) && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
-
-                            <!---save--->
-                            <button class="btn btn-primary btn-sm" ng-click="master.TableForm.save(row, rowForm)" 
-                                ng-if="(row.isEditing || master.TableForm.isEditing) && master.FormConfig._CanUpdate" ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>             
-                            
-                            <!---cancel--->
-                            <button class="btn btn-default btn-sm" ng-click="master.TableForm.cancel(row, rowForm)"
-                                ng-if="(row.isEditing || master.TableForm.isEditing)"><span class="glyphicon glyphicon-remove"></span></button>
-                            
+                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
 
                             <!----del--->
-                            <button class="btn btn-danger btn-sm" ng-click="master.TableForm.del(row)" 
-                                ng-if="!(row.isEditing || master.TableForm.isEditing) && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
                         </td>
                     </tr>
                     <!--------------- table footer------------------>
@@ -206,7 +178,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
             ].join(';'); //ko dc
         config.sort = 'T_Master_District.Id DESC';
         config.condition = '(T_Master_District.IsActive = 1 )';
-        config.action = 'getall'; //getall/get
+        config.action = 'get'; //getall/get
         config.startrow = 0;
         config.endrow = 10;
     }
@@ -234,34 +206,13 @@ ProvinceId : '' , ProvinceId_Name : '' ,
     self.ClearForm = function () {       
 
         self.DataObject = self.NewObject();
-
+        self.isEditing = false;
     }
 
-    self.AddItem = function () {
-        self.TableForm.add();
-    };
-
-    self.EditAll= function(){
-        self.isEditing = self.TableForm.isEditing = true;
-    }
-
-    self.SaveAll = function(){
-        var ok = self.TableForm.saveChanges();
-        if(ok){
-            self.isEditing = self.TableForm.isEditing = false;
-            //load lai data
-            self.ReloadTable(self.TableForm);
-        }
-    }
-
-    self.CancelAll= function(){
-        self.isEditing = self.TableForm.isEditing = false;
-        self.TableForm.cancelChanges();
-    }
-
-    self.Edit = function (object, rowForm) {
-        //self.isEditing = true;
-        object.isEditing = true;
+    self.EditObject = function (object, rowForm) {
+        self.isEditing = true;
+        self.DataObject = self.NewObject(); //đảm bảo thông tin ko bị undefined
+        CommonHelper.CopyNeedFields(object, self.DataObject); //from -> to
     }
 
     self.SaveForm = function () {
@@ -288,26 +239,15 @@ ProvinceId : '' , ProvinceId_Name : '' ,
         }, 100);
     }
 
-    self.SaveObject = function (object ,rowForm) {
+    self.SaveObject = function (object) {
         self.FormObject.SetObject(object);
         var Id = self.FormObject.SaveObject();
         if (Id > 0) {
             self.DataObject.Id = Id;
-
-            ShowSuccessMessage("Đã lưu thành công!");
+            $("button[data-dismiss='modal']:visible").click();
+            ShowSuccessMessage("Đã tạo thành công!");
         }
         return Id;
-    }
-
-    self.SaveListObject = function (objs){
-        self.FormObject.SetListObject(objs);
-
-        var ok = self.FormObject.SaveListObject();
-        if(ok){
-            ShowSuccessMessage("Đã lưu thành công!");
-        }
-
-        return ok;
     }
 
     self.DeleteObject = function (object) {
@@ -323,7 +263,7 @@ ProvinceId : '' , ProvinceId_Name : '' ,
 
     //======================================
     //tableform
-    self.TableForm = new StaticTableForm(NgTableParams, $q, self,$scope, function (params) {
+    self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
         var config = {};
         $.extend(config, self.FormConfig);
         //===========================    
@@ -359,10 +299,7 @@ ProvinceId : '' , ProvinceId_Name : '' ,
     });
 
     self.ReloadTable = function (tableForm) {
-        if(tableForm==undefined)
-            tableForm =  self.TableForm;
-
-        tableForm.loadData();
+        tableForm.reload();
     }
     //======================================
     self.Search = function () {
@@ -390,11 +327,11 @@ if (CommonHelper.IsSearchableValue(object.ProvinceId)) {
     //=======================================
     //init - data
 
-    
+    //=================================================
+    //Hanlder modal for col
 }
 ]);
 
 </script>
 
 <!-- MODEL SCRIPT  --------------------------------------------->
-

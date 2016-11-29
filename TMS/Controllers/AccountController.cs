@@ -29,7 +29,8 @@ namespace TMS.Controllers
         [HttpGet]
         public ActionResult Info()
         {
-            return PartialView("Info");
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
         }
 
 
@@ -52,9 +53,11 @@ namespace TMS.Controllers
             try
             {
                 var result = dataService.Login(username, password);
+                SessionCollection.CurrentAccountId = (int)result["AccountId"];
                 SessionCollection.CurrentUserId = (int)result["UserId"];
                 SessionCollection.UserName = result["UserName"].ToString();
-               
+                SessionCollection.RoleName = result["RoleName"].ToString();
+
                 SessionCollection.DefaultAction = result["DefaultAction"].ToString();
                 SessionCollection.DefaultController = result["DefaultController"].ToString();
                 SessionCollection.IsDeveloper = (bool)result["IsDeveloper"];

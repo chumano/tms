@@ -58,6 +58,7 @@ namespace TMS
                   .Include("~/Scripts/libs/InputMask.js") //inputmask jquery
                   .Include("~/Scripts/libs/lodash.min.js") //<!-- lodasd utils : _ variable -->
                   .Include("~/Scripts/libs/loadimage/load-image.all.min.js")
+                  .Include("~/Scripts/libs/MD5.js")
                   .IncludeDirectory("~/Scripts/Common", "*.js")
                  );
 

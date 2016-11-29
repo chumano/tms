@@ -13,7 +13,7 @@ namespace Template
         //thuộc tính bảng con
         public string RefColumn; //Column là trỏ tới Table Cha
         public bool IsOnlyOne = false;
-        public string ChildType = "";
+        public string ChildType = ""; //ON_DETAIL_TAB / ON_MASTER
 
         public List<ColumnInfo> Columns;
     }

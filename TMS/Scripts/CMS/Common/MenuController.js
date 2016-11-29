@@ -1,10 +1,11 @@
 ﻿CHUNOApp.controller('MenuController',
-['$scope', '$filter', '$controller', '$interpolate','$translate', 'localStorageService',
-    function ($scope, $filter, $controller, $interpolate, $translate, localStorageService) {
+['$rootScope','$scope', '$filter', '$controller', '$interpolate','$translate', 'localStorageService',
+    function ($rootScope,$scope, $filter, $controller, $interpolate, $translate, localStorageService) {
         //==============================
         //session variable
-        $scope.CurrentUser = _session_userid;
-        $scope.CurrentUserName = _session_username;
+        $rootScope.CurrentAccount = $scope.CurrentAccount = _session_accountid;
+        $rootScope.CurrentUser= $scope.CurrentUser = _session_userid;
+        $rootScope.CurrentUserName = $scope.CurrentUserName = _session_username;
         //==============================
         //menu
         $scope.CurrentUrl = window.location.pathname.toLowerCase();
@@ -63,7 +64,7 @@
             dataService.config.type = "function";
             dataService.config.functionparameters = $scope.CurrentUser;
             dataService.config.action = "getall";
-            dataService.config.sort = "MenuLevel,DisplayOrder";
+            dataService.config.sort = "DisplayOrder";
             {
                 //dataService.EvaluateFieldExpression($interpolate, $scope);
                 var list = dataService.GetListData();

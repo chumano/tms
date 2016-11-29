@@ -1,0 +1,150 @@
+﻿@using Template;
+<!-- *****@Model.TableName Form ***** -->
+<script type="text/javascript">
+//as child
+CHUNOApp.controller('ChildController_@Model.TableName', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    var self = this;
+    self.IsEditingDetail = false;
+
+
+    $scope.ChildControllers["@Model.TableName"] = self;
+    //===================================
+    //Properties
+    self.ParentObjectId = 0;
+
+    //---FormObject---
+    self.FormObject = new DataObject("@Model.TableName", $scope);
+    self.NewObject = function () {
+        var newobj = {
+            Id: 0,
+            @foreach(var col in @Model.Columns)
+            {
+            @iTemplate.JS_Column_On_NewObject("",col);
+            }
+            Version: 0,
+            IsActive: true
+        };
+
+        newobj.@Model.RefColumn = self.ParentObjectId;
+        return newobj;
+    }
+    self.DataObject = self.NewObject();
+
+
+    //---ModalAPI---
+    $scope.ModalAPI = {};
+
+    //--------------------------------
+    self.ClearForm = function(){
+        self.DataObject = self.NewObject();
+    }
+
+    self.AddItem = function(){
+        var newobj = self.NewObject();
+
+        self.EditObject(newobj);
+    }
+
+    self.EditForm = function () {
+        self.IsEditingDetail = true;
+    }
+
+    self.SaveForm = function() {
+        self.Save(self.DataObject);
+
+        if (self.DataObject.Id > 0) {
+            ShowSuccessMessage("Đã lưu thành công!");
+        }
+    }
+    
+    self.Save = function (object) {
+        self.FormObject.SetObject(object);
+        var Id = self.FormObject.SaveObject();
+        if (Id > 0) {
+            object.Id = Id;
+        }
+    }
+
+    self.Delete = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [@Model.Title] " + object.Id + " - " + 'TODO - object.Name' + "?",
+        function () {
+            if (self.FormObject.DeleteObject(object.Id)) {
+
+                ShowSuccessMessage("Đã xóa thành công!");
+
+            }
+        });
+    }
+
+   
+    //---InitForm---
+    self.InitForm = function (parentobj) {
+        self.ParentObjectId = parentobj.Id;
+        
+        self.IsEditingDetail = false;
+
+        //=================================
+        //Dung de load nhieu data
+        var config = new DataFormConfig();
+        {
+            config.dataobject = '@Model.TableName';
+            config.columns = ['Id', 
+                    @foreach (var col in @Model.Columns)
+                    {
+                    @iTemplate.JS_Column_On_FormConfig("",col)
+                    }
+                ].join(';'); 
+            config.sort = '@(@Model.TableName).Id DESC';
+            config.condition = '@(@Model.TableName).@Model.RefColumn = ' + self.ParentObjectId  + ' AND (@(@Model.TableName).IsActive=1 )';
+            config.action = 'get'; //getall/get
+            config.startrow = 0;
+            config.endrow = 1; //lấy chỉ 1 record
+        }
+
+        self.FormConfig = config;
+        self.FormConfig._CanCreate = true;
+        self.FormConfig._CanUpdate = true;
+        self.FormConfig._CanDelete = true;
+
+        //==================
+        //load child object if it exists -todo
+        self.DataObject = self.NewObject();
+
+        var dataService = new DataService(self.FormConfig);
+        var listobject = dataService.GetListData();
+        if(listobject && listobject.length>0){
+            self.DataObject = listobject[0];
+        }
+
+        if(!self.DataObject.Id){
+            
+        }
+        return;
+
+        //==================
+        //khong dung cach nay
+        self.DataObject  = self.FormObject.GetObject(self.ParentObjectId ,'@Model.RefColumn');
+        if(!self.DataObject.Id){
+            self.DataObject = self.NewObject();
+        }else{
+            //morefields
+            //todo
+            @foreach (var col in @Model.Columns)
+            {
+                if (col.IsForeignKey && !col.IsImage && !col.IsFile)
+                {
+            <text>self.DataObject.@iTemplate.NameOfForeignColumn(@col.Name, @col.ForeignColumnName) = '';</text>
+                }
+            }
+        }
+        //=========================
+        
+    }
+
+    
+}]);
+
+</script>
+

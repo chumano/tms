@@ -1,11 +1,14 @@
 ﻿@using Template;
-<!-- @(@Model.TableName) TAB -->
+<!-- @(@Model.TableName) CHILD ON MASTER -->
 <div ng-controller="ChildController_@Model.TableName as child">
 <!-- START CHILD CONTROLLER-->
-<div class="tab-pane " ng-class="{active : (master.CurrentTab =='@Model.TableName')  }">
-    <div class="box box-primary box-body" ng-if="master.CurrentTab =='@Model.TableName'">
+<div >
+    <div class="box box-primary box-body" >
         <!-- CHILD TOP BUTTONS -->
         <div class="row" >
+            <div class="col-md-6">
+                <h5>@(@Model.Title)</h5>
+            </div>
             <div class="col-md-6 pull-right text-right" >
                 <button class="btn btn-success  "  ng-disabled="!child.FormConfig._CanCreate" 
                     type="button" ng-click="child.AddItem()">
@@ -19,7 +22,7 @@
             <div class="col-sm-12">
             <form name="dataForm" novalidate ng-submit="child.Search()">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6">
                         @foreach (var col in @Model.Columns)
                         {
                             @** bỏ RefColumn **@
@@ -30,7 +33,7 @@
                         }
                     </div>
 
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-6">
                         @foreach (var col in @Model.Columns)
                         {
                             @** bỏ RefColumn **@
@@ -109,7 +112,7 @@
     </div>
 </div>
 
-<!-- @(@Model.TableName) EDIT MODAL -->
+<!-- @(@Model.TableName) MODAL -->
 <div ng-controller="controller_modal_@(@Model.TableName) as modal" >
 <div id="Modal_@Model.TableName" class="modal fade " role="dialog" ng-init="modal.InitModal()">
     <div class="modal-dialog modal-md">
@@ -124,7 +127,7 @@
                 <!-- MODAL FORM -->
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-md-6  col-sm-12">
+                        <div class="col-md-6">
                             @foreach (var col in @Model.Columns)
                             {
                                 @** bỏ RefColumn **@
@@ -135,7 +138,7 @@
                             }
                         </div>
 
-                        <div class="col-md-6  col-sm-12">
+                        <div class="col-md-6">
                             @foreach (var col in @Model.Columns)
                             {
                                 @** bỏ RefColumn **@

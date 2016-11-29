@@ -24,7 +24,7 @@ namespace TMS.Controllers
         {
             try
             {
-                var list = dataService.GetDataFromConfigurationJsonable(1, config);
+                var list = dataService.GetDataFromConfigurationJsonable(SessionCollection.CurrentUserId, config);
                 return Json(list);
             }
             catch (Exception ex)
@@ -37,7 +37,7 @@ namespace TMS.Controllers
         {
             try
             {
-                int count = dataService.CountDataFromConfiguration(1, config);
+                int count = dataService.CountDataFromConfiguration(SessionCollection.CurrentUserId, config);
                 return Json(count);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace TMS.Controllers
         {
             try
             {
-                int id = dataService.SaveObject(1, tableName, data);
+                int id = dataService.SaveObject(SessionCollection.CurrentUserId, tableName, data);
                 return Json(id);
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace TMS.Controllers
         {
             try
             {
-                dataService.SaveListObject(1, tableName, data);
+                dataService.SaveListObject(SessionCollection.CurrentUserId, tableName, data);
                 return Json(true);
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace TMS.Controllers
         {
             try
             {
-                int id = dataService.SaveComplexObject(1, tableName, data, subObject, listData);
+                int id = dataService.SaveComplexObject(SessionCollection.CurrentUserId, tableName, data, subObject, listData);
                 return Json(id);
             }
             catch (Exception ex)
@@ -96,7 +96,8 @@ namespace TMS.Controllers
         {
             try
             {
-                var obj = dataService.GetObject(1, tableName, columName, columValue);
+                var obj = dataService.GetObject(SessionCollection.CurrentUserId, tableName, columName, columValue);
+                if (obj == null) obj = new Dictionary<string, object>();
                 return Json(obj);
             }
             catch (Exception ex)
@@ -111,7 +112,7 @@ namespace TMS.Controllers
         {
             try
             {
-                dataService.DeleteObject(1, tableName, keyValue, isHardDelete);
+                dataService.DeleteObject(SessionCollection.CurrentUserId, tableName, keyValue, isHardDelete);
                 return Json(true);
             }
             catch (Exception ex)
@@ -167,7 +168,7 @@ namespace TMS.Controllers
                 }
                 else
                 {
-                    var obj = dataService.GetObject(1, "T_Master_Images", "", Id.ToString());
+                    var obj = dataService.GetObject(SessionCollection.CurrentUserId, "T_Master_Images", "", Id.ToString());
                     path = Server.MapPath(obj["Path"].ToString());
                 }
 

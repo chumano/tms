@@ -180,8 +180,11 @@ function DataFormConfig() {
     this.startrow = 0; //get all data if 0, then get data at page
     this.endrow = 0;
 }
+
 function DataService(conf) {
     this.config = new DataFormConfig();
+    if (conf) this.config = conf;
+    
    
     this._interpolate = function ($interpolate, $scope) {
         this.config.columns = $interpolate(this.config.columns)($scope);

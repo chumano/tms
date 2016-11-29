@@ -37,28 +37,37 @@ namespace TMS.Controllers
        
         public ActionResult TempAutocomplete()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
+
             return View("~/Views/CMS/Tool/TempAutocomplete.cshtml");
         }
 
 
         public ActionResult TempTables()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
+
             return View("~/Views/CMS/Tool/TempTables.cshtml");
         }
 
         public ActionResult TempInputs()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
+
             return View("~/Views/CMS/Tool/TempInputs.cshtml");
         }
 
         public ActionResult TestView()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Tool/test_view.cshtml");
         }
 
         //custom-view
         public ActionResult TView(string viewname, int objectid=0)
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
+
             dynamic model = new System.Dynamic.ExpandoObject();
             model.objectid = objectid;
 
@@ -74,7 +83,7 @@ namespace TMS.Controllers
             try
             {
                 //lấy tất các các bảng có trong db
-                DataTable tbl = dataService.GetDataFromConfiguration(1, new DataConfig()
+                DataTable tbl = dataService.GetDataFromConfiguration(SessionCollection.CurrentUserId, new DataConfig()
                 {
                     dataobject = "V_DBINF_ALLTable",
                     columns = "", //all columns
@@ -82,7 +91,7 @@ namespace TMS.Controllers
                     sort = "TABLE_NAME asc"
                 });
 
-                DataTable dbtbl = dataService.GetDataFromConfiguration(1, new DataConfig()
+                DataTable dbtbl = dataService.GetDataFromConfiguration(SessionCollection.CurrentUserId, new DataConfig()
                 {
                     dataobject = "T_TOOL_DBTable",
                     columns = "", //all columns //TableName ,TableTitle
@@ -437,6 +446,9 @@ namespace TMS.Controllers
                         break;
                     case "MASTER_DETAIL":
                         template = new MasterDetailViewTemplate(tableid);
+                        break;
+                    case "MASTER_SIDE":
+                        template = new MasterSideViewTemplate(tableid);
                         break;
                     case "EDIT_ON_TABLE":
                         template = new EditOnTableTemplate(tableid);

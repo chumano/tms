@@ -14,8 +14,10 @@
         self.IsCreatingView = false
         self.list_viewtype = [
             { id: "SINGLE_VIEW", name: "Single-View" },
+            { id: "EDIT_ON_TABLE", name: "Edit-On-Fly-Table" },
             { id: "MASTER_DETAIL", name: "Master-Detail" },
-            { id: "EDIT_ON_TABLE", name: "Edit-On-Fly-Table" }]
+            { id: "MASTER_SIDE", name: "Master-by-Side" }
+            ]
         self.viewtype = "SINGLE_VIEW";
 
         self.TableConfigObject = new DataObject("T_Tool_ConfigTable", $scope);

@@ -7,7 +7,7 @@
 <div class="container-fluid none-display" ng-class="{'active-content' : true}">
     <div >
         <!-- TOP BUTTONS -------------------->
-        <div class="row" style="padding-top: 5px">
+        <div class="row" >
             <div class="col-sm-12" >
                 <h4>{{master.ObjectTitle}}</h4>
             </div>
@@ -136,7 +136,7 @@
 
                         <!--------- data columns -------------->
                         <td title="'Name'"  sortable="'Name'" ng-switch="row.isEditing || master.TableForm.isEditing" ng-class="name.$dirty ? 'bg-warning' : ''" ng-form="Name" demo-tracked-table-cell>
-                            <span ng-switch-default class="editable-text"><a hrefName ng-bind="row.Name" ng-click="master.Edit(row)"></a></span>
+                            <span ng-switch-default class="editable-text"><a  href="#" ng-bind="row.Name" ng-click="master.Edit(row)"></a></span>
                             <div class="controls" ng-class="Name.$invalid && TableName.$dirty ? 'has-error' : ''" ng-switch-when="true">
                                 <input type="text" name="Name" ng-model="row.Name" class="editable-input form-control input-sm" required />
                             </div>

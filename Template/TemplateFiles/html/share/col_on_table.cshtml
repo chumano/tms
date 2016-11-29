@@ -2,7 +2,7 @@
 @if (@Model.IsForeignKey && !@Model.IsImage && !@Model.IsFile)
 {
 <td title="'@Model.Title'"  sortable="'@iTemplate.TableDotColumn(@Model.Name,@Model.ForeignColumnName)'">
-    <span  class="editable-text"ng-bind="row.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" ></span>
+    <span  class="editable-text" ng-bind="row.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" ></span>
 </td>
 }
 @*--------------------------------------------------------------------------------------*@

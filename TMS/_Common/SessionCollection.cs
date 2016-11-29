@@ -31,6 +31,8 @@ namespace TMS
             }
         }
 
+        //======================================================
+        //user info
         public static int CurrentUserId
         {
             get
@@ -52,6 +54,30 @@ namespace TMS
             set
             {
                 HttpContext.Current.Session["UserName"] = value;
+            }
+        }
+
+        public static int CurrentAccountId
+        {
+            get
+            {
+                return HttpContext.Current.Session["CurrentAccountId"] != null ? (int)HttpContext.Current.Session["CurrentAccountId"] : -1;
+            }
+            set
+            {
+                HttpContext.Current.Session["CurrentAccountId"] = value;
+            }
+        }
+
+        public static string RoleName
+        {
+            get
+            {
+                return (string)HttpContext.Current.Session["RoleName"];
+            }
+            set
+            {
+                HttpContext.Current.Session["RoleName"] = value;
             }
         }
 

@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ColumnInfo.cs" />
+    <Compile Include="Common\DataHelper.cs" />
+    <Compile Include="MasterSideViewTemplate.cs" />
     <Compile Include="EditOnTableTemplate.cs" />
     <Compile Include="Common\GenerateHelper.cs" />
     <Compile Include="Common\iTemplate.cs" />
@@ -123,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TemplateFiles\js\_edit_ontable\" />
+    <Folder Include="TemplateFiles\js\_master_side\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TemplateFiles\TextFile.txt">
@@ -137,6 +140,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_onmaster.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_onmaster.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_detail_ontab_only.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_detail_ontab_only.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_side\master_side_view.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_onmaster_only.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_onmaster_only.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

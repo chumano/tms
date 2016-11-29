@@ -1,17 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "Phòng ban";
-    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
 }
 <div  ng-controller="controller_T_Master_Department as master">
 <!-- START : MAIN  --------------------------------------------->
-<div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
+<div class="container-fluid none-display" ng-class="{'active-content' : true}">
     <div >
         <!-- TOP BUTTONS -------------------->
         <div class="row" style="padding-top: 5px">
             <div class="col-sm-6" >
                 <h4>{{master.ObjectTitle}}</h4>
             </div>
+
             <div class="col-md-6 pull-right text-right" >
 
                 <button class="btn btn-success  "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
@@ -20,13 +20,18 @@
             </div>
         </div>
 
-        <!-- FORM SEARCH-------------------->
-        <div class="box box-primary box-body">
-        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
-            <div class="col-sm-12">
-            <form name="dataForm" novalidate ng-submit="master.Search()">
-                <div class="row">
-                    <div class="col-md-6">
+
+        <div class="row">
+            <!------------------------------------------->
+            <!---------------- MASTER SIDE -------------->
+            <div class="col-md-8">
+            <!-- FORM SEARCH-------------------->
+            <div class="box box-primary box-body">
+            <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                <div class="col-sm-12">
+                <form name="dataForm" novalidate ng-submit="master.Search()">
+                    <div class="row">
+                        <div class="col-md-6">
 
 <div class="row form-group">
     <label class="col-md-4  ">Name </label>
@@ -39,21 +44,18 @@
 <div class="row form-group">
     <label class="col-md-4  ">ProvinceId </label>
     <div class="col-md-8">
-        <select class="form-control width-80" ng-model="master.DataObject.ProvinceId" 
-            my-dropdown
-            dropdown-id="dd_ProvinceId"
-            dropdown-table="T_Master_Province"
-            dropdown-condition="IsActive=1"
-            dropdown-column-value="Id"
-            dropdown-column-name="Name"
-            dropdown-empty-value=""
-            dropdown-empty-text="-- Chọn --"
-            check-empty="" check-empty-message="Vui lòng chọn [ProvinceId].">
-        </select>
-        <button class="btn btn-primary btn-sm width-10" title="Quản lý [ProvinceId]" type="button" 
-                data-toggle="modal" ng-click="master.ShowModal_T_Master_Province()">
-            ...
-        </button>
+        <input  my-autocomplete  ng-model="detail.DataObject.ProvinceId_Name" 
+            autocomplete-id="auto_ProvinceId"
+            autocomplete-table="T_Master_Province"
+            autocomplete-condition=""
+
+            autocomplete-column-value="Id" autocomplete-column-name="Name"
+            autocomplete-column-filters="Id,Name"
+                
+            autocomplete-model-id="#auto_value_ProvinceId"
+            class="form-control "
+            placeholder="Tìm kiếm" />
+        <input type="text" id="auto_value_ProvinceId" ng-model="detail.DataObject.ProvinceId" class="none-display" />
     </div>
 </div>
 
@@ -72,154 +74,158 @@
             check-empty="" check-empty-message="Vui lòng chọn [DistrictId].">
         </select>
         <button class="btn btn-primary btn-sm width-10" title="Quản lý [DistrictId]" type="button" 
-                data-toggle="modal" ng-click="master.ShowModal_T_Master_District()">
+                data-toggle="modal" data-target="#ModalCol_T_Master_District">
             ...
         </button>
     </div>
 </div>
+                        </div>
+
+                        <div class="col-md-6">
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <!-- buttons -->
+                    <div class="row" style="margin-top:10px">
+                         <div class="col-md-6" >
+                           
+                            <!--- Clear --->
+                            <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                                <i class="fa fa-undo white"></i> Clear
+                            </button>
+
+                            <!--- Search --->
+                            <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                                <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                                <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                                Tìm kiếm
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- buttons -->
-                <div class="row" style="margin-top:10px">
-                     <div class="col-md-6" >
-
-                        <!--- Clear --->
-                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
-                            <i class="fa fa-undo white"></i> Clear
-                        </button>
-
-                        <!--- Search --->
-                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
-                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
-                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
         
+                </div>
             </div>
-        </div>
-        </div>
-        
-        <!-- TABLE -------------------->
-        <div class="row">
-            <div class="col-md-12 table-responsive">
-                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
-                    ng-form="master.TableForm._tableForm" 
-                    ng-table="master.TableForm.tableParams"
-                    demo-tracked-table="master.TableForm._tableTracker"
-                    disable-filter="master.TableForm.isAdding" >
-                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
-                        <td title="'#'" class="col-center">
-                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
-                        </td>
+            </div>
+            <!-- TABLE -------------------->
+            <div class="row">
+                <div class="col-md-12 table-responsive">
+                    <table  class="table table-responsive  table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                        ng-form="master.TableForm._tableForm" 
+                        ng-table="master.TableForm.tableParams"
+                        demo-tracked-table="master.TableForm._tableTracker"
+                        disable-filter="master.TableForm.isAdding" >
+                        <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                            <td title="'#'" class="col-center">
+                                <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                            </td>
 
-                        <!--------- data columns -------------->
+                            <!--------- data columns -------------->
 <td title="'Name'"  sortable="'Name'">
-    <span  class="editable-text" ng-bind="row.Name" />
+    <span  class="editable-text" ng-bind="row.Name"></span>
 </td>
 <td title="'ProvinceId'"  sortable="'ProvinceId.Name'">
-    <span  class="editable-text"ng-bind="row.ProvinceId_Name" />
+    <span  class="editable-text" ng-bind="row.ProvinceId_Name" ></span>
 </td>
 <td title="'DistrictId'"  sortable="'DistrictId.Name'">
-    <span  class="editable-text"ng-bind="row.DistrictId_Name" />
+    <span  class="editable-text" ng-bind="row.DistrictId_Name" ></span>
 </td>
-                        <!---------command buttons -------------->  
-                        <td width="100px" >
-                            <!---edit--->
-                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
-                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <!---------command buttons -------------->  
+                            <td width="100px" >
+                                <!---edit--->
+                                <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                    ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
 
-                            <!----del--->
-                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
-                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
-                        </td>
-                    </tr>
-                    <!--------------- table footer------------------>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                                <!----del--->
+                                <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                    ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
                         </tr>
-                    </tfoot>
-                </table>
-                <div style="clear:both"></div>
+                        <!--------------- table footer------------------>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div style="clear:both"></div>
+                </div>
             </div>
-        </div>
-
-    </div>
-</div>
-<!-- END   : MAIN  --------------------------------------------->
-
-<!-- START : DETAIL --------------------------------------------->
-<div class="container-fluid none-display" ng-class="{'active-content' : master.IsShowDetail}"
-     ng-controller="controller_detail_T_Master_Department as detail">
-    <div ng-if="master.IsShowDetail"  >
-        <!-- TOP BUTTONS -------------------------->
-        <div class="row" style="padding-top: 5px">
-            <div class="col-sm-6" ng-switch="detail.IsNew()" >
-                <h4 ng-switch-default > Thêm mới : {{master.ObjectTitle}}</h4>
-                <h4 ng-switch-when="false"> Chỉnh sửa : {{master.ObjectTitle}}</h4>
             </div>
 
-            <div class="col-md-6 pull-right text-right">
-                <button class="btn btn-primary" ng-if="master.CurrentTab=='T_Master_Department' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
-                    <i class="fa fa-check white"></i>
-                    <span>Lưu</span>
-                </button>
-
-                <button class="btn btn-primary" ng-if="master.CurrentTab=='T_Master_Department' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
-                    <i class="fa fa-edit white"></i>
-                    <span>Sửa</span>
-                </button>
-               
-                <button class="btn btn-default" ng-click="master.CloseDetail()">
-                    <i class="fa fa-arrow-left"></i>
-                    <span>Trở về</span>
-                </button>
-            </div>
-
-        </div>
         
-        <!-- NAV TAB   ---------------------------->
-        <div class="row"><div class="col-sm-12">
-            <div class="tabbable" style="padding-top: 10px">
-                <ul class="nav nav-tabs padding-left-18">
-                    <li class="active" ng-click="master.SetCurrentTab('T_Master_Department')">
-                        <a data-toggle="tab">
-                            <i class="blue fa-heart fa"></i>
-                            <span>Phòng ban</span>
-                        </a>
-                    </li>
+            <!------------------------------------------->
+            <!---------------- DETAIL SIDE -------------->
+            <div class="col-md-4" ng-controller="controller_detail_T_Master_Department as detail">
+            <!--- FORM DETAIL --->
+            <div class="box box-primary box-body">
+            <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                <div class="col-sm-12">
+                    <!-- TOP BUTTONS -------------------------->
+                    <div class="row" style="padding-top: 5px">
+                        <div class="col-sm-6" ng-switch="detail.IsNew()" >
+                            <h4 ng-switch-default > Thêm mới : </h4>
+                            <h4 ng-switch-when="false"> Chỉnh sửa : </h4>
+                        </div>
 
-                    <!---------------------------------------------->
-                    <!------------------CHILD NAV TAB--------------->
-                    <!---------------------------------------------->
+                        <div class="col-md-6 pull-right text-right">
+                            <button class="btn btn-primary" ng-if="master.CurrentTab=='T_Master_Department' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
+                                <i class="fa fa-check white"></i>
+                                <span>Lưu</span>
+                            </button>
+
+                            <button class="btn btn-warning" ng-if="master.CurrentTab=='T_Master_Department' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
+                                <i class="fa fa-edit white"></i>
+                                <span>Sửa</span>
+                            </button>
+               
+                        </div>
+
+                    </div>
+        
+                    <!-- NAV TAB   ---------------------------->
+                    <div class="row"><div class="col-sm-12">
+                        <div class="tabbable" style="padding-top: 10px">
+                            <ul class="nav nav-tabs padding-left-18">
+                                <li class="active" ng-class="{active : (master.CurrentTab =='T_Master_Department')  }" ng-click="master.SetCurrentTab('T_Master_Department')">
+                                    <a data-toggle="tab">
+                                        <i class="blue fa-heart fa"></i>
+                                        <span>Phòng ban</span>
+                                    </a>
+                                </li>
+
+                                <!---------------------------------------------->
+                                <!------------------CHILD NAV TAB--------------->
+                                <!---------------------------------------------->
                     
                    
-                </ul>
-            </div>
-        </div></div>
+                            </ul>
+                        </div>
+                    </div></div>
 
-        <!-- START BODY-DETAIL -------------------->
-        <div class="row ">
-        <div class="col-sm-12">
-            <div class="tab-content no-border active">
-                <!-- MAIN CONTENT TAB -->
-                <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='T_Master_Department')  }">
-                    <div class="box box-primary box-body"  ng-if="master.CurrentTab =='T_Master_Department'">
-                    <div class="row " style="padding-bottom: 10px; padding-top: 5px">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-md-6">
+                    <!-- START BODY-DETAIL -------------------->
+                    <div class="row ">
+                    <div class="col-sm-12">
+                        <div class="tab-content no-border active">
+                            <!-------------------------------------------------->
+                            <!------------------ MAIN CONTENT TAB -------------->
+                            <!-------------------------------------------------->
+                            <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='T_Master_Department')  }">
+                                <div class="box box-primary box-body"  ng-if="master.CurrentTab =='T_Master_Department'">
+                                <!----------- MASTER DETAIL ---------->
+                                <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12">
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>Name </label></div>
     <div class="col-md-8">
+
+        
+        
+        
+
             <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.Name || ''" class=""></span>
             <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.Name" required
                 placeholder="Nhập [Name]" />
@@ -229,28 +235,35 @@
 <div class="row form-group">
     <div  class="col-md-4  "><label>ProvinceId </label></div>
     <div class="col-md-8">
+
+        
+        
+        
+
             <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.ProvinceId_Name || ''" class=""></span>
-            <select ng-class="{'none-display' : !detail.IsEditingDetail}"  class="form-control width-80" ng-model="detail.DataObject.ProvinceId" 
-                my-dropdown
-                dropdown-id="edit_dd_ProvinceId"
-                dropdown-table="T_Master_Province"
-                dropdown-condition="IsActive=1"
-                dropdown-column-value="Id"
-                dropdown-column-name="Name"
-                dropdown-empty-value=""
-                dropdown-empty-text="-- Chọn --"
-                check-empty="" check-empty-message="Vui lòng chọn [ProvinceId].">
-            </select>
-            <button ng-if="detail.IsEditingDetail" class="btn btn-primary btn-sm width-10" title="Quản lý [ProvinceId]" type="button"
-                    data-toggle="modal" data-target="#Modal_ProvinceId">
-                ...
-            </button>
+            <input ng-class="{'none-display' : !detail.IsEditingDetail}" my-autocomplete  ng-model="detail.DataObject.ProvinceId_Name" 
+                autocomplete-id="edit_auto_ProvinceId"
+                autocomplete-table="T_Master_Province"
+                autocomplete-condition=""
+
+                autocomplete-column-value="Id" autocomplete-column-name="Name"
+                autocomplete-column-filters="Id,Name"
+                
+                autocomplete-model-id="#auto_value_ProvinceId"
+                class="form-control "
+                placeholder="Tìm kiếm" />
+            <input type="text" id="auto_value_ProvinceId" ng-model="detail.DataObject.ProvinceId" class="none-display" />
     </div>
 </div>
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>DistrictId </label></div>
     <div class="col-md-8">
+
+        
+        
+        
+
             <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.DistrictId_Name || ''" class=""></span>
             <select ng-class="{'none-display' : !detail.IsEditingDetail}"  class="form-control width-80" ng-model="detail.DataObject.DistrictId" 
                 my-dropdown
@@ -264,50 +277,68 @@
                 check-empty="" check-empty-message="Vui lòng chọn [DistrictId].">
             </select>
             <button ng-if="detail.IsEditingDetail" class="btn btn-primary btn-sm width-10" title="Quản lý [DistrictId]" type="button"
-                    data-toggle="modal" data-target="#Modal_DistrictId">
+                    data-toggle="modal" data-target="#ModalCol_T_Master_District">
                 ...
             </button>
     </div>
 </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <!----------- CHILDs ON MASTER ------->
+                                <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+                                    <div class="col-sm-12">
+                                    </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <!------------------------------------->
+                                <!------------------------------------->
                                 </div>
                             </div>
+
+                
+                            <!-------------------------------------------------->
+                            <!------------------CHILD CONTENT TAB--------------->
+                            <!-------------------------------------------------->
                         </div>
                     </div>
                     </div>
-                </div>
+                    <!-- END   BODY-DETAIL -------------------->
 
-                <!-------------------------------------------------->
-                <!------------------CHILD CONTENT TAB--------------->
-                <!-------------------------------------------------->
-            </div>
-        </div>
-        </div>
-        <!-- END   BODY-DETAIL -------------------->
-
-        <!-- START : MODEL --------------------------------------------->
-        <!----- MODAL OF FOREIGN COLUMN------->
+                    <!-- START : MODEL --------------------------------------------->
+                    <!----- MODAL OF FOREIGN COLUMN------->
         
-        <!-- END   : MODEL --------------------------------------------->
-        <div ng-init="detail.InitForeignModals()"></div>
+                    <!-- END   : MODEL --------------------------------------------->
+                    <div ng-init="detail.InitForeignModals()"></div>
+        
+                </div>
+            </div>
+            </div>
+
+            </div>
+
+        </div>
     </div>
 </div>
-<!-- END   : DETAIL --------------------------------------------->
+<!-- END   : MAIN  --------------------------------------------->
 
 </div>
+
+
 
 
 <!----- MASTER SCRIPT ------------->
 <script type="text/javascript">
-CHUNOApp.controller('controller_T_Master_Department', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
-function ($scope, NgTableParams, $controller, $q, $timeout) {
-    $controller('CommonController', { $scope: $scope });
-    $scope.masterController = this;
+    CHUNOApp.controller('controller_T_Master_Department', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    function ($scope, NgTableParams, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
+        $scope.masterController = this;
 
-    var self = this;
-    self.ObjectTitle = "Phòng ban";
+        var self = this;
+        self.ObjectTitle = "Phòng ban";
     //========================================================
     //Controller Properties
     
@@ -328,7 +359,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
 'ProvinceId.Name , ProvinceId_Name' ,
 'DistrictId' ,
 'DistrictId.Name , DistrictId_Name' ,
-            ].join(';'); //ko dc
+        ].join(';'); //ko dc
         config.sort = 'T_Master_Department.Id DESC';
         config.condition = '(T_Master_Department.IsActive = 1 )';
         config.action = 'get'; //getall/get
@@ -366,6 +397,7 @@ DistrictId : '' , DistrictId_Name : '' ,
         var newobject = self.NewObject();
 
         //============================================
+        self.SetCurrentTab('T_Master_Department');
         self.ShowDetailObject(newobject);
     };
 
@@ -514,8 +546,12 @@ if (CommonHelper.IsSearchableValue(object.DistrictId)) {
 
                 self.ShowDetailObject(loadobject);
             }
+        }else{
+            //init new object
+            var newobject = self.NewObject();
+            self.ShowDetailObject(newobject);
         }
-    },200);
+    },100);
 }
 ]);
 
@@ -538,6 +574,8 @@ if (CommonHelper.IsSearchableValue(object.DistrictId)) {
          //========================================================
          //Controller Methods
          self.IsNew =function(){
+             if(!self.DataObject) return true;
+
              return self.DataObject.Id <=0;
          }
 
@@ -548,27 +586,27 @@ if (CommonHelper.IsSearchableValue(object.DistrictId)) {
          self.SaveForm = function () {
              self.isSaving = true;
              setTimeout(function () {
-                //change something wrong
+                 //change something wrong
                 
-                if (self.DataObject.ProvinceId == '' || self.DataObject.ProvinceId == 0)
-                    self.DataObject.ProvinceId = '';
+                 if (self.DataObject.ProvinceId == '' || self.DataObject.ProvinceId == 0)
+                     self.DataObject.ProvinceId = '';
+                 
                 
-                
-                if (self.DataObject.DistrictId == '' || self.DataObject.DistrictId == 0)
-                    self.DataObject.DistrictId = '';
-                
-                //=====================
-                //save img
+                 if (self.DataObject.DistrictId == '' || self.DataObject.DistrictId == 0)
+                     self.DataObject.DistrictId = '';
+                 
+                 //=====================
+                 //save img
             
-                //---------------------
-                var isAdd = self.DataObject.Id <= 0 ? true : false;
-                self.SaveObject(self.DataObject);
+                 //---------------------
+                 var isAdd = self.DataObject.Id <= 0 ? true : false;
+                 self.SaveObject(self.DataObject);
 
-                //self.ReloadTable(self.TableForm);
+                 //self.ReloadTable(self.TableForm);
 
-                self.isSaving = false;
-                $scope.$apply();
-            }, 100);
+                 self.isSaving = false;
+                 $scope.$apply();
+             }, 100);
          }
 
          self.SaveObject = function (object) {
@@ -607,11 +645,11 @@ if (CommonHelper.IsSearchableValue(object.DistrictId)) {
 
              if (!(self.DataObject.Id > 0))
                  self.IsEditingDetail = true; //when add item , isEditing = true n start
-
+             else self.IsEditingDetail = false;
              //================================//
              //===========init - data==========//
              $timeout(function(){
-                //======================
+                 //======================
                  //init - child controller
 
                  //======================

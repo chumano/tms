@@ -8,7 +8,7 @@
         @if (@Model.IsForeignKey && !@Model.IsImage && !@Model.IsFile)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName) || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName) || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
             if (@Model.ForeignKeyType == EForeignKeyType.DROPDOWN)
@@ -18,7 +18,7 @@
                 {
                     width = "width-80";
                 }
-            <select ng-class="{'none-display' : !modal.IsEditingDetail}"  class="form-control @width" ng-model="modal.DataObject.@Model.Name" @required
+            <select ng-class="{'none-display' : !@(@Model.Controller).IsEditingDetail}"  class="form-control @width" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
                 my-dropdown
                 dropdown-id="dd_@Model.Name"
                 dropdown-table="@Model.ForeignTable"
@@ -33,7 +33,7 @@
             }
             else if (@Model.ForeignKeyType == EForeignKeyType.AUTOCOMPLETE)
             {
-            <input ng-class="{'none-display' : !modal.IsEditingDetail}" my-autocomplete  ng-model="modal.DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" @required
+            <input ng-class="{'none-display' : !@(@Model.Controller).IsEditingDetail}" my-autocomplete  ng-model="@(@Model.Controller).DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" @required
                 autocomplete-id="auto_@Model.Name"
                 autocomplete-table="@Model.ForeignTable"
                 autocomplete-condition=""
@@ -44,7 +44,7 @@
                 autocomplete-model-id="#auto_value_@Model.Name"
                 class="form-control "
                 placeholder="Tìm kiếm" />
-            <input type="text" id="auto_value_@Model.Name" ng-model="modal.DataObject.@Model.Name" class="none-display" />
+            <input type="text" id="auto_value_@Model.Name" ng-model="@(@Model.Controller).DataObject.@Model.Name" class="none-display" />
                 
             }else //EForeignKeyType.SELECT_ON_MODAL
             {
@@ -55,7 +55,7 @@
             @*-------------------MODAL ----------------------*@
             if(@Model.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
             {
-            <text><button ng-if="modal.IsEditingDetail" class="btn btn-primary btn-sm width-10" title="Quản lý [@Model.Title]" type="button"
+            <text><button ng-if="@(@Model.Controller).IsEditingDetail" class="btn btn-primary btn-sm width-10" title="Quản lý [@Model.Title]" type="button"
                     data-toggle="modal" data-target="#Modal_@Model.Name">
                 ...
             </button></text>
@@ -67,8 +67,8 @@
         else if(@Model.IsImage)
         {
             <input type="file" name="file" id="input_@Model.Name" accept="image/*"  class="none-display" @required/>
-            <span><i class="fa fa-spinner white loading" ng-show="modal.isLoadingImage"></i></span>
-            <img ng-disabled="!modal.IsEditingDetail" id="img_@Model.Name" ng-src="{{GetImageSrc(modal.DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
+            <span><i class="fa fa-spinner white loading" ng-show="@(@Model.Controller).isLoadingImage"></i></span>
+            <img ng-disabled="!@(@Model.Controller).IsEditingDetail" id="img_@Model.Name" ng-src="{{GetImageSrc(@(@Model.Controller).DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
         }
         else if (@Model.IsFile)
         {
@@ -77,17 +77,17 @@
         else if (@Model.IsYear)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@Model.Name || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@Model.Name || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
                  var start_year = @DateTime.Now.Year - 5;
                  var end_year = @DateTime.Now.Year + 5;
-            <input ng-if="modal.IsEditingDetail" type="text" id="yearpicker_@Model.Name" class="date-picker-year form-control" @required
+            <input ng-if="@(@Model.Controller).IsEditingDetail" type="text" id="yearpicker_@Model.Name" class="date-picker-year form-control" @required
                 year-picker
                 year-picker-id="yearpicker_@Model.Name"
                 year-start="@start_year"
                 year-end="@end_year"
-                ng-model="modal.DataObject.@Model.Name" />
+                ng-model="@(@Model.Controller).DataObject.@Model.Name" />
         }
         @*--------------------------------------------------------------------------------------*@
         @*--------------------------------------------------------------------------------------*@
@@ -95,47 +95,47 @@
         else if (@Model.Type == EType.DATETIME)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@Model.Name || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@Model.Name || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
-            <input ng-if="modal.IsEditingDetail" id="datetime_@Model.Name" data-inputmask="'alias': 'date'" class="form-control" @required/>
+            <input ng-if="@(@Model.Controller).IsEditingDetail" id="datetime_@Model.Name" data-inputmask="'alias': 'date'" class="form-control" @required/>
         }
         else if(@Model.Type==EType.BIT)
         {  
-            <input  ng-disabled="!modal.IsEditingDetail" type="checkbox" ng-model="modal.DataObject.@Model.Name" />
+            <input  ng-disabled="!@(@Model.Controller).IsEditingDetail" type="checkbox" ng-model="@(@Model.Controller).DataObject.@Model.Name" />
         }
         else if (@Model.Type == EType.INT)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@Model.Name || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@Model.Name || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
-            <input ng-if="modal.IsEditingDetail" class="form-control" type="number" ng-model="modal.DataObject.@Model.Name" @required
+            <input ng-if="@(@Model.Controller).IsEditingDetail" class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
                 placeholder="Nhập [@Model.Title]" />
         }
         else if (@Model.Type == EType.FLOAT)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@Model.Name || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@Model.Name || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
-            <input ng-if="modal.IsEditingDetail" class="form-control" type="number" ng-model="modal.DataObject.@Model.Name" @required
+            <input ng-if="@(@Model.Controller).IsEditingDetail" class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             placeholder="Nhập [@Model.Title]" />
         }
         else if (@Model.Type == EType.NTEXT)
         {
-            <textarea ng-disabled="modal.IsEditingDetail" id="textarea_@Model.Name" class="form-control" rows="3" @required
-                ng-model="modal.DataObject.@Model.Name"
+            <textarea ng-disabled="@(@Model.Controller).IsEditingDetail" id="textarea_@Model.Name" class="form-control" rows="3" @required
+                ng-model="@(@Model.Controller).DataObject.@Model.Name"
                 placeholder="Nhập [@Model.Title]">
             </textarea>
         }
         else if (@Model.Type == EType.NVARCHAR || @Model.Type ==EType.VARCHAR)
         {
             @*-------------------VIEW MODE----------------------*@
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.@Model.Name || ''" class=""></span>
+            <span ng-if="!@(@Model.Controller).IsEditingDetail" ng-bind="@(@Model.Controller).DataObject.@Model.Name || ''" class=""></span>
             
             @*-------------------EDIT MODE----------------------*@
-            <input ng-if="modal.IsEditingDetail" class="form-control" ng-model="modal.DataObject.@Model.Name" @required
+            <input ng-if="@(@Model.Controller).IsEditingDetail" class="form-control" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
                 placeholder="Nhập [@Model.Title]" />
         }
     </div>

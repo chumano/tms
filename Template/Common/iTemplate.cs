@@ -7,6 +7,7 @@ using Common;
 using RazorEngine;
 using RazorEngine.Configuration; // For extension methods.
 using RazorEngine.Templating;
+using Template.Common;
 
 
 namespace Template
@@ -49,7 +50,7 @@ namespace Template
             }
             //========================================
             #region load infocolumn
-            this.Columns = LoadColumnInfos(tableid);
+            this.Columns = DataHelper.LoadColumnInfos(tableid);
             #endregion
 
             //========================================
@@ -62,75 +63,101 @@ namespace Template
 
 
         public abstract void CreateView(string outputfolder);
+
         #region HTML
-        public static string HTML_Column_In_SearchForm(ColumnInfo col)
+        public static string HTML_Column_In_SearchForm(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_searchform", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_searchform", model);
         }
 
-        public static string HTML_Column_In_EditForm(ColumnInfo col)
+        public static string HTML_Column_In_EditForm(string controllername,ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_editform", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_editform", model);
         }
 
-        public static string HTML_Column_In_SearchEditForm(ColumnInfo col)
+        public static string HTML_Column_In_SearchEditForm(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_searcheditform", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_searcheditform", model);
         }
 
-        public static string HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(ColumnInfo col)
+        public static string HTML_COLUMN_IN_SEARCHEDITFORM_ON_MODAL(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_searcheditform_on_modal", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_searcheditform_on_modal", model);
         }
         //--------------------------------
-        public static string HTML_Column_In_EditFormModal(ColumnInfo col)
+        public static string HTML_Column_In_EditFormModal(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_editform_modal", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_editform_modal", model);
         }
 
-        public static string HTML_Column_In_ChildSearchForm(string childtable, ColumnInfo col)
+        public static string HTML_Column_In_ChildSearchForm(string childtable, string controllername, ColumnInfo col)
         {
             dynamic model = col.ToDymanicObject();
             model.ChildTable = childtable;
+            model.Controller = controllername;
             return GenerateHelper.CompileTemplate("html.share.col_on_childsearchform", model);
         }
 
         //===================================
-        public static string HTML_Column_In_Table(ColumnInfo col)
+        public static string HTML_Column_In_Table(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html.share.col_on_table", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_table", model);
         }
 
-        public static string HTML_Column_In_EditTable(ColumnInfo col)
+        public static string HTML_Column_In_EditTable(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("html._edit_ontable.col_on_edittable", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html._edit_ontable.col_on_edittable", model);
         }
         #endregion
 
         #region JS
-        public static string JS_Column_On_NewObject(ColumnInfo col)
+        public static string JS_Column_On_NewObject(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("js.share.js_col_on_newobject", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("js.share.js_col_on_newobject", model);
         }
 
-        public static string JS_Column_On_Filter(ColumnInfo col)
+        public static string JS_Column_On_Filter(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("js.share.js_col_on_filter", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("js.share.js_col_on_filter", model);
         }
 
-        public static string JS_Column_On_FormConfig(ColumnInfo col)
+        public static string JS_Column_On_FormConfig(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("js.share.js_col_on_formconfig", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("js.share.js_col_on_formconfig", model);
         }
 
-        public static string JS_Column_Image_Save(ColumnInfo col)
+        public static string JS_Column_Image_Save(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("js.share.js_col_image_save", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("js.share.js_col_image_save", model);
         }
 
-        public static string JS_Column_Image_Init_Hanlder(ColumnInfo col)
+        public static string JS_Column_Image_Init_Hanlder(string controllername, ColumnInfo col)
         {
-            return GenerateHelper.CompileTemplate("js.share.js_col_image_init_handler", col);
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("js.share.js_col_image_init_handler", model);
         }
         
         #endregion
@@ -157,74 +184,7 @@ namespace Template
         }
         
         //===================
-        public static List<ColumnInfo> LoadColumnInfos(int tableid)
-        {
-            DataTable tblconfig = DBHelper.GetDataTable(string.Format(@"select * from 
-                        T_TOOL_ConfigTable
-                        WHere DBTableId= {0}", tableid
-               ));
-
-            List<ColumnInfo>  columns = new List<ColumnInfo>();
-
-            foreach (DataRow row in tblconfig.Rows)
-            {
-                string ColumnName = row["ColumnName"].ToString();
-                string ColumnTitle = row["ColumnTitle"].ToString();
-                string ColumnType = row["ColumnType"].ToString().ToUpper();
-                string ColumnDesc = row["ColumnDesc"].ToString();
-
-                bool IsForeignKey = (bool)row["IsForeignKey"];
-                bool IsYear = (bool)row["IsYear"];
-                bool IsImage = (bool)row["IsImage"];
-                bool IsFile = (bool)row["IsFile"];
-
-                string ForeignTable = row["ForeignTable"].ToString();
-                string ForeignColumnKey = row["ForeignColumnKey"].ToString();
-                string ForeignColumnName = row["ForeignColumnName"].ToString();
-                string ForeignKeyType = row["ForeignKeyType"].ToString();
-                string ForeignKeyModal = row["ForeignKeyModal"].ToString();
-
-                bool IsNullable = (bool)row["IsNullable"];
-                bool UI_IsView = (bool)row["UI_IsView"];
-                bool UI_IsFilter = (bool)row["UI_IsFilter"];
-                string UI_Position = row["UI_Position"].ToString();
-
-                ColumnInfo col = new ColumnInfo(ColumnName, ColumnType, IsNullable);
-                col.Title = ColumnTitle;
-                col.Description = ColumnDesc;
-
-                col.IsForeignKey = IsForeignKey;
-                col.IsFile = IsFile;
-                col.IsImage = IsImage;
-                col.IsYear = IsYear;
-
-                col.ForeignTable = ForeignTable;
-                col.ForeignColumnKey = ForeignColumnKey;
-                col.ForeignColumnName = ForeignColumnName;
-                col.ForeignKeyType = ForeignKeyType;
-                col.ForeignKeyModal = ForeignKeyModal;
-
-                col.IsView = UI_IsView;
-                col.IsFilter = UI_IsFilter;
-                col.Position = UI_Position;
-
-                col.IsID = (ColumnName == "Id");
-                //=================================
-                bool isadd = true;
-                if (col.IsID
-                     || ColumnName == "Version"
-                     || ColumnName == "IsActive"
-                     || ColumnName == "CreatedBy"
-                     || ColumnName == "CreatedDate"
-                     || ColumnName == "ModifiedBy"
-                     || ColumnName == "ModifiedDate")
-                    isadd = false;
-
-                if (isadd) columns.Add(col);
-            }
-
-            return columns;
-        }
+        
         #endregion
     }
 }

@@ -1,0 +1,174 @@
+﻿<div class="container-fluid"  ng-controller="UserController">
+
+    <div class="row" >
+        <div class="col-sm-6" >
+            <h4>Thông tin tài khoản</h4>
+        </div>
+    </div>
+
+
+    <div class="box box-primary box-body">
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <div class="row margin-top-10">
+                <div class="col-md-4 ">
+                    <label class="control-label">Tài khoản đăng nhập</label>
+                </div>
+                <div class="col-md-8">
+                    <span ng-bind="AccountForm.UserName"></span>
+                </div>
+            </div>
+            <div class="row margin-top-10">
+                <div class="col-md-4 ">
+                    <label class="control-label">Quyền</label>
+                </div>
+                <div class="col-md-8">
+                    <span >@SessionCollection.RoleName</span>
+                </div>
+            </div>
+            <div class="row margin-top-10">
+                <div class="col-md-4">
+                    <label class="control-label">Mật khẩu</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="form-control margin-top-10" ng-model="AccountForm.OldPassword" 
+                            type="password" placeholder="Mật khẩu cũ" ng-if="AccountForm.IsEditingPassword"
+                            check-empty = "" check-empty-message = "Vui lòng nhập mật khẩu hiện tại."/>
+
+                    <input class="form-control margin-top-10" ng-model="AccountForm.NewPassword" 
+                            type="password" placeholder="Mật khẩu mới" ng-if="AccountForm.IsEditingPassword"
+                            check-empty = "" check-empty-message = "Vui lòng nhập mật khẩu mới."/>
+
+                    <input class="form-control margin-top-10" ng-model="AccountForm.NewPassword2" 
+                            type="password" placeholder="Nhập lại mật khẩu" ng-if="AccountForm.IsEditingPassword"
+                            check-empty = "" check-empty-message = "Vui lòng nhập lại mật khẩu mới."/>
+
+                    <!------------------>
+                    <button class="btn btn-primary margin-top-10" ng-if="!AccountForm.IsEditingPassword"
+                            ng-click="AccountForm.IsEditingPassword = true;">
+                        <i class="fa fa-retweet white"></i>
+                        <span>Đổi mật khẩu</span>
+                    </button>
+                    <button class="btn btn-default margin-top-10" ng-if="AccountForm.IsEditingPassword"
+                            ng-click="UndoChangePassword()">
+                        <i class="fa fa-undo"></i>
+                        <span>Hủy</span>
+                    </button>
+                    <button class="btn btn-primary margin-top-10" ng-if="AccountForm.IsEditingPassword"
+                            ng-click="ChangePassword()">
+                        <i class="fa fa-save white"></i>
+                        <span>Lưu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-------------------------------------->
+        <div class="col-md-6 form-group">
+            
+
+            <div class="row margin-top-10">
+                <div class="col-md-4 ">
+                    <label class="control-label">Tên nhân viên</label>
+                </div>
+                <div class="col-md-8">
+                    <span ng-bind="UserForm.Name"></span>
+                </div>
+            </div>
+            
+            <div class="row margin-top-10">
+                <div class="col-md-4">
+                    <label class="control-label">Email</label>
+                </div>
+                <div class="col-md-8">
+                    <span ng-bind="UserForm.Email"></span>
+                </div>
+            </div>
+
+            <div class="row margin-top-10">
+                <div class="col-md-4">
+                    <label class="control-label">Số điện thoại</label>
+                </div>
+                <div class="col-md-8">
+                    <span ng-bind="UserForm.Phone"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    CHUNOApp.controller('UserController',
+['$rootScope', '$scope', '$filter', '$controller',
+    function ($rootScope, $scope, $filter, $controller) {
+        $controller('CommonController', { $scope: $scope });
+        //----------------------------------------
+        $scope.CurrentUser = $rootScope.CurrentUser;
+        $scope.CurrentAccount = $rootScope.CurrentAccount;
+        //=============================
+        $scope.AccountFormConfig = new DataObject("T_Master_Account", $scope);
+        $scope.AccountInfo = $scope.AccountFormConfig.GetObject($scope.CurrentAccount);
+        $scope.AccountForm =
+        {
+            Id: -1,
+            UserName: "",
+            UserId: 0,
+            IsDeveloper :false,
+            IsEditingPassword: false,
+            OldPassword: "",
+            NewPassword: "",
+            NewPassword2: ""
+        }
+        CommonHelper.CopyFields($scope.AccountInfo, $scope.AccountForm);
+
+        //=============================
+        $scope.UserFormConfig = new DataObject("T_Master_User", $scope);
+        $scope.UserInfo = $scope.UserFormConfig.GetObject($scope.CurrentUser);
+        $scope.UserForm =
+        {
+            Id: -1,
+            Name: "",
+            Email: "",
+            Phone: "",
+            DepartId: 0,
+            DepartId_Name :""
+            
+        }
+        CommonHelper.CopyFields($scope.UserInfo, $scope.UserForm);
+
+        //==============================
+        $scope.UndoChangePassword = function () {
+            $scope.UserForm.IsEditingPassword = false;
+            $scope.UserForm.OldPassword = "";
+            $scope.UserForm.NewPassword = "";
+            $scope.UserForm.NewPassword2 = "";
+        }
+
+
+        $scope.ChangePassword = function () {
+            if (FValidation.CheckControls("")) {
+                var oldPassword = $scope.AccountForm.OldPassword;//$.md5($scope.AccountForm.OldPassword);
+                if (oldPassword != $scope.AccountInfo.Password || $scope.AccountForm.NewPassword != $scope.AccountForm.NewPassword2) {
+                    ShowErrorMessage("Mật khẩu cũ không đúng hoặc mật khẩu mới không khớp nhau.");
+                }
+                else {
+
+                    var newPassword = $scope.AccountForm.NewPassword;//$.md5($scope.AccountForm.NewPassword);
+                    $scope.AccountInfo.Password = newPassword;
+
+                    $scope.AccountFormConfig.SetObject($scope.AccountInfo);
+                    var accountId = $scope.AccountFormConfig.SaveObject();
+                    if (accountId > 0) {
+                        ShowSuccessMessage("Mật khẩu được đổi thành công.");
+                        $scope.UndoChangePassword();
+                    }
+                }
+            }
+        }
+
+    }]);
+</script>

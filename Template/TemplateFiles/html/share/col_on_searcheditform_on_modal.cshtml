@@ -16,7 +16,7 @@
                 {
                     width = "width-80";
                 }
-        <select class="form-control @width" ng-model="modal.DataObject.@Model.Name" @required
+        <select class="form-control @width" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             my-dropdown
             dropdown-id="dd_@Model.Name"
             dropdown-table="@Model.ForeignTable"
@@ -53,8 +53,8 @@
         @*--------------------------------------------------------------------------------------*@
         else if(@Model.IsImage){
         <input type="file" name="file" id="input_@Model.Name" accept="image/*"  class="none-display" @required/>
-        <span><i class="fa fa-spinner white loading" ng-show="modal.isLoadingImage"></i></span>
-        <img id="img_@Model.Name" ng-src="{{GetImageSrc(modal.DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
+        <span><i class="fa fa-spinner white loading" ng-show="@(@Model.Controller).isLoadingImage"></i></span>
+        <img id="img_@Model.Name" ng-src="{{GetImageSrc(@(@Model.Controller).DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
         }
         else if (@Model.IsFile)
         {
@@ -69,7 +69,7 @@
             year-picker-id="yearpicker_@Model.Name"
             year-start="@start_year"
             year-end="@end_year"
-            ng-model="modal.DataObject.@Model.Name" />
+            ng-model="@(@Model.Controller).DataObject.@Model.Name" />
         }
         @*--------------------------------------------------------------------------------------*@
         @*--------------------------------------------------------------------------------------*@
@@ -80,29 +80,29 @@
         }
         else if(@Model.Type==EType.BIT)
         {
-        <select class="form-control" yes-no-dropdown ng-model="modal.DataObject.@Model.Name"  @required>
+        <select class="form-control" yes-no-dropdown ng-model="@(@Model.Controller).DataObject.@Model.Name"  @required>
         </select>
         }
         else if (@Model.Type == EType.INT)
         {
-        <input class="form-control" type="number" ng-model="modal.DataObject.@Model.Name" @required
+        <input class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             placeholder="Nhập [@Model.Title]" />
         }
         else if (@Model.Type == EType.FLOAT)
         {
-        <input class="form-control" type="number" ng-model="modal.DataObject.@Model.Name" @required
+        <input class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
         placeholder="Nhập [@Model.Title]" />
         }
         else if (@Model.Type == EType.NTEXT)
         {
         <textarea id="textarea_@Model.Name" class="form-control" rows="3" @required
-            ng-model="modal.DataObject.@Model.Name"
+            ng-model="@(@Model.Controller).DataObject.@Model.Name"
             placeholder="Nhập [@Model.Title]">
         </textarea>
         }
         else if (@Model.Type == EType.NVARCHAR || @Model.Type ==EType.VARCHAR)
         {
-        <input class="form-control" ng-model="modal.DataObject.@Model.Name" @required
+        <input class="form-control" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             placeholder="Nhập [@Model.Title]" />
         }
     </div>

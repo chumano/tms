@@ -54,7 +54,7 @@ namespace Template
             StringBuilder sb = new StringBuilder();
             foreach (ColumnInfo col in t.Columns)
             {
-                sb.Append(iTemplate.HTML_Column_In_SearchEditForm(col));
+                sb.Append(iTemplate.HTML_Column_In_SearchEditForm("controller",col));
             }
             CreateFile("col_on_searcheditform.cshtml", sb.ToString() ,"");
             #endregion

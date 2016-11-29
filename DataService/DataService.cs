@@ -76,7 +76,7 @@ namespace Service
                         "",//config.FilterByValue, 
                         config.action ,
                         config.startrow, config.endrow,
-                        ""/*config.OrderBy*/, 1,//dconfig.OrderDirection, 
+                        config.sort, 1,//dconfig.OrderDirection, 
                         ""//config.GridSumColums
                         );
             }
@@ -118,7 +118,7 @@ namespace Service
                     config.condition, 
                     "count",
                     config.startrow, config.endrow, 
-                    ""/*config.OrderBy*/, 1//dconfig.OrderDirection
+                    config.sort, 1//dconfig.OrderDirection
                     );
             }
             else

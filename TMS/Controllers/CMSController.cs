@@ -24,21 +24,25 @@ namespace TMS.Controllers
 
         public ActionResult Users()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Users.cshtml");
         }
 
         public ActionResult Roles()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Roles.cshtml");
         }
 
         public ActionResult Accounts()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Accounts.cshtml");
         }
 
         public ActionResult Authors()
         {
+            if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Authors.cshtml");
         }
     }

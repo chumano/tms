@@ -24,7 +24,7 @@ function ($scope,$rootScope, NgTableParams, $controller, $q, $timeout) {
         config.columns = ['Id',
             @foreach(var col in @Model.Columns)
             {
-            @iTemplate.JS_Column_On_FormConfig(col)
+            @iTemplate.JS_Column_On_FormConfig("",col)
             }
         ].join(';'); //ko dc
         config.sort = '@iTemplate.TableDotColumn(@Model.TableName,"Id") DESC';
@@ -44,7 +44,7 @@ function ($scope,$rootScope, NgTableParams, $controller, $q, $timeout) {
         return {
             Id: 0,   
             @foreach(var col in @Model.Columns){
-            @iTemplate.JS_Column_On_NewObject(col)
+            @iTemplate.JS_Column_On_NewObject("",col)
             }
             Version: 0,
             IsActive: true
@@ -217,7 +217,7 @@ function ($scope,$rootScope, NgTableParams, $controller, $q, $timeout) {
         {
             if(col.IsFilter)
             {
-            @iTemplate.JS_Column_On_Filter(col);
+            @iTemplate.JS_Column_On_Filter("",col);
             }
         }
         self.TableForm.search(filterobj);

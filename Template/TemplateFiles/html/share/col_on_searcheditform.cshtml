@@ -7,6 +7,10 @@
 <div class="row form-group">
     <div  class="col-md-4  "><label>@Model.Title </label></div>
     <div class="col-md-8">
+
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Foreign Column   ----------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         @if (@Model.IsForeignKey && !@Model.IsImage && !@Model.IsFile)
         {
             var width = "";
@@ -19,7 +23,7 @@
             if (@Model.ForeignKeyType == EForeignKeyType.DROPDOWN)
             {
             //================================================================
-        <select class="form-control @width" ng-model="master.DataObject.@Model.Name" @required
+        <select class="form-control @width" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             my-dropdown
             dropdown-id="dd_@Model.Name"
             dropdown-table="@Model.ForeignTable"
@@ -72,18 +76,27 @@
             //================================================================
             }
         }
+        
         @*--------------------------------------------------------------------------------------*@
-        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Image Column   ------------------------------------*@
         @*--------------------------------------------------------------------------------------*@
         else if(@Model.IsImage){
         <input type="file" name="file" id="input_@Model.Name" accept="image/*"  class="none-display" @required/>
-        <span><i class="fa fa-spinner white loading" ng-show="master.isLoadingImage"></i></span>
-        <img id="img_@Model.Name" ng-src="{{GetImageSrc(master.DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
+        <span><i class="fa fa-spinner white loading" ng-show="@(@Model.Controller).isLoadingImage"></i></span>
+        <img id="img_@Model.Name" ng-src="{{GetImageSrc(@(@Model.Controller).DataObject.@Model.Name)}}" class="img-thumbnail img-clickable" title="" />
         }
+        
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     File Column   -------------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.IsFile)
         {
             <TODO></TODO>
         }
+        
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Year Column   -------------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.IsYear)
         {
              var start_year = @DateTime.Now.Year - 5;
@@ -93,40 +106,58 @@
             year-picker-id="yearpicker_@Model.Name"
             year-start="@start_year"
             year-end="@end_year"
-            ng-model="master.DataObject.@Model.Name" />
+            ng-model="@(@Model.Controller).DataObject.@Model.Name" />
         }
+        
         @*--------------------------------------------------------------------------------------*@
-        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     DateTime Column   ---------------------------------*@
         @*--------------------------------------------------------------------------------------*@
         else if (@Model.Type == EType.DATETIME)
         {
         <input id="datetime_@Model.Name" data-inputmask="'alias': 'date'" class="form-control" @required/>
         }
+        
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Boolean Column   ----------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
+        
         else if(@Model.Type==EType.BIT)
         {
-        <select class="form-control" yes-no-dropdown ng-model="master.DataObject.@Model.Name"  @required>
+        <select class="form-control" yes-no-dropdown ng-model="@(@Model.Controller).DataObject.@Model.Name"  @required>
         </select>
         }
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Integer Column   ----------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.Type == EType.INT)
         {
-        <input class="form-control" type="number" ng-model="master.DataObject.@Model.Name" @required
+        <input class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             placeholder="Nhập [@Model.Title]" />
         }
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Float Column   ------------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.Type == EType.FLOAT)
         {
-        <input class="form-control" type="number" ng-model="master.DataObject.@Model.Name" @required
+        <input class="form-control" type="number" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
         placeholder="Nhập [@Model.Title]" />
         }
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Ntext Column   ------------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.Type == EType.NTEXT)
         {
         <textarea id="textarea_@Model.Name" class="form-control" rows="3" @required
-            ng-model="master.DataObject.@Model.Name"
+            ng-model="@(@Model.Controller).DataObject.@Model.Name"
             placeholder="Nhập [@Model.Title]">
         </textarea>
         }
+        @*--------------------------------------------------------------------------------------*@
+        @*------------------------------     Varchar Column   ----------------------------------*@
+        @*--------------------------------------------------------------------------------------*@
         else if (@Model.Type == EType.NVARCHAR || @Model.Type ==EType.VARCHAR)
         {
-        <input class="form-control" ng-model="master.DataObject.@Model.Name" @required
+        <input class="form-control" ng-model="@(@Model.Controller).DataObject.@Model.Name" @required
             placeholder="Nhập [@Model.Title]" />
         }
     </div>

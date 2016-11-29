@@ -228,7 +228,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\icons_user_24x24.png" />
+    <Content Include="Content\img\icons_user_white_24x24.png" />
     <Content Include="Scripts\CMS\Factories\number-directive.js" />
+    <Content Include="Scripts\Common\table.js" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.css" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.min.css" />
     <Content Include="Scripts\libs\adminlte\dist\css\skins\skin-black-light.css" />
@@ -427,6 +430,7 @@
     <Content Include="Scripts\libs\iCheck\square\yellow.css" />
     <Content Include="Scripts\libs\iCheck\square\yellow.png" />
     <Content Include="Scripts\libs\iCheck\square\_all.css" />
+    <Content Include="Scripts\libs\MD5.js" />
     <Content Include="Scripts\libs\slimScroll\jquery.slimscroll.js" />
     <Content Include="Scripts\libs\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="todo.txt" />
@@ -7434,6 +7438,7 @@
     <Content Include="Views\CMS\Accounts.cshtml" />
     <Content Include="Views\CMS\Tool\Outputs\test_view.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
+    <Content Include="Views\Account\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\outputs\" />

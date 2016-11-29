@@ -8,6 +8,7 @@ using RazorEngine;
 using RazorEngine.Configuration; // For extension methods.
 using RazorEngine.Templating;
 using RazorEngine.Text;
+using Template.Common;
 
 namespace Template
 {
@@ -36,7 +37,7 @@ namespace Template
         public string HTML_MODAL_COLUMN(ColumnInfo col)
         {
             string foreigntablename = col.ForeignTable;
-            int tableid = findtableid(foreigntablename);
+            int tableid = DataHelper.FindTableID(foreigntablename);
             if(tableid>0){
                 SingleViewTemplate model = new SingleViewTemplate(tableid);
 
@@ -53,7 +54,7 @@ namespace Template
         public string JS_MODAL_COLUMN(ColumnInfo col)
         {
             string foreigntablename = col.ForeignTable;
-            int tableid = findtableid(foreigntablename);
+            int tableid = DataHelper.FindTableID(foreigntablename);
             if (tableid > 0)
             {
                 SingleViewTemplate model = new SingleViewTemplate(tableid);
@@ -70,20 +71,7 @@ namespace Template
 
         
 
-        private int findtableid(string tablename)
-        {
-            DataTable tbl = DBHelper.GetDataTable(string.Format(@"select * from 
-                        T_TOOL_DBTable
-                        WHere TableName= '{0}' ", tablename
-              ));
-            int id = 0;
-            if (tbl.Rows.Count > 0)
-            {
-                id = Convert.ToInt32(tbl.Rows[0]["Id"]);
-            }
-            return id;
-        }
-
+        
 
     }
 }
