@@ -32,11 +32,13 @@ namespace Template
                 bool IsOnlyOne = (bool)row["IsOnlyOne"];
                 string ChildType = row["ChildType"].ToString();
                 string RefColumn = row["RefColumn"].ToString();
+                bool IsBaseTableType = (bool)row["IsBaseTableType"];
 
                 TableInfo childtableinfo = new TableInfo();
                 childtableinfo.IsOnlyOne = IsOnlyOne;
                 childtableinfo.ChildType = ChildType;
                 childtableinfo.RefColumn = RefColumn;
+                childtableinfo.IsBaseTableType = IsBaseTableType;
 
                 #region load thông tin của childtable
                 DataTable tbl = DBHelper.GetDataTable(string.Format(@"select * from 
@@ -87,7 +89,10 @@ namespace Template
             }
             else
             {
-                template=GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab", tbl);
+                if (tbl.IsBaseTableType)
+                    template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab_basetabletype", tbl);
+                else
+                    template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab", tbl);
             }
             return template;
         }
@@ -101,7 +106,10 @@ namespace Template
             }
             else
             {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab", tbl);
+                if (tbl.IsBaseTableType)
+                    template = GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab_basetabletype", tbl);
+                else
+                    template = GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab", tbl);
             }
             return template;
         }
@@ -117,7 +125,10 @@ namespace Template
             }
             else
             {
-                template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_onmaster", tbl);
+                if (tbl.IsBaseTableType)
+                    template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_onmaster_basetabletype", tbl);
+                else
+                    template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_onmaster", tbl);
             }
             return template;
         }
@@ -131,7 +142,10 @@ namespace Template
             }
             else
             {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_onmaster", tbl);
+                if (tbl.IsBaseTableType)
+                    template = GenerateHelper.CompileTemplate("html._master_detail.childtable_onmaster_basetabletype", tbl);
+                else
+                    template = GenerateHelper.CompileTemplate("html._master_detail.childtable_onmaster", tbl);
             }
             return template;
         }

@@ -83,20 +83,10 @@ namespace TMS.Controllers
             try
             {
                 //lấy tất các các bảng có trong db
-                DataTable tbl = dataService.GetDataFromConfiguration(SessionCollection.CurrentUserId, new DataConfig()
-                {
-                    dataobject = "V_DBINF_ALLTable",
-                    columns = "", //all columns
-                    action = "getall",
-                    sort = "TABLE_NAME asc"
-                });
+                DataTable tbl = DBHelper.GetDataTable(string.Format(@"select * from V_DBINF_ALLTable order by TABLE_NAME asc"));
 
-                DataTable dbtbl = dataService.GetDataFromConfiguration(SessionCollection.CurrentUserId, new DataConfig()
-                {
-                    dataobject = "T_TOOL_DBTable",
-                    columns = "", //all columns //TableName ,TableTitle
-                    action = "getall"
-                });
+                DataTable dbtbl = DBHelper.GetDataTable(string.Format(@"select * from T_TOOL_DBTable"));
+
 
                 //=================================
                 using (SqlConnection sqlConn = new SqlConnection(DBHelper.ConnectionString))
@@ -170,7 +160,7 @@ namespace TMS.Controllers
                         bool IS_NULLABLE = Convert.ToBoolean(row["IS_NULLABLE"]);
 
                         string DATA_TYPE = row["DATA_TYPE"].ToString();
-                        int DATA_LENGTH = row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Convert.ToInt16(row["CHARACTER_MAXIMUM_LENGTH"]);
+                        int DATA_LENGTH = row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Convert.ToInt32(row["CHARACTER_MAXIMUM_LENGTH"]);
 
                         bool IS_PRIMARYKEY = Convert.ToBoolean(row["IS_PRIMARYKEY"]);
 
@@ -241,6 +231,7 @@ namespace TMS.Controllers
                                           ,[ForeignColumnName]                                      
                                           ,[ForeignKeyType]
                                           ,[ForeignKeyModal]
+                                          ,[IsBaseTableColumn]
 
                                           ,[IsNullable]
                                           ,[UI_IsView]
@@ -249,7 +240,7 @@ namespace TMS.Controllers
                                     ) 
                                     VALUES ({0},N'{1}',N'{2}',N'{3}',N'{4}',
                                             {5},{6},{7},{8},
-                                            N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',
+                                            N'{9}',N'{10}',N'{11}',N'{12}',N'{13}',0,
                                             {14},{15},{16},N'{17}'
                                             )",
                                     tableid,
@@ -416,8 +407,9 @@ namespace TMS.Controllers
                                               ,[ChildType]
                                               ,[IsUse]
                                               ,[RefColumn]
+                                              ,[IsBaseTableType]
                                         ) 
-                                        VALUES ({0},{1},{2},N'{3}',{4},N'{5}')",
+                                        VALUES ({0},{1},{2},N'{3}',{4},N'{5}',0)",
                                 tableid, childtableid, 0,
                                 "ON_DETAIL_TAB", //ON_MASTER pr ON_DETAIL_TAB
                                 0,

@@ -1,0 +1,145 @@
+﻿@using Template;
+@{
+    ColumnInfo baseTableColumn = @Model.Columns[0];
+    
+}
+@foreach(var col in @Model.Columns)
+{
+    if (col.IsBaseTableColumn)
+    {
+        baseTableColumn = col;
+        break;
+    }
+}
+<!-- @(@Model.TableName) CHILD IS BASETABLETYPE ON MASTER -->
+<div ng-controller="ChildController_@Model.TableName as child">
+<!-- START CHILD CONTROLLER-->
+<div >
+    <div class="box box-primary box-body" >
+        <!-- CHILD TOP BUTTONS -->
+        <div class="row" >
+            <div class="col-md-6">
+                <h5>@(@Model.Title)</h5>
+            </div>
+            <div class="col-md-6 pull-right text-right" >
+                <button class="btn btn-default" ng-click="child.CancelAll()" ng-show="child.isEditing">
+                    <i class="fa fa-remove"></i>
+                </button>
+                <button class="btn btn-primary " ng-show="child.isEditing" ng-disabled="!child.FormConfig._CanCreate || !child.FormConfig._CanUpdate || !child.TableForm.hasChanges()" 
+                    type="button" ng-click="child.SaveForm()">
+                    <i class="fa fa-check white"></i> Lưu
+                </button>
+                <button class="btn btn-success  "  ng-show="!child.isEditing" ng-disabled="!child.FormConfig._CanCreate || !child.FormConfig._CanUpdate" 
+                    type="button" ng-click="child.EditForm()">
+                    <i class="fa fa-edit white"></i> Sửa
+                </button>
+            </div>
+        </div>
+
+        <!-- CHILD FORM SEARCH -->
+        <div class="row " >
+            <div class="col-sm-12">
+            <form name="dataForm" novalidate ng-submit="child.Search()">
+                <div class="row">
+                    <div class="col-md-6">
+                        @foreach (var col in @Model.Columns)
+                        {
+                            @** bỏ RefColumn **@
+                            if (col.Name!=@Model.RefColumn && col.IsFilter && col.Position == EPosition.LEFT)
+                            {
+                                @iTemplate.HTML_Column_In_ChildSearchForm(@Model.TableName,"child",col);
+                            }
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        @foreach (var col in @Model.Columns)
+                        {
+                            @** bỏ RefColumn **@
+                            if (col.Name != @Model.RefColumn && col.IsFilter && col.Position == EPosition.RIGHT)
+                            {
+                                @iTemplate.HTML_Column_In_ChildSearchForm( @Model.TableName,"child", col);
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="row" >
+                        <div class="col-md-12" >
+
+                        <!-- Clear -->
+                        <button class="btn btn-primary" ng-click="child.ClearForm()" type="button">
+                            <i class="fa fa-undo white"></i> Clear
+                        </button>
+
+                        <!-- Search -->
+                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                            <i class="fa fa-search" ng-hide="child.isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="child.isSearching"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>   
+            </div>
+        </div>
+
+        <!-- CHILD TABLE -->
+        <div class="table-responsive">
+        <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+            ng-form="child.TableForm._tableForm" 
+            ng-table="child.TableForm.tableParams"
+            demo-tracked-table="child.TableForm._tableTracker" >
+            <tr ng-repeat="row in $data"  ng-form="rowForm"  demo-tracked-table-row="row">
+                <td title="'#'" class="col-center">
+                    <span>{{ ((child.TableForm.tableParams.page() - 1)  *child.TableForm.tableParams.count()) + ($index +1) }}</span>
+                </td>
+
+                @{var child_count_column = 2;}
+                <!--------- data columns -------------->
+                <!--base tablecolumn -->
+                <td title="'@baseTableColumn.Title'"  >
+                    <span  class="editable-text" ng-bind="row.@iTemplate.NameOfForeignColumn(@baseTableColumn.Name,@baseTableColumn.ForeignColumnName)" ></span>
+                </td>
+                <!-- other columns -->
+                @foreach (var col in @Model.Columns)
+                {
+                    @** bỏ RefColumn **@
+                    if (col.Name != @Model.RefColumn && col.Name != baseTableColumn.Name && col.IsView)
+                    {   <!-- col.IsBaseTableColumn : @col.IsBaseTableColumn -->
+                        @iTemplate.HTML_Column_In_BaseChildTable("row",col);
+                        child_count_column++;
+                    }
+                }
+
+                @** không có col khác thì lấy col IsActive **@
+                @if(child_count_column==2) 
+                {
+                    <td  title="'IsActive'"  sortable="'IsActive'"  ng-form="IsActive" demo-tracked-table-cell> 
+                        <input type="checkbox" name="IsActive" ng-model="row.IsActive"  ng-disabled="!(row.isEditing || child.TableForm.isEditing)"/>
+                    </td>
+                }
+                <!---------command buttons -------------->  
+                @*<td width="100px" >
+                    <!---edit--->
+                    <button class="btn btn-default btn-sm" ng-click="child.Edit(row)" 
+                        ng-if="child.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+
+                </td>*@
+            </tr>
+            <!--------------- table footer------------------>
+            <tfoot>
+                <tr>
+                    <td colspan="@child_count_column"><label>Số records : {{child.TableForm.tableParams.total()}} </label></td>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+
+        <div style="clear:both"></div>
+    </div>
+</div>
+
+<!-- END CHILD CONTROLLER-->
+</div>

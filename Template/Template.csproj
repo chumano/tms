@@ -147,6 +147,11 @@
     <EmbeddedResource Include="TemplateFiles\html\_master_side\master_side_view.cshtml" />
     <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_onmaster_only.cshtml" />
     <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_onmaster_only.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_onmaster_basetabletype.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_onmaster_basetabletype.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\share\col_on_basechildtable.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\html\_master_detail\childtable_detail_ontab_basetabletype.cshtml" />
+    <EmbeddedResource Include="TemplateFiles\js\_master_detail\js_childtable_detail_ontab_basetabletype.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

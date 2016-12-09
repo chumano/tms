@@ -206,6 +206,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CCTVController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="_Common\MyConfig.cs" />
     <Compile Include="_Common\SessionCollection.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -228,9 +230,31 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\device\cctv\security-camera-16.png" />
+    <Content Include="Content\device\cctv\security-camera-24.png" />
+    <Content Include="Content\device\cctv\security-camera-32.png" />
+    <Content Include="Content\device\cctv\security-camera-blue-16=.png" />
+    <Content Include="Content\device\cctv\security-camera-blue-24.png" />
+    <Content Include="Content\device\cctv\security-camera-blue-32.png" />
+    <Content Include="Content\device\cctv\security-camera-green-16.png" />
+    <Content Include="Content\device\cctv\security-camera-green-24.png" />
+    <Content Include="Content\device\cctv\security-camera-green-32.png" />
+    <Content Include="Content\device\cctv\security-camera-orange-16.png" />
+    <Content Include="Content\device\cctv\security-camera-orange-24.png" />
+    <Content Include="Content\device\cctv\security-camera-orange-32=.png" />
+    <Content Include="Content\device\cctv\security-camera-purple-16.png" />
+    <Content Include="Content\device\cctv\security-camera-purple-24.png" />
+    <Content Include="Content\device\cctv\security-camera-purple-32.png" />
+    <Content Include="Content\device\vds\Video-Camera-24px.png" />
+    <Content Include="Content\device\vds\Video-Camera-32px.png" />
+    <Content Include="Content\device\vds\Video-Camera-64px.png" />
+    <Content Include="Content\device\vms\vms.png" />
     <Content Include="Content\img\icons_user_24x24.png" />
     <Content Include="Content\img\icons_user_white_24x24.png" />
+    <Content Include="Scripts\CMS\Controllers\MapController.js" />
+    <Content Include="Scripts\CMS\Factories\common-directive.js" />
     <Content Include="Scripts\CMS\Factories\number-directive.js" />
+    <Content Include="Scripts\Common\heartbeat.js" />
     <Content Include="Scripts\Common\table.js" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.css" />
     <Content Include="Scripts\libs\adminlte\dist\css\AdminLTE.min.css" />
@@ -431,6 +455,15 @@
     <Content Include="Scripts\libs\iCheck\square\yellow.png" />
     <Content Include="Scripts\libs\iCheck\square\_all.css" />
     <Content Include="Scripts\libs\MD5.js" />
+    <Content Include="Scripts\libs\openlayers\ol-debug.js" />
+    <Content Include="Scripts\libs\openlayers\ol-deps.js" />
+    <Content Include="Scripts\libs\openlayers\ol.css" />
+    <Content Include="Scripts\libs\openlayers\ol.js" />
+    <Content Include="Scripts\libs\openlayers\openlayers-directive\angular-openlayers-directive.css" />
+    <Content Include="Scripts\libs\openlayers\openlayers-directive\angular-openlayers-directive.js" />
+    <Content Include="Scripts\libs\openlayers\openlayers-directive\angular-openlayers-directive.min.js" />
+    <Content Include="Scripts\libs\openlayers\openlayers-directive\angular-openlayers-directive.min.no-header.js" />
+    <Content Include="Scripts\libs\openlayers\openlayers-directive\angular-openlayers-directive.pre.js" />
     <Content Include="Scripts\libs\slimScroll\jquery.slimscroll.js" />
     <Content Include="Scripts\libs\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="todo.txt" />
@@ -7391,6 +7424,8 @@
     <Content Include="Scripts\libs\angular-local-storage-master\package.json" />
     <Content Include="Scripts\libs\angular-local-storage-master\README.md" />
     <Content Include="Scripts\libs\angular-local-storage-master\test\.jshintrc" />
+    <Content Include="Resource\Json\nguyenvanlinh.geojson" />
+    <Content Include="Resource\Json\nguyenvanlinh1.geojson" />
     <None Include="Scripts\libs\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.js" />
     <Content Include="Scripts\libs\jquery\jquery-2.1.4.min.js" />
@@ -7439,6 +7474,12 @@
     <Content Include="Views\CMS\Tool\Outputs\test_view.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
     <Content Include="Views\Account\Info.cshtml" />
+    <Content Include="Views\CMS\Map.cshtml" />
+    <Content Include="Views\Shared\_MapLayout.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Map\Shared\Footer.cshtml" />
+    <Content Include="Views\Map\Shared\Header.cshtml" />
+    <Content Include="Views\Map\Shared\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\outputs\" />

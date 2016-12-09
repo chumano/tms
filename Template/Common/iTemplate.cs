@@ -79,6 +79,7 @@ namespace Template
             return GenerateHelper.CompileTemplate("html.share.col_on_editform", model);
         }
 
+        
         public static string HTML_Column_In_SearchEditForm(string controllername, ColumnInfo col)
         {
             dynamic model = col.ToDymanicObject();
@@ -121,6 +122,13 @@ namespace Template
             dynamic model = col.ToDymanicObject();
             model.Controller = controllername;
             return GenerateHelper.CompileTemplate("html._edit_ontable.col_on_edittable", model);
+        }
+
+        public static string HTML_Column_In_BaseChildTable(string controllername, ColumnInfo col)
+        {
+            dynamic model = col.ToDymanicObject();
+            model.Controller = controllername;
+            return GenerateHelper.CompileTemplate("html.share.col_on_basechildtable", model);
         }
         #endregion
 

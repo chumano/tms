@@ -45,5 +45,12 @@ namespace TMS.Controllers
             if (!SessionCollection.IsLogIn) return LoginView();
             return View("~/Views/CMS/Authors.cshtml");
         }
+
+
+        public ActionResult Map()
+        {
+            //if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
     }
 }

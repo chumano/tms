@@ -1,0 +1,257 @@
+﻿@{
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+    ViewBag.Title = "Trang chính";
+}
+<style>
+
+.height-200
+{
+    height:150px;
+    
+}
+
+.overflow-scroll-x{
+    overflow-x:scroll;white-space: nowrap;
+}
+
+.overflow-scroll-x .col-md-4 {
+        padding: 0px;
+}
+@("@")media (max-width: 767px) {
+  .overflow-scroll-x{
+    
+  }
+  .overflow-scroll-x .col-md-4 {
+        display: inline-block;
+        width:300px;
+        padding: 0px;
+  }
+}
+
+@("@")media (min-width: 767px) {
+  .overflow-scroll-x{
+    overflow-x:hidden;
+  }
+  .overflow-scroll-x .col-md-4 {
+        display: inline-block;
+        width:33.3333%;
+        float: none;
+  }
+}
+
+    .info {
+            background-color: #fff;
+            border: 2px #444 solid;
+            border-radius: 7px;
+            -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+            -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+            box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+            color: #111;
+            font-size: 12px;
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            z-index: 100;
+            font-weight: bold;
+            padding: 2px 2px;
+            white-space: nowrap;
+            line-height: 20px;
+            /*text-align: center;*/
+            z-index: 100;
+        }
+
+        .info:before {
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            content: "";
+            border-right: 4px solid black;
+            border-right-color: inherit;
+            position: absolute;
+            left: -6px;
+            bottom: 8px;
+        }
+
+    .modal
+{
+    overflow: hidden;
+    bottom: auto;
+    right: auto;
+    background-color:transparent;
+}
+.modal-dialog{
+    margin-right: 0;
+    margin-left: 0;
+}
+    #cctvModal {
+        top: 50%;
+        left: 50%;
+        margin-top: -125px;
+        margin-left: -150px;
+    }
+
+    #videoframe img{
+        width:100%;height:100%;
+    }
+</style>
+
+<div ng-controller="MapController" >
+<!--=================================================-->
+<div  id="funcdivElement"  class="row" style="margin:0px;padding: 2px; ">
+
+        <div class="col-md-6 col-xs-6">
+            <span style="margin-right:10px" >
+                <input type="text" style="height:24px;width:200px" placeholder="Từ khóa tìm kiếm"/>
+            </span>
+            <span style="">
+                <label>Khu vực : </label>
+                <select style="height:24px">
+                    <option selected="selected">Zone 1</option>
+                    <option>Zone 2</option>
+                </select>
+            </span>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <span class="checkbox pull-right" style="margin:0px">
+            <label>
+                <input type="checkbox" checked />
+                VDS
+            </label>
+            <label style="margin-left:10px">
+                <input type="checkbox" checked />
+                VMS
+            </label>
+            <label  style="margin-left:10px">
+                <input type="checkbox" checked/>
+                CCTV
+            </label>
+            </span>
+            <div style="clear:both"></div>
+        </div>
+
+</div>
+<!--------------MAP ----------------------->
+<openlayers id="mapElement" width="100%" height="300px" 
+    ol-center="center" ol-defaults="defaults" ol-controls="controls" ol-view="view"  >
+    <ol-layer ol-layer-properties="geojson" ></ol-layer>
+     @*<ol-layer ol-layer-properties="layer" ng-repeat="layer in geojson"></ol-layer>*@
+
+    <ol-marker ol-marker-properties="cctv" ng-click="cctv_click(cctv)" ></ol-marker>
+    <ol-control name="{{ control.name }}" ng-repeat="control in controls|filter: {active: true}"></ol-control>
+</openlayers>
+<div id="countrybox" class="info country f32" >
+    <div ng-show="selectedLink" ></div>
+    Đường :{{ selectedLink.name || 'No link'}} <br />
+    Tốc độ : {{ selectedLink.maxspeed || '---'}} 
+</div>
+<!--------------END MAP-------------------->
+
+<!--------------bottom--------------------->
+<div id="bottomElement"   style="width:100%;bottom: 0;" ng-style="{'height': self._bottomHeight}" >
+<div class=" panel-primary">
+    <div class="panel-heading" role="tab" id="headingOne" style="cursor: pointer; padding: 2px 15px;" 
+            data-toggle="collapse" data-parent="#bottomElement" href="#collapseOne"
+            aria-controls="collapseOne">
+        <span class="">
+            <i class="fa fa-info"></i>&nbsp;&nbsp;Giám sát thiết bị
+        </span>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <!-- tabs bottom -->
+        <div class="tabbable tabs-below">
+            <div class="tab-content">
+                <div class="tab-pane active" id="vds">
+                    <div class="overflow-scroll-x height-200" style="" >
+                        <div class="col-md-4 ">
+                            <div class="box box-solid box-primary" style="margin:0px;float:left">
+                                <div class="box-header " style="padding:0px">
+                                    <div class="box-title">VDS 001</div>
+                                </div>
+                                <div class="box-body" style="padding:0px">
+                                    <img ng-src="@Url.Content("~/Resource/Images/noimage.jpg")" style="max-width:200px;max-height:120px;display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row box box-solid box-warning" style="margin:0px;float:left">
+                                 <div class="box-header " style="padding:0px">
+                                    <div class="box-title">VDS 002</div>
+                                </div>
+                                <div class="box-body" style="padding:0px">
+                                    <img ng-src="@Url.Content("~/Resource/Images/noimage.jpg")" style="max-width:200px;max-height:120px;display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="col-md-4 ">
+                           <div class="row box box-solid box-success" style="margin:0px;float:left">
+                                 <div class="box-header " style="padding:0px">
+                                    <div class="box-title">VDS 003</div>
+                                </div>
+                                <div class="box-body" style="padding:0px">
+                                    <img ng-src="@Url.Content("~/Resource/Images/noimage.jpg")" style="max-width:200px;max-height:120px;display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="vms">
+                    <div class="overflow-scroll-x height-200" style="" >
+                    </div>
+                </div>
+                <div class="tab-pane" id="cctv">
+                    <div class="overflow-scroll-x height-200" style="" >
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs" style="">
+                <li class="active"><a href="#vds" data-toggle="tab" >VDS</a></li>
+                <li><a href="#vms" data-toggle="tab">VMS</a></li>
+                <li><a href="#cctv" data-toggle="tab">CCTV</a></li>
+            </ul>
+      </div>
+      <!-- /tabs -->
+    </div>
+    
+</div>
+</div>
+<!--------------bottom--------------------->
+
+<!----------cctv model---------------->
+<div id="cctvModal" class="modal" tabindex="-1" >
+    <div class="modal-dialog " style="margin:0px;width:500px">
+    <div class="modal-content">
+        <div class="modal-header bg-primary">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">CCTV : {{currentCCTV.name}}</h4>
+        </div>
+        <div class="modal-body" style="padding:0px;min-height:200px">
+            <iframe ng-src="{{currentCCTV.login_videourl}}" width="500px" height="300px" ng-style="{'display' : 'none'}" id="videoframe"></iframe>
+            <img ng-src="{{currentCCTV.videourl}}" style="max-width:500px;max-height:300px;    display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>
+            
+            @*<img ng-src="{{currentCCTV.currenturl}}" style="max-width:500px;max-height:300px;    display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>*@
+            @*<img ng-src="172.28.12.200/mjpg/video.mjpg" style="max-width:500px;max-height:300px;    display: block;margin-left: auto;margin-right: auto;" alt="hình ảnh giám sát cctv"/>*@
+           @*<video src width="500" height="300" controls="controls" autoplay="autoplay" style="max-width:500px;max-height:300px;    display: block;margin-left: auto;margin-right: auto;">
+               
+            </video>*@
+        </div>
+        
+        @*<div class="modal-footer">
+            <button type="button" class="btn btn-default modal-cancel" data-dismiss="modal">Cancel</button>
+            
+        </div>*@
+    </div>
+    </div>
+</div>
+
+<!--=================================================-->
+</div>
+<script type="text/javascript">
+    var g_url_geojson_nguyenvanlinh = '@Url.Content("~/Resource/Json/nguyenvanlinh1.geojson")';
+    var g_url_icon_path = '@Url.Content("~/Content/device/")';
+    var g_url_cctv_image = '@Url.Action("LiveView","CCTV")';
+    var g_url_cctv_stream = '@Url.Action("Stream","CCTV")';
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/CMS/Controllers/MapController.js")"></script>

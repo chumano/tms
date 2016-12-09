@@ -1,27 +1,43 @@
 ﻿<!-- Left side column. contains the sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
+<aside class="main-sidebar">
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
 
-          <!-- /.search form -->
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu">
+        <li  class="treeview" ng-class="{'active' : IsParrentCurrent(menu)}" ng-repeat="menu in ListMenu" ng-include="'menu_template.html'" > </li>
+           
+    @*<li class="treeview" ng-class="{'active' : IsParrentCurrent(menu)}" ng-repeat="menu in ListMenu">
+        <a href="{{GetRealUrl(menu.url)}}">
+        <i class="{{menu.cssclass}}"></i> <span ng-bind="menu.name"></span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu" ng-if="HasChilds(menu)">
+            <li ng-class="{'active' : IsCurrent(cmenu.url)}" ng-repeat="cmenu in menu.childs">
+            <a href="{{GetRealUrl(cmenu.url)}}"><i class="{{cmenu.cssclass}}"></i> <span ng-bind="cmenu.name"></span></a>
+        </li>
+        </ul>
+    </li>*@
+    @*<li class="header">LABELS</li>
+    <li><a href="#"><i class="fa fa-circle-o text-danger"></i><span>Important</span> </a></li>
+    <li><a href="#"><i class="fa fa-circle-o text-warning"></i><span>Warning</span> </a></li>
+    <li><a href="#"><i class="fa fa-circle-o text-info"></i><span> Information</span></a></li>*@
+    </ul>
+</section>
+<!-- /.sidebar -->
+</aside>
 
-            <li class="treeview" ng-class="{'active' : IsParrentCurrent(menu)}" ng-repeat="menu in ListMenu">
-              <a href="{{menu.url}}">
-                <i class="{{menu.cssclass}}"></i> <span ng-bind="menu.name"></span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu" ng-if="HasChilds(menu)">
-                  <li ng-class="{'active' : (cmenu.url.toLowerCase() == CurrentUrl)}" ng-repeat="cmenu in menu.childs">
-                    <a href="{{cmenu.url}}"><i class="{{cmenu.cssclass}}"></i> <span ng-bind="cmenu.name"></span></a>
-                </li>
-              </ul>
-            </li>
-            <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-danger"></i><span>Important</span> </a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-warning"></i><span>Warning</span> </a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-info"></i><span> Information</span></a></li>
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
+<script type="text/ng-template" id="menu_template.html">
+    
+<a href="{{GetRealUrl(menu.url)}}">
+    <i class="{{menu.cssclass}}"></i>
+    <span ng-bind="menu.name"></span> 
+    <i ng-if="HasChilds(menu)" class="fa fa-angle-left pull-right" ></i>
+</a>
+<ul class="treeview-menu" ng-if="HasChilds(menu)" ng-class="{'active' : IsParrentCurrent(menu)}" style="padding-left:10px">
+    <li  class="treeview" ng-repeat="menu in menu.childs" ng-include="'menu_template.html'"  ng-class="{'active' : IsParrentCurrent(menu)}" data="{{menu.url}}" >
+    </li>
+
+</ul>
+
+</script>

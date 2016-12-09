@@ -1,0 +1,238 @@
+﻿@using Template;
+<!-- *****@Model.TableName Form ***** -->
+@{
+    ColumnInfo baseTableColumn = @Model.Columns[0];
+    
+}
+@foreach(var col in @Model.Columns)
+{
+    if (col.IsBaseTableColumn)
+    {
+        baseTableColumn = col;
+        break;
+    }
+}
+
+<script type="text/javascript">
+//as child basetabletype
+CHUNOApp.controller('ChildController_@Model.TableName', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    var self = this;
+    self.isSearching=false;
+    self.isEditing =false;
+
+    $scope.ChildControllers["@Model.TableName"] = self;
+    //===================================
+    //Properties
+    self.ParentObjectId = 0;
+
+    //---FormObject---
+    self.FormObject = new DataObject("@Model.TableName", $scope);
+    self.NewObject = function () {
+        var newobj = {
+            Id: 0,
+            @foreach (var col in @Model.Columns)
+            {
+            @iTemplate.JS_Column_On_NewObject("", col);
+            }
+            Version: 0,
+            IsActive: true
+        };
+
+        newobj.@Model.RefColumn = self.ParentObjectId;
+        return newobj;
+    }
+    self.DataObject = self.NewObject();
+
+
+
+    //---ModalAPI---
+    $scope.ModalAPI = {};
+
+    //--------------------------------
+    self.ClearForm = function(){
+        self.DataObject = self.NewObject();
+    }
+
+
+    self.EditForm = function () {
+        self.isEditing = self.TableForm.isEditing = true;
+    }
+
+    self.Edit = function (object, rowForm) {
+        //self.isEditing = true;
+        object.isEditing = true;
+    }
+
+    self.SaveForm = function (object) {
+        var ok = self.TableForm.saveChanges();
+        if(ok){
+            self.isEditing = self.TableForm.isEditing = false;
+            //load lai data : 
+            self.LoadData();
+            //self.ReloadTable(self.TableForm); 
+        }
+    }
+
+    //called from TableForm
+    self.SaveListObject = function (objs){
+        self.FormObject.SetListObject(objs);
+
+        var ok = self.FormObject.SaveListObject();
+        if(ok){
+            self.LoadData();
+            ShowSuccessMessage("Đã lưu thành công!");
+        }
+
+        return ok;
+    }
+   
+    self.CancelAll= function(){
+        self.isEditing = self.TableForm.isEditing = false;
+        self.TableForm.cancelChanges();
+    }
+
+    self.Delete = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [@Model.Title] " + object.Id + " - " + 'TODO - object.Name' + "?",
+        function () {
+            if (self.FormObject.DeleteObject(object.Id)) {
+
+                self.ReloadTable();
+                ShowSuccessMessage("Đã xóa thành công!");
+
+            }
+        });
+    }
+
+    self.ReloadTable = function (tableForm) {
+        tableForm.reload();
+    }
+
+    self.Search = function(){
+        if (self.DataObject == undefined) return;
+        //===================================
+        var object = self.DataObject;
+
+        var filterobj = {};
+        //parent column id
+        {
+            $.extend(filterobj, { @Model.RefColumn: self.ParentObjectId });
+        }
+
+        @foreach (var col in @Model.Columns)
+        {
+            if (col.IsFilter)
+            {
+            @iTemplate.JS_Column_On_Filter("", col);
+            }
+        }
+
+        self.TableForm.search(filterobj);   
+    }
+
+    self.TableForm = new FixedDataTableForm(NgTableParams, $q, self, $scope, []);
+    //---InitForm---
+    self.InitForm = function (parentobj) {
+        self.ParentObjectId = parentobj.Id;
+        self.DataObject = self.NewObject();
+        //========================
+        self.LoadData();
+    }
+
+    self.LoadData = function(){
+        var config = new DataFormConfig();
+        {
+             @{var other_column = 0;}
+            config.dataobject = '@Model.TableName';
+            config.columns = ['Id', 
+                    @foreach (var col in @Model.Columns)
+                    {
+                    @iTemplate.JS_Column_On_FormConfig("", col);
+                    }
+                    'IsActive' 
+            ].join(';'); 
+            config.sort = '@(@Model.TableName).Id DESC';
+            config.condition = '@(@Model.TableName).@Model.RefColumn = ' + self.ParentObjectId  ;
+            @if(other_column > 2)
+            {
+                <text>config.condition += ' AND (@(@Model.TableName).IsActive=1 )';</text>
+            }
+            config.action = 'get'; //getall/get
+            config.startrow = 0;
+            config.endrow = 10;
+        }
+
+        self.FormConfig = config;
+        self.FormConfig._CanCreate = true;
+        self.FormConfig._CanUpdate = true;
+        self.FormConfig._CanDelete = true;
+
+        var list_data = GetListDataFromConfig(self.FormConfig);
+        //============================
+        //load basetable data
+        var baseTableConfig = new DataFormConfig();
+        {
+            baseTableConfig.dataobject = '@baseTableColumn.ForeignTable';
+            baseTableConfig.columns = ['@baseTableColumn.ForeignColumnKey',  '@baseTableColumn.ForeignColumnName'].join(';'); 
+            baseTableConfig.sort = '@(@baseTableColumn.ForeignTable).@baseTableColumn.ForeignColumnKey ASC';
+            baseTableConfig.condition = 'IsActive=1 ';
+            baseTableConfig.action = 'getall'; //getall/get
+            baseTableConfig.startrow = 0;
+            baseTableConfig.endrow = 10;
+        }
+        
+        var list_baseTable = GetListDataFromConfig(baseTableConfig);
+        //===========================
+        //create fixed data
+        var fixeddata = [];
+        for(var i =0; i < list_baseTable.length; i++)
+        {
+            var base_data = list_baseTable[i];
+            var base_keyvalue = base_data.@baseTableColumn.ForeignColumnKey ;
+            var base_namevalue = base_data.@baseTableColumn.ForeignColumnName ;
+
+            //find parent data has base_keyvalue
+            var data = _.find(list_data, function(obj) {
+                return obj.@baseTableColumn.Name == base_keyvalue;
+            });
+
+            if(data){
+                
+            }else{
+                data = {
+                    Id: 0,
+                    @foreach (var col in @Model.Columns)
+                    {
+                    @iTemplate.JS_Column_On_NewObject("", col);
+                    }
+                    Version: 0,
+                    @if(other_column > 2)
+                    {
+                        <text>IsActive: true</text>
+                    }
+                    else{
+                        <text>IsActive: false</text>
+                    }
+                };
+
+                
+                data.@Model.RefColumn =  self.ParentObjectId;
+                data.@baseTableColumn.Name = base_keyvalue;
+                data.@iTemplate.NameOfForeignColumn(@baseTableColumn.Name,@baseTableColumn.ForeignColumnName) = base_namevalue;
+            }
+
+            fixeddata.push(data);
+        }
+
+        //============================
+        self.TableForm.SetData(fixeddata);
+    }
+
+    
+}]);
+
+    
+
+</script>
+

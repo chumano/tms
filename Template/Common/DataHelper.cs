@@ -36,6 +36,7 @@ namespace Template.Common
                 string ForeignColumnName = row["ForeignColumnName"].ToString();
                 string ForeignKeyType = row["ForeignKeyType"].ToString();
                 string ForeignKeyModal = row["ForeignKeyModal"].ToString();
+                bool IsBaseTableColumn = (bool)row["IsBaseTableColumn"];
 
                 bool IsNullable = (bool)row["IsNullable"];
                 bool UI_IsView = (bool)row["UI_IsView"];
@@ -56,6 +57,7 @@ namespace Template.Common
                 col.ForeignColumnName = ForeignColumnName;
                 col.ForeignKeyType = ForeignKeyType;
                 col.ForeignKeyModal = ForeignKeyModal;
+                col.IsBaseTableColumn = IsBaseTableColumn;
 
                 col.IsView = UI_IsView;
                 col.IsFilter = UI_IsFilter;

@@ -6,9 +6,11 @@
         $rootScope.CurrentAccount = $scope.CurrentAccount = _session_accountid;
         $rootScope.CurrentUser= $scope.CurrentUser = _session_userid;
         $rootScope.CurrentUserName = $scope.CurrentUserName = _session_username;
+        $rootScope.Host = _root_host_url;
+        $rootScope.CurrentUrl = $scope.CurrentUrl = window.location.pathname.toLowerCase();
         //==============================
         //menu
-        $scope.CurrentUrl = window.location.pathname.toLowerCase();
+        
 
         $scope.ListMenu = [
             {
@@ -83,7 +85,7 @@
                 for(var i = 0;  i< menu.childs.length;i++)
                 {
                     var cmenu = menu.childs[i];
-                    if ($scope.CurrentUrl == cmenu.url.toLowerCase()) {
+                    if ($scope.IsCurrent(cmenu.url)) {
                         isparrent = true;
                     }
 
@@ -94,6 +96,8 @@
                     if (isparrent)
                         break;
                 }
+            } else {
+                return $scope.IsCurrent(menu.url);
             }
             return isparrent;
         }
@@ -104,6 +108,15 @@
             else;
         }
 
+        $scope.IsCurrent = function (url) {
+            var url = $rootScope.Host + url;
+            return $scope.CurrentUrl == url.toLowerCase();
+        }
+
+        $scope.GetRealUrl = function (url) {
+            var url = $rootScope.Host + url;
+            return  url.toLowerCase();
+        }
         //==============================
         //language
         $scope.currentLanguage = 'en';
@@ -163,5 +176,7 @@
             Password: "",
             Remember: false
         };
+
+
 
 }]);

@@ -61,6 +61,13 @@ function DataObject(tableName, $scope) {
             data += this.GetCombinedData(this.ListObjectData[i]);
         }
         var result = AjaxSync(_data_service_savelistobject, '{ tableName: "' + this.TableName + '", data: "' + data + '"}');
+
+        for (var i = 0; i < this.ListObjectData.length; i++) {
+            var obj = this.ListObjectData[i];
+            if (obj.Version != undefined && result > 0) {
+                obj.Version++;
+            }
+        }
         return result;
     }
 

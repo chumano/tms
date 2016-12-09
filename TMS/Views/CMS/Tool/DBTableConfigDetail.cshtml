@@ -68,6 +68,9 @@
                     <button class="btn btn-success" ng-click="configctrl.PreView()" >
                         <span>Xem</span>
                     </button>
+                     <button class="btn btn-success" ng-click="configctrl.DownloadTableInfo()" >
+                        <span>Tải DB Info</span>
+                    </button>
                  </div>
             </div>
         </div>
@@ -141,8 +144,12 @@
                         </div>
                     </td>
 
-                    <td title="'IsOnlyOne'"  ng-class="IsOnlyOne.$dirty ? 'bg-warning' : ''" ng-form="IsOnlyOne" demo-tracked-table-cell>
-                        <input type="checkbox" name="IsOnlyOne" ng-model="row.IsOnlyOne" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    <td title="'IsOnlyOne/ IsBaseTableType'"  ng-class="(IsOnlyOne.$dirty || IsBaseTableType.$dirty) ? 'bg-warning' : ''" ng-form="IsOnlyOne" demo-tracked-table-cell>
+                        IsOnlyOne : <input type="checkbox" name="IsOnlyOne" ng-model="row.IsOnlyOne" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"
+                            ng-change="row.IsBaseTableType=(!row.IsOnlyOne && row.IsBaseTableType)"/>
+                         <br />
+                        IsBaseTableType : <input type="checkbox" name="IsBaseTableType" ng-model="row.IsBaseTableType" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"
+                            ng-change="row.IsOnlyOne= (!row.IsBaseTableType && row.IsOnlyOne)"/>
                     </td>
 
                     <td title="'ChildType'"  ng-switch="configctrl.ChildTableForm.isEditing || row.isEditing" ng-class="ChildType.$dirty ? 'bg-warning' : ''" ng-form="ChildType" demo-tracked-table-cell>
@@ -288,6 +295,9 @@
                             </select>
                         </div>
                     </div>
+                    <div>
+                        IsBaseTableColumn : <input type="checkbox" name="IsBaseTableColumn" ng-model="row.IsBaseTableColumn" class=""  ng-disabled="!(row.isEditing || configctrl.ChildTableForm.isEditing)"/>
+                    </div>
                      <!------------------------------------------------>
                     </div>
                 </td>
@@ -347,6 +357,64 @@
         </table>
         </div>
 
+        </div>
+    </div>
+
+    <!-------------DB INFO TO DOWNLOAD -------------->
+    <div id="tableinfo" class="row" ng-show="false">
+        <div class="col-sm-12">
+            <div>{{configctrl.ObjectForm.TableName}} : {{configctrl.ObjectForm.TableTitle}}</div>
+            <table border="1"
+                style="">
+            <tr>
+                <td title="'ColumnName'"  >
+                    ColumnName
+                </td>
+                <td title="'ColumnType'" >
+                    ColumnType
+                </td>
+                <td title="'PrimaryKey'" >
+                    PrimaryKey
+                </td>
+                <td title="'ForeignKey'"  >
+                    ForeignKey
+                </td>
+
+                 <td title="'Nullable'"  >
+                    Nullable
+                 </td>
+              
+                 <td title="'ColumnTitle'" ng-if="false"  >
+                    ColumnTitle
+                </td>
+            </tr>
+            <tr ng-repeat="row in configctrl.TableConfigForm.data"  >
+                
+                <!--------- data columns -------------->
+                <td title="'ColumnName'"  >
+                    {{row.ColumnName}}
+                </td>
+    
+                <td title="'ColumnType'" >
+                    {{row.ColumnType}}
+                </td>
+                <td title="'PrimaryKey'" >
+                    <span ng-if="row.ColumnName=='Id'">true</span>
+                </td>
+                <td title="'ForeignKey'"  >
+                    <span ng-if="row.IsForeignKey">{{row.ForeignTable}} ({{row.ForeignColumnKey}}) </span>
+                </td>
+
+                 <td title="'Nullable'"  >
+                    {{row.IsNullable}} 
+                 </td>
+              
+                 <td title="'ColumnTitle'" ng-if="false"  >
+                    {{row.ColumnTitle}}
+                </td>
+            </tr>
+        </table>
+        
         </div>
     </div>
 </div>

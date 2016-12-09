@@ -11,7 +11,18 @@ namespace TMS
             //common
             commonBundles(bundles);
 
-            //--------------------------------------------
+            //=======================================
+            //map
+            bundles.Add(new ScriptBundle("~/openlayers")
+              .Include("~/Scripts/libs/openlayers/ol-debug.js")
+              .Include("~/Scripts/libs/openlayers/openlayers-directive/angular-openlayers-directive.js")
+              );
+            bundles.Add(new StyleBundle("~/openlayers/css")
+                .Include("~/Scripts/libs/openlayers/ol.css")
+                .Include("~/Scripts/libs/openlayers/openlayers-directive/angular-openlayers-directive.css")
+            );
+
+            //=======================================
             //---app
             bundles.Add(new ScriptBundle("~/bundles/AwesomeAngularMVCApp")
                 .IncludeDirectory("~/Scripts/Factories", "*.js")
@@ -63,6 +74,7 @@ namespace TMS
                  );
 
 
+            //=====================================================
             //styles
             bundles.Add(new StyleBundle("~/common/css")
                 .Include("~/Content/jquery-ui.css")

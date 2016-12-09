@@ -80,8 +80,23 @@
 
         self.PreView = function () {
             var viewname = self.ObjectForm.TableName;
-            var url = "/Tool/TView/" + viewname;
+            var host = window.location.protocol + "//" + window.location.host  + _root_host_url;
+            var url =  host +"Tool/TView/" + viewname;
             CommonHelper.OpenInNewTab(url);
+        }
+        
+        self.alink = document.body.appendChild(
+                document.createElement("a")
+            );
+        self.DownloadTableInfo = function () {
+            var configctrl = $scope.configctrl;
+            var tablename = configctrl.ObjectForm.TableName;
+            var alink = self.alink;
+            var html = $("#tableinfo")[0].outerHTML;
+            alink.download = configctrl.ObjectForm.TableName + ".xls";
+            alink.href = "data:application/vnd.ms-excel; charset=utf-8," + encodeURIComponent(html); // Grab the HTML
+            //application/vnd.ms-excel   data:text/html
+            alink.click(); // Trigger a click on the element
         }
     }]
 );
@@ -455,7 +470,7 @@ function ChildTableForm(ctrl, NgTableParams) {
         var dataService = new DataService({});
         var config = new DataFormConfig();
         config.dataobject = 'T_Tool_ConfigTableChild';
-        config.columns = 'Id;DBTableId;DBChildTableId;RefColumn;DBChildTableId.TableName,DBChildTableId_TableName;IsOnlyOne;ChildType;IsUse';
+        config.columns = 'Id;DBTableId;DBChildTableId;RefColumn;DBChildTableId.TableName,DBChildTableId_TableName;IsOnlyOne;IsBaseTableType;ChildType;IsUse';
 
         config.sort = 'Id ASC';
         config.condition = 'DBTableId=' + self._controller.ObjectForm.Id

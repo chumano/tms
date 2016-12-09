@@ -21,6 +21,8 @@ namespace Template
         public string ForeignColumnName { get; set; }
         public string ForeignKeyType { get; set; }
         public string ForeignKeyModal { get; set; }
+        public bool IsBaseTableColumn { get; set; }
+
 
         public bool IsYear { get; set; }
         public bool IsImage { get; set; }

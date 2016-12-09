@@ -1,17 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "T_System_Role";
-    Layout = "~/Views/CMS/Shared/_Layout.cshtml";
 }
 <div  ng-controller="controller_T_System_Role as master">
 <!-- START : MAIN  --------------------------------------------->
-<div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
+<div class="container-fluid none-display" ng-class="{'active-content' : true}">
     <div >
         <!-- TOP BUTTONS -------------------->
-        <div class="row" style="padding-top: 5px">
+        <div class="row" >
             <div class="col-sm-6" >
                 <h4>{{master.ObjectTitle}}</h4>
             </div>
+
             <div class="col-md-6 pull-right text-right" >
 
                 <button class="btn btn-success  "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
@@ -20,13 +20,18 @@
             </div>
         </div>
 
-        <!-- FORM SEARCH-------------------->
-        <div class="box box-primary box-body">
-        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
-            <div class="col-sm-12">
-            <form name="dataForm" novalidate ng-submit="master.Search()">
-                <div class="row">
-                    <div class="col-md-6">
+
+        <div class="row">
+            <!------------------------------------------->
+            <!---------------- MASTER SIDE -------------->
+            <div class="col-md-8">
+            <!-- FORM SEARCH-------------------->
+            <div class="box box-primary box-body">
+            <div class="row ">
+                <div class="col-sm-12">
+                <form name="dataForm" novalidate ng-submit="master.Search()">
+                    <div class="row">
+                        <div class="col-md-6">
 
 <div class="row form-group">
     <label class="col-md-4  ">RoleName </label>
@@ -43,158 +48,151 @@
         </select>
     </div>
 </div>
+                        </div>
+
+                        <div class="col-md-6">
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <!-- buttons -->
+                    <div class="row" >
+                         <div class="col-md-6" >
+                           
+                            <!--- Clear --->
+                            <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                                <i class="fa fa-undo white"></i> Clear
+                            </button>
+
+                            <!--- Search --->
+                            <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                                <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                                <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                                Tìm kiếm
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- buttons -->
-                <div class="row" style="margin-top:10px">
-                     <div class="col-md-6" >
-
-                        <!--- Clear --->
-                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
-                            <i class="fa fa-undo white"></i> Clear
-                        </button>
-
-                        <!--- Search --->
-                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
-                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
-                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
         
+                </div>
             </div>
-        </div>
-        </div>
-        
-        <!-- TABLE -------------------->
-        <div class="row">
-            <div class="col-md-12">
-                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
-                    ng-form="master.TableForm._tableForm" 
-                    ng-table="master.TableForm.tableParams"
-                    demo-tracked-table="master.TableForm._tableTracker"
-                    disable-filter="master.TableForm.isAdding" >
-                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
-                        <td title="'#'" class="col-center">
-                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
-                        </td>
+            </div>
+            <!-- TABLE -------------------->
+            <div class="row">
+                <div class="col-md-12 table-responsive">
+                    <table  class="table table-responsive  table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                        ng-form="master.TableForm._tableForm" 
+                        ng-table="master.TableForm.tableParams"
+                        demo-tracked-table="master.TableForm._tableTracker"
+                        disable-filter="master.TableForm.isAdding" >
+                        <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                            <td title="'#'" class="col-center">
+                                <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                            </td>
 
-                        <!--------- data columns -------------->
+                            <!--------- data columns -------------->
 <td title="'RoleName'"  sortable="'RoleName'">
-    <span  class="editable-text" ng-bind="row.RoleName" />
+    <span  class="editable-text" ng-bind="row.RoleName"></span>
 </td>
 <td title="'IsSpecial'"  sortable="'IsSpecial'">
     <input type="checkbox" name="IsSpecial" ng-model="row.IsSpecial"  ng-disabled="true"/>
 </td>
-                        <!---------command buttons -------------->  
-                        <td width="100px" >
-                            <!---edit--->
-                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
-                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <!---------command buttons -------------->  
+                            <td width="100px" >
+                                <!---edit--->
+                                <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                    ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
 
-                            <!----del--->
-                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
-                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
-                        </td>
-                    </tr>
-                    <!--------------- table footer------------------>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                                <!----del--->
+                                <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                    ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
                         </tr>
-                    </tfoot>
-                </table>
-                <div style="clear:both"></div>
+                        <!--------------- table footer------------------>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div style="clear:both"></div>
+                </div>
             </div>
-        </div>
-
-    </div>
-</div>
-<!-- END   : MAIN  --------------------------------------------->
-
-<!-- START : DETAIL --------------------------------------------->
-<div class="container-fluid none-display" ng-class="{'active-content' : master.IsShowDetail}"
-     ng-controller="controller_detail_T_System_Role as detail">
-    <div ng-if="master.IsShowDetail"  >
-        <!-- TOP BUTTONS -------------------------->
-        <div class="row" style="padding-top: 5px">
-            <div class="col-sm-6" ng-switch="detail.IsNew()" >
-                <h4 ng-switch-default > Thêm mới : {{master.ObjectTitle}}</h4>
-                <h4 ng-switch-when="false"> Chỉnh sửa : {{master.ObjectTitle}}</h4>
             </div>
 
-            <div class="col-md-6 pull-right text-right">
-                <button class="btn btn-primary" ng-if="master.CurrentTab=='T_System_Role' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
-                    <i class="fa fa-check white"></i>
-                    <span>Lưu</span>
-                </button>
-
-                <button class="btn btn-primary" ng-if="master.CurrentTab=='T_System_Role' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
-                    <i class="fa fa-edit white"></i>
-                    <span>Sửa</span>
-                </button>
-               
-                <button class="btn btn-default" ng-click="master.CloseDetail()">
-                    <i class="fa fa-arrow-left"></i>
-                    <span>Trở về</span>
-                </button>
-            </div>
-
-        </div>
         
-        <!-- NAV TAB   ---------------------------->
-        <div class="row"><div class="col-sm-12">
-            <div class="tabbable" style="padding-top: 10px">
-                <ul class="nav nav-tabs padding-left-18">
-                    <li class="active" ng-click="master.SetCurrentTab('T_System_Role')">
-                        <a data-toggle="tab">
-                            <i class="blue fa-heart fa"></i>
-                            <span>T_System_Role</span>
-                        </a>
-                    </li>
+            <!------------------------------------------->
+            <!---------------- DETAIL SIDE -------------->
+            <div class="col-md-4" ng-controller="controller_detail_T_System_Role as detail">
+            <!--- FORM DETAIL --->
+            <div class="box box-primary box-body">
+            <div class="row " >
+                <div class="col-sm-12">
+                    <!-- TOP BUTTONS -------------------------->
+                    <div class="row" >
+                        <div class="col-sm-6" ng-switch="detail.IsNew()" >
+                            <h4 ng-switch-default > Thêm mới : </h4>
+                            <h4 ng-switch-when="false"> Chỉnh sửa : </h4>
+                        </div>
 
-                    <!---------------------------------------------->
-                    <!------------------CHILD NAV TAB--------------->
-                    <!---------------------------------------------->
+                        <div class="col-md-6 pull-right text-right">
+                            <button class="btn btn-primary" ng-if="master.CurrentTab=='T_System_Role' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
+                                <i class="fa fa-check white"></i>
+                                <span>Lưu</span>
+                            </button>
+
+                            <button class="btn btn-warning" ng-if="master.CurrentTab=='T_System_Role' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
+                                <i class="fa fa-edit white"></i>
+                                <span>Sửa</span>
+                            </button>
+               
+                        </div>
+
+                    </div>
+        
+                    <!-- NAV TAB   ---------------------------->
+                    <div class="row"><div class="col-sm-12">
+                        <div class="tabbable" >
+                            <ul class="nav nav-tabs padding-left-18">
+                                <li class="active" ng-class="{active : (master.CurrentTab =='T_System_Role')  }" ng-click="master.SetCurrentTab('T_System_Role')">
+                                    <a data-toggle="tab">
+                                        <i class="blue fa-heart fa"></i>
+                                        <span>T_System_Role</span>
+                                    </a>
+                                </li>
+
+                                <!---------------------------------------------->
+                                <!------------------CHILD NAV TAB--------------->
+                                <!---------------------------------------------->
                     
-                    <li ng-if="!detail.IsNew()" class="" ng-click="master.SetCurrentTab('T_System_Role_Menu_Mapping')" >
-                        <a data-toggle="tab">
-                            <i class="blue fa-star fa"></i>
-                            <span>T_System_Role_Menu_Mapping</span>
-                        </a>
-                    </li>
-                    <li ng-if="!detail.IsNew()" class="" ng-click="master.SetCurrentTab('T_System_Role_Object_Mapping')" >
-                        <a data-toggle="tab">
-                            <i class="blue fa-star fa"></i>
-                            <span>T_System_Role_Object_Mapping</span>
-                        </a>
-                    </li>
                    
-                </ul>
-            </div>
-        </div></div>
+                            </ul>
+                        </div>
+                    </div></div>
 
-        <!-- START BODY-DETAIL -------------------->
-        <div class="row ">
-        <div class="col-sm-12">
-            <div class="tab-content no-border active">
-                <!-- MAIN CONTENT TAB -->
-                <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='T_System_Role')  }">
-                    <div class="box box-primary box-body"  ng-if="master.CurrentTab =='T_System_Role'">
-                    <div class="row " style="padding-bottom: 10px; padding-top: 5px">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-md-6">
+                    <!-- START BODY-DETAIL -------------------->
+                    <div class="row ">
+                    <div class="col-sm-12">
+                        <div class="tab-content no-border active">
+                            <!-------------------------------------------------->
+                            <!------------------ MAIN CONTENT TAB -------------->
+                            <!-------------------------------------------------->
+                            <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='T_System_Role')  }">
+                            <div  ng-show="master.CurrentTab =='T_System_Role'">
+                                <div class="box box-primary box-body" >
+                                <!----------- MASTER DETAIL ---------->
+                                <div class="row " >
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12">
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>RoleName </label></div>
     <div class="col-md-8">
+
+        
+        
+        
+
             <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.RoleName || ''" class=""></span>
             <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.RoleName" required
                 placeholder="Nhập [RoleName]" />
@@ -204,48 +202,64 @@
 <div class="row form-group">
     <div  class="col-md-4  "><label>IsSpecial </label></div>
     <div class="col-md-8">
+
+        
+        
+        
+
             <input  ng-disabled="!detail.IsEditingDetail" type="checkbox" ng-model="detail.DataObject.IsSpecial" />
     </div>
 </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-6">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                                <!----------- CHILDs ON MASTER ------->
+                                <div class="row " ng-hide="detail.IsNew()">
+                                    <div class="col-sm-12">
 
-                <!-------------------------------------------------->
-                <!------------------CHILD CONTENT TAB--------------->
-                <!-------------------------------------------------->
-<!-- T_System_Role_Menu_Mapping TAB -->
+<!-- T_System_Role_Menu_Mapping CHILD IS BASETABLETYPE ON MASTER -->
 <div ng-controller="ChildController_T_System_Role_Menu_Mapping as child">
 <!-- START CHILD CONTROLLER-->
-<div class="tab-pane " ng-class="{active : (master.CurrentTab =='T_System_Role_Menu_Mapping')  }">
-    <div class="box box-primary box-body" ng-if="master.CurrentTab =='T_System_Role_Menu_Mapping'">
+<div >
+    <div class="box box-primary box-body" >
         <!-- CHILD TOP BUTTONS -->
         <div class="row" >
+            <div class="col-md-6">
+                <h5>T_System_Role_Menu_Mapping</h5>
+            </div>
             <div class="col-md-6 pull-right text-right" >
-                <button class="btn btn-success  "  ng-disabled="!child.FormConfig._CanCreate" 
-                    type="button" ng-click="child.AddItem()">
-                    <i class="fa fa-plus white"></i> Thêm
+                <button class="btn btn-default" ng-click="child.CancelAll()" ng-show="child.isEditing">
+                    <i class="fa fa-remove"></i>
+                </button>
+                <button class="btn btn-primary " ng-show="child.isEditing" ng-disabled="!child.FormConfig._CanCreate || !child.FormConfig._CanUpdate || !child.TableForm.hasChanges()" 
+                    type="button" ng-click="child.SaveForm()">
+                    <i class="fa fa-check white"></i> Lưu
+                </button>
+                <button class="btn btn-success  "  ng-show="!child.isEditing" ng-disabled="!child.FormConfig._CanCreate || !child.FormConfig._CanUpdate" 
+                    type="button" ng-click="child.EditForm()">
+                    <i class="fa fa-edit white"></i> Sửa
                 </button>
             </div>
         </div>
 
         <!-- CHILD FORM SEARCH -->
-        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+        <div class="row " >
             <div class="col-sm-12">
             <form name="dataForm" novalidate ng-submit="child.Search()">
                 <div class="row">
                     <div class="col-md-6">
-                            <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <label class="col-md-4  ">MenuId </label>
     <div class="col-md-8">
+
+        
+        
+        
         <select class="form-control " ng-model="child.DataObject.MenuId" required
             my-dropdown
             dropdown-id="dd_MenuId"
@@ -259,18 +273,15 @@
         </select>
     </div>
 </div>
-                            <!-- bỏ RefColumn -->
                     </div>
 
                     <div class="col-md-6">
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
                     </div>
                 </div>
 
                 <!-- buttons -->
-                <div class="row" style="margin-top:10px">
-                        <div class="col-md-6" >
+                <div class="row" >
+                        <div class="col-md-12" >
 
                         <!-- Clear -->
                         <button class="btn btn-primary" ng-click="child.ClearForm()" type="button">
@@ -290,116 +301,56 @@
         </div>
 
         <!-- CHILD TABLE -->
+        <div class="table-responsive">
         <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
             ng-form="child.TableForm._tableForm" 
-            ng-table="child.TableForm.tableParams" >
-            <tr ng-repeat="row in $data" >
+            ng-table="child.TableForm.tableParams"
+            demo-tracked-table="child.TableForm._tableTracker"
+             >
+            <tr ng-repeat="row in $data"  ng-form="rowForm"  demo-tracked-table-row="row">
                 <td title="'#'" class="col-center">
                     <span>{{ ((child.TableForm.tableParams.page() - 1)  *child.TableForm.tableParams.count()) + ($index +1) }}</span>
                 </td>
 
 
                 <!--------- data columns -------------->
-                    <!-- bỏ RefColumn -->
-<td title="'MenuId'"  sortable="'MenuId.Name'">
-    <span  class="editable-text"ng-bind="row.MenuId_Name" />
-</td>
-                    <!-- bỏ RefColumn -->
-
-                <!---------command buttons -------------->  
-                <td width="100px" >
-                    <!---edit--->
-                    <button class="btn btn-default btn-sm" ng-click="child.Edit(row)" 
-                        ng-if="child.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
-                           
-                    <!----del--->
-                    <button class="btn btn-danger btn-sm" ng-click="child.Delete(row)" 
-                        ng-if="child.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                <!--base tablecolumn -->
+                <td title="'MenuId'"  >
+                    <span  class="editable-text" ng-bind="row.MenuId_Name" ></span>
                 </td>
+                <!-- other columns -->
+
+                
+                    <td  title="'IsActive'"  sortable="'IsActive'"  ng-form="IsActive" demo-tracked-table-cell> 
+                        <input type="checkbox" name="IsActive" ng-model="row.IsActive"  ng-disabled="!(row.isEditing || child.TableForm.isEditing)"/>
+                    </td>
+                <!---------command buttons -------------->  
+                
             </tr>
             <!--------------- table footer------------------>
             <tfoot>
                 <tr>
-                    <td colspan="3"><label>Số records : {{child.TableForm.tableParams.total()}} </label></td>
+                    <td colspan="2"><label>Số records : {{child.TableForm.tableParams.total()}} </label></td>
                 </tr>
             </tfoot>
         </table>
+        </div>
+
         <div style="clear:both"></div>
     </div>
 </div>
 
-<!-- T_System_Role_Menu_Mapping MODAL -->
-<div ng-controller="controller_modal_T_System_Role_Menu_Mapping as modal" >
-<div id="Modal_T_System_Role_Menu_Mapping" class="modal fade " role="dialog" ng-init="modal.InitModal()">
-    <div class="modal-dialog modal-md">
-        <!-- MODAL CONTENT-->
-        <div class="modal-content" ng-if="modal.IsShow">
-            <div class="modal-header bg-light-blue white border-6">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title bold">T_System_Role_Menu_Mapping</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row" style="padding: 1px 15px; ">
-                <!-- MODAL FORM -->
-                <div class="col-sm-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                                <!-- bỏ RefColumn -->
-
-<div class="row form-group">
-    <div  class="col-md-4  "><label>MenuId </label></div>
-    <div class="col-md-8">
-            <span ng-if="!modal.IsEditingDetail" ng-bind="modal.DataObject.MenuId_Name || ''" class=""></span>
-            <select ng-class="{'none-display' : !modal.IsEditingDetail}"  class="form-control " ng-model="modal.DataObject.MenuId" required
-                my-dropdown
-                dropdown-id="dd_MenuId"
-                dropdown-table="T_System_Menu"
-                dropdown-condition="IsActive=1"
-                dropdown-column-value="Id"
-                dropdown-column-name="Name"
-                dropdown-empty-value=""
-                dropdown-empty-text="-- Chọn --"
-                check-empty="" check-empty-message="Vui lòng chọn [MenuId].">
-            </select>
-    </div>
-</div>
-                                <!-- bỏ RefColumn -->
-                        </div>
-
-                        <div class="col-md-6">
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
-                        </div>
-                    </div>
-                </div>
-                
-                </div>
-            </div>
-
-            <!-- MODAL BUTTONS -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <i class="fa-undo fa"></i>
-                    Đóng
-                </button>
-                <button type="button" class="btn btn-primary" ng-click="modal.Save()">
-                    <i class="fa-save fa"></i>
-                    Lưu
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
 <!-- END CHILD CONTROLLER-->
-</div><!-- T_System_Role_Object_Mapping TAB -->
+</div><!-- T_System_Role_Object_Mapping CHILD ON MASTER -->
 <div ng-controller="ChildController_T_System_Role_Object_Mapping as child">
 <!-- START CHILD CONTROLLER-->
-<div class="tab-pane " ng-class="{active : (master.CurrentTab =='T_System_Role_Object_Mapping')  }">
-    <div class="box box-primary box-body" ng-if="master.CurrentTab =='T_System_Role_Object_Mapping'">
+<div >
+    <div class="box box-primary box-body" >
         <!-- CHILD TOP BUTTONS -->
         <div class="row" >
+            <div class="col-md-6">
+                <h5>T_System_Role_Object_Mapping</h5>
+            </div>
             <div class="col-md-6 pull-right text-right" >
                 <button class="btn btn-success  "  ng-disabled="!child.FormConfig._CanCreate" 
                     type="button" ng-click="child.AddItem()">
@@ -409,44 +360,55 @@
         </div>
 
         <!-- CHILD FORM SEARCH -->
-        <div class="row " style="padding-bottom: 10px; padding-top: 5px">
+        <div class="row " >
             <div class="col-sm-12">
             <form name="dataForm" novalidate ng-submit="child.Search()">
                 <div class="row">
                     <div class="col-md-6">
-                            <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <label class="col-md-4  ">DB Table Name </label>
     <div class="col-md-8">
+
+        
+        
+        
         <input class="form-control" ng-model="child.DataObject.TableName" required
             placeholder="Nhập [DB Table Name]" />
     </div>
 </div>
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <label class="col-md-4  ">CanSelect </label>
     <div class="col-md-8">
+
+        
+        
+        
         <select class="form-control" yes-no-dropdown ng-model="child.DataObject.CanSelect"  required>
         </select>
     </div>
 </div>
-                            <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <label class="col-md-4  ">CanUpdate </label>
     <div class="col-md-8">
+
+        
+        
+        
         <select class="form-control" yes-no-dropdown ng-model="child.DataObject.CanUpdate"  required>
         </select>
     </div>
 </div>
-                            <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <label class="col-md-4  ">CanDelete </label>
     <div class="col-md-8">
+
+        
+        
+        
         <select class="form-control" yes-no-dropdown ng-model="child.DataObject.CanDelete"  required>
         </select>
     </div>
@@ -454,17 +416,12 @@
                     </div>
 
                     <div class="col-md-6">
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
-                            <!-- bỏ RefColumn -->
                     </div>
                 </div>
 
                 <!-- buttons -->
-                <div class="row" style="margin-top:10px">
-                        <div class="col-md-6" >
+                <div class="row" >
+                        <div class="col-md-12" >
 
                         <!-- Clear -->
                         <button class="btn btn-primary" ng-click="child.ClearForm()" type="button">
@@ -484,6 +441,7 @@
         </div>
 
         <!-- CHILD TABLE -->
+        <div class="table-responsive">
         <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
             ng-form="child.TableForm._tableForm" 
             ng-table="child.TableForm.tableParams" >
@@ -494,20 +452,15 @@
 
 
                 <!--------- data columns -------------->
-                    <!-- bỏ RefColumn -->
 <td title="'DB Table Name'"  sortable="'TableName'">
-    <span  class="editable-text" ng-bind="row.TableName" />
+    <span  class="editable-text" ng-bind="row.TableName"></span>
 </td>
-                    <!-- bỏ RefColumn -->
-                    <!-- bỏ RefColumn -->
 <td title="'CanSelect'"  sortable="'CanSelect'">
     <input type="checkbox" name="CanSelect" ng-model="row.CanSelect"  ng-disabled="true"/>
 </td>
-                    <!-- bỏ RefColumn -->
 <td title="'CanUpdate'"  sortable="'CanUpdate'">
     <input type="checkbox" name="CanUpdate" ng-model="row.CanUpdate"  ng-disabled="true"/>
 </td>
-                    <!-- bỏ RefColumn -->
 <td title="'CanDelete'"  sortable="'CanDelete'">
     <input type="checkbox" name="CanDelete" ng-model="row.CanDelete"  ng-disabled="true"/>
 </td>
@@ -530,6 +483,8 @@
                 </tr>
             </tfoot>
         </table>
+        </div>
+
         <div style="clear:both"></div>
     </div>
 </div>
@@ -550,7 +505,6 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-md-6">
-                                <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>DB Table Name </label></div>
@@ -560,8 +514,6 @@
                 placeholder="Nhập [DB Table Name]" />
     </div>
 </div>
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>CanSelect </label></div>
@@ -569,7 +521,6 @@
             <input  ng-disabled="!modal.IsEditingDetail" type="checkbox" ng-model="modal.DataObject.CanSelect" />
     </div>
 </div>
-                                <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>CanUpdate </label></div>
@@ -577,7 +528,6 @@
             <input  ng-disabled="!modal.IsEditingDetail" type="checkbox" ng-model="modal.DataObject.CanUpdate" />
     </div>
 </div>
-                                <!-- bỏ RefColumn -->
 
 <div class="row form-group">
     <div  class="col-md-4  "><label>CanDelete </label></div>
@@ -588,11 +538,6 @@
                         </div>
 
                         <div class="col-md-6">
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
-                                <!-- bỏ RefColumn -->
                         </div>
                     </div>
                 </div>
@@ -617,34 +562,55 @@
 </div>
 
 <!-- END CHILD CONTROLLER-->
-</div>            </div>
-        </div>
-        </div>
-        <!-- END   BODY-DETAIL -------------------->
+</div>                                    </div>
+                                </div>
+                            
+                            </div>
+                            </div>
 
-        <!-- START : MODEL --------------------------------------------->
-        <!----- MODAL OF FOREIGN COLUMN------->
+                
+                            <!-------------------------------------------------->
+                            <!------------------CHILD CONTENT TAB--------------->
+                            <!-------------------------------------------------->
+                        </div>
+                    </div>
+                    </div>
+                    <!-- END   BODY-DETAIL -------------------->
+
+                    <!-- START : MODEL --------------------------------------------->
+                    <!----- MODAL OF FOREIGN COLUMN------->
         
-        <!-- END   : MODEL --------------------------------------------->
-        <div ng-init="detail.InitForeignModals()"></div>
+                    <!-- END   : MODEL --------------------------------------------->
+                    <div ng-init="detail.InitForeignModals()"></div>
+        
+                </div>
+            </div>
+            </div>
+
+            </div>
+
+        </div>
     </div>
 </div>
-<!-- END   : DETAIL --------------------------------------------->
+<!-- END   : MAIN  --------------------------------------------->
 
 </div>
+
+
 
 
 <!----- MASTER SCRIPT ------------->
 <script type="text/javascript">
-CHUNOApp.controller('controller_T_System_Role', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
-function ($scope, NgTableParams, $controller, $q, $timeout) {
-    $controller('CommonController', { $scope: $scope });
-    $scope.masterController = this;
+    CHUNOApp.controller('controller_T_System_Role', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    function ($scope, NgTableParams, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
+        $scope.masterController = this;
 
-    var self = this;
-    self.ObjectTitle = "T_System_Role";
+        var self = this;
+        self.ObjectTitle = "T_System_Role";
     //========================================================
     //Controller Properties
+    
     self.isLoadingImage = false;
 
     self.IsShowDetail = false;
@@ -655,14 +621,14 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
     //form config
     var config = new DataFormConfig();
     {
-        config.table = 'T_System_Role';
+        config.dataobject = 'T_System_Role';
         config.columns = ['Id',
 'RoleName'  ,
 'IsSpecial'  ,
-            ].join(';'); //ko dc
+        ].join(';'); //ko dc
         config.sort = 'T_System_Role.Id DESC';
         config.condition = '(T_System_Role.IsActive = 1 )';
-        config.getdata = 'apart'; //all/apart
+        config.action = 'get'; //getall/get
         config.startrow = 0;
         config.endrow = 10;
     }
@@ -696,6 +662,7 @@ IsSpecial : '' ,
         var newobject = self.NewObject();
 
         //============================================
+        self.SetCurrentTab('T_System_Role');
         self.ShowDetailObject(newobject);
     };
 
@@ -797,6 +764,10 @@ IsSpecial : '' ,
         return config;
     });
 
+    self.ReloadMainTable = function(){
+        self.ReloadTable(self.TableForm);
+    }
+
     self.ReloadTable = function (tableForm) {
         tableForm.reload();
     }
@@ -824,7 +795,24 @@ if (!CommonHelper.IsNullOrEmpty(object.IsSpecial)) {
 
     //=======================================
     //init - data
-    
+    $timeout(function(){
+        var startup_object = @Model.objectid;
+        if(startup_object > 0){
+            var loadobject = self.FormObject.GetObject(startup_object); //GetObject(value, colname)
+
+            //check object exist
+            if(loadobject.Id){
+                //morefields
+                //TODO
+
+                self.ShowDetailObject(loadobject);
+            }
+        }else{
+            //init new object
+            var newobject = self.NewObject();
+            self.ShowDetailObject(newobject);
+        }
+    },100);
 }
 ]);
 
@@ -847,6 +835,8 @@ if (!CommonHelper.IsNullOrEmpty(object.IsSpecial)) {
          //========================================================
          //Controller Methods
          self.IsNew =function(){
+             if(!self.DataObject) return true;
+
              return self.DataObject.Id <=0;
          }
 
@@ -857,19 +847,23 @@ if (!CommonHelper.IsNullOrEmpty(object.IsSpecial)) {
          self.SaveForm = function () {
              self.isSaving = true;
              setTimeout(function () {
-                //change something wrong
-                //=====================
-                //save img
+                 //change something wrong
+                 //=====================
+                 //save img
             
-                //---------------------
-                var isAdd = self.DataObject.Id <= 0 ? true : false;
-                self.SaveObject(self.DataObject);
+                 //---------------------
+                 var isAdd = self.DataObject.Id <= 0 ? true : false;
+                 self.SaveObject(self.DataObject);
 
-                //self.ReloadTable(self.TableForm);
+                 //-----------------------
+                 //reload master table
+                 var master = $scope.masterController;
+                 if(master.ReloadMainTable)
+                     master.ReloadMainTable();
 
-                self.isSaving = false;
-                $scope.$apply();
-            }, 100);
+                 self.isSaving = false;
+                 $scope.$apply();
+             }, 100);
          }
 
          self.SaveObject = function (object) {
@@ -908,11 +902,11 @@ if (!CommonHelper.IsNullOrEmpty(object.IsSpecial)) {
 
              if (!(self.DataObject.Id > 0))
                  self.IsEditingDetail = true; //when add item , isEditing = true n start
-
+             else self.IsEditingDetail = false;
              //================================//
              //===========init - data==========//
              $timeout(function(){
-                //======================
+                 //======================
                  //init - child controller
                  
                  $scope.ChildControllers["T_System_Role_Menu_Mapping"].InitForm(self.DataObject);
@@ -945,13 +939,16 @@ if (!CommonHelper.IsNullOrEmpty(object.IsSpecial)) {
 <!-- ========================================================== -->
 <!-- =======================CHILD CONTROLLER=================== -->
 <!-- *****T_System_Role_Menu_Mapping Form ***** -->
+
+
 <script type="text/javascript">
-//as child
+//as child basetabletype
 CHUNOApp.controller('ChildController_T_System_Role_Menu_Mapping', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
 function ($scope, NgTableParams, $controller, $q, $timeout) {
     $controller('CommonController', { $scope: $scope });
     var self = this;
     self.isSearching=false;
+    self.isEditing =false;
 
     $scope.ChildControllers["T_System_Role_Menu_Mapping"] = self;
     //===================================
@@ -984,48 +981,46 @@ RoleId : '' , RoleId_RoleName : '' ,
         self.DataObject = self.NewObject();
     }
 
-    self.AddItem = function(){
-        var newobj = self.NewObject();
 
-        self.EditObject(newobj);
+    self.EditForm = function () {
+        self.isEditing = self.TableForm.isEditing = true;
     }
 
-    self.Edit = function (object) {
-        //TODO LoadObject again
-
-        //copyobject
-        var copyobject = self.NewObject();
-        CommonHelper.CopyFields(object, copyobject);
-
-        //morefields
-
-        //============================================
-        //check permission
-        copyobject._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
-        copyobject._CanDelete = self.FormConfig._CanDelete;
-
-        //====================================
-        self.EditObject(copyobject);
+    self.Edit = function (object, rowForm) {
+        //self.isEditing = true;
+        object.isEditing = true;
     }
 
-    self.EditObject = function (object){
-
-        $timeout(function () {
-            $scope.ModalAPI.SetObject(object);
-            $("#Modal_T_System_Role_Menu_Mapping").modal('show');
-
-        }, 100);
-    }
-
-    self.Save = function (object) {
-        self.FormObject.SetObject(object);
-        var Id = self.FormObject.SaveObject();
-        if (Id > 0) {
-            object.Id = Id;
+    self.SaveForm = function (object) {
+        var ok = self.TableForm.saveChanges();
+        if(ok){
+            self.isEditing = self.TableForm.isEditing = false;
+            //load lai data : 
+            self.LoadData();
+            //self.ReloadTable(self.TableForm); 
         }
     }
+
+    //called from TableForm
+    self.SaveListObject = function (objs){
+        self.FormObject.SetListObject(objs);
+
+        var ok = self.FormObject.SaveListObject();
+        if(ok){
+            
+            ShowSuccessMessage("Đã lưu thành công!");
+        }
+
+        return ok;
+    }
+    
+    self.CancelAll= function(){
+        self.isEditing = self.TableForm.isEditing = false;
+        self.TableForm.cancelChanges();
+    }
+
     self.Delete = function (object) {
-        ShowConfirmModal("Bạn có muốn xóa [T_System_Role_Menu_Mapping] " + object.Id + " - " + 'object.ChildTable_Name' + "?",
+        ShowConfirmModal("Bạn có muốn xóa [T_System_Role_Menu_Mapping] " + object.Id + " - " + 'TODO - object.Name' + "?",
         function () {
             if (self.FormObject.DeleteObject(object.Id)) {
 
@@ -1036,8 +1031,8 @@ RoleId : '' , RoleId_RoleName : '' ,
         });
     }
 
-    self.ReloadTable = function () {
-        self.TableForm.reload();
+    self.ReloadTable = function (tableForm) {
+        tableForm.reload();
     }
 
     self.Search = function(){
@@ -1065,23 +1060,30 @@ if (CommonHelper.IsSearchableValue(object.RoleId)) {
         self.TableForm.search(filterobj);   
     }
 
+    self.TableForm = new FixedDataTableForm(NgTableParams, $q, self, $scope, []);
     //---InitForm---
     self.InitForm = function (parentobj) {
         self.ParentObjectId = parentobj.Id;
         self.DataObject = self.NewObject();
         //========================
+        self.LoadData();
+    }
+
+    self.LoadData = function(){
         var config = new DataFormConfig();
         {
-            config.table = 'T_System_Role_Menu_Mapping';
+
+            config.dataobject = 'T_System_Role_Menu_Mapping';
             config.columns = ['Id', 
 'MenuId' ,
 'MenuId.Name , MenuId_Name' ,
 'RoleId' ,
 'RoleId.RoleName , RoleId_RoleName' ,
-                ].join(';'); 
+                    'IsActive' 
+            ].join(';'); 
             config.sort = 'T_System_Role_Menu_Mapping.Id DESC';
-            config.condition = 'T_System_Role_Menu_Mapping.RoleId = ' + self.ParentObjectId  + ' AND (T_System_Role_Menu_Mapping.IsActive=1 )';
-            config.getdata = 'apart'; //all/apart
+            config.condition = 'T_System_Role_Menu_Mapping.RoleId = ' + self.ParentObjectId  ;
+            config.action = 'get'; //getall/get
             config.startrow = 0;
             config.endrow = 10;
         }
@@ -1091,112 +1093,67 @@ if (CommonHelper.IsSearchableValue(object.RoleId)) {
         self.FormConfig._CanUpdate = true;
         self.FormConfig._CanDelete = true;
 
-        self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
-            var config = {};
-            $.extend(config, self.FormConfig);
-            //===========================   
-            var filter = params.filter();
-            var sorting = params.sorting();
-            var pagesize = params.count();
-            var page = params.page();
-            //===========================       
-            //condition
-            var conditionarr = [];
-            for (var key in filter) {
-                var column = 'T_System_Role_Menu_Mapping.' + key;
-                if (key.indexOf('.') >= 0)
-                    column = key;
-                var cond = CommonHelper.CreateCondition(column, filter[key]);
-                conditionarr.push(cond);
+        var list_data = GetListDataFromConfig(self.FormConfig);
+        //============================
+        //load basetable data
+        var baseTableConfig = new DataFormConfig();
+        {
+            baseTableConfig.dataobject = 'T_System_Menu';
+            baseTableConfig.columns = ['Id',  'Name'].join(';'); 
+            baseTableConfig.sort = 'T_System_Menu.Id ASC';
+            baseTableConfig.condition = 'IsActive=1 ';
+            baseTableConfig.action = 'getall'; //getall/get
+            baseTableConfig.startrow = 0;
+            baseTableConfig.endrow = 10;
+        }
+        
+        var list_baseTable = GetListDataFromConfig(baseTableConfig);
+        //===========================
+        //create fixed data
+        var fixeddata = [];
+        for(var i =0; i < list_baseTable.length; i++)
+        {
+            var base_data = list_baseTable[i];
+            var base_keyvalue = base_data.Id ;
+            var base_namevalue = base_data.Name ;
+
+            //find parent data has base_keyvalue
+            var data = _.find(list_data, function(obj) {
+                return obj.MenuId == base_keyvalue;
+            });
+
+            if(data){
+                
+            }else{
+                data = {
+                    Id: 0,
+MenuId : '' , MenuId_Name : '' ,
+RoleId : '' , RoleId_RoleName : '' ,
+                    Version: 0,
+                        IsActive: false
+                };
+
+                
+                data.RoleId =  self.ParentObjectId;
+                data.MenuId = base_keyvalue;
+                data.MenuId_Name = base_namevalue;
             }
 
-            if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+            fixeddata.push(data);
+        }
 
-            //sort
-            var sortnarr = [];
-            for (var key in sorting) {
-                var column = 'T_System_Role_Menu_Mapping.' + key;
-                if (key.indexOf('.') >= 0)
-                    column = key;
-                sortnarr.push(column + " " + sorting[key] + "");
-            }
-            if (config.sort != '') sortnarr.push(config.sort);
-            config.sort = sortnarr.join(",");
-            //===========================
-            return config;
-        });
-
+        //============================
+        self.TableForm.SetData(fixeddata);
     }
 
     
 }]);
 
+  
+
 </script>
 
-<!----- MODAL SCRIPT -------------->
-<script type="text/javascript">
-CHUNOApp.controller('controller_modal_T_System_Role_Menu_Mapping', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
-function ($scope, NgTableParams, $controller, $q, $timeout) {
-    $controller('CommonController', { $scope: $scope });
-    var self = this;
-    self.IsEditingDetail = true;
-
-    self.ParentObjectId = 0;
-    self.IsShow = false;
-    self.SetShownModal = function (isShow) {
-        self.IsShow = isShow;
-        if (!isShow) self.DataObject =  $scope.child.NewObject();
-        //if (isShow)
-        //    self.ParentObjectId = $scope.child.ParentObjectId;
-    }
-
-    self.DataObject = {};
-    self.NewObject =function(){
-        return $scope.child.NewObject();
-    }
-
-    self.Save = function () {
-        setTimeout(function () {
-            $scope.child.Save(self.DataObject);
-            if (self.DataObject.Id > 0) {
-
-                $("button[data-dismiss='modal']:visible").click();
-                $('#Modal_AccountRole').modal('hide');
-
-
-                ShowSuccessMessage("Đã lưu thành công!");
-                self.DataObject = self.NewObject();
-
-                $scope.child.ReloadTable();
-            }
-        }, 100);
-    }
-
-    //===========================
-    $scope.ModalAPI.SetObject = function (object) {
-        self.DataObject = object;
-    }
-
-    //==========================
-    //init modal
-    self.InitModal = function () {
-        $('#Modal_T_System_Role_Menu_Mapping').on('show.bs.modal', function (e) {
-            var modalId = $(this).attr("id");
-            var scope = angular.element(document.getElementById(modalId)).scope();
-            scope.$apply(function () {
-                scope.modal.SetShownModal(true);
-            });
-        }).on('hide.bs.modal', function (e) {
-            var modalId = $(this).attr("id");
-            var scope = angular.element(document.getElementById(modalId)).scope();
-            scope.$apply(function () {
-                scope.modal.SetShownModal(false);
-            });
-        });
-    }
-}]);
-
-</script><!-- *****T_System_Role_Object_Mapping Form ***** -->
+<!-- *****T_System_Role_Object_Mapping Form ***** -->
 <script type="text/javascript">
 //as child
 CHUNOApp.controller('ChildController_T_System_Role_Object_Mapping', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
@@ -1253,6 +1210,7 @@ CanDelete : '' ,
         CommonHelper.CopyFields(object, copyobject);
 
         //morefields
+        //TODO
 
         //============================================
         //check permission
@@ -1280,7 +1238,7 @@ CanDelete : '' ,
         }
     }
     self.Delete = function (object) {
-        ShowConfirmModal("Bạn có muốn xóa [T_System_Role_Object_Mapping] " + object.Id + " - " + 'object.ChildTable_Name' + "?",
+        ShowConfirmModal("Bạn có muốn xóa [T_System_Role_Object_Mapping] " + object.Id + " - " + 'TODO - object.Name' + "?",
         function () {
             if (self.FormObject.DeleteObject(object.Id)) {
 
@@ -1341,7 +1299,7 @@ if (!CommonHelper.IsNullOrEmpty(object.CanDelete)) {
         //========================
         var config = new DataFormConfig();
         {
-            config.table = 'T_System_Role_Object_Mapping';
+            config.dataobject = 'T_System_Role_Object_Mapping';
             config.columns = ['Id', 
 'TableName'  ,
 'RoleId' ,
@@ -1352,7 +1310,7 @@ if (!CommonHelper.IsNullOrEmpty(object.CanDelete)) {
                 ].join(';'); 
             config.sort = 'T_System_Role_Object_Mapping.Id DESC';
             config.condition = 'T_System_Role_Object_Mapping.RoleId = ' + self.ParentObjectId  + ' AND (T_System_Role_Object_Mapping.IsActive=1 )';
-            config.getdata = 'apart'; //all/apart
+            config.action = 'get'; //getall/get
             config.startrow = 0;
             config.endrow = 10;
         }

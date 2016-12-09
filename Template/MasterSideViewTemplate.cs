@@ -34,63 +34,6 @@ namespace Template
 
         //==================================
         //on detail tab
-        public string JS_ChildTable_Detail_OnTab(TableInfo tbl)
-        {
-            string template = "";
-            if (tbl.IsOnlyOne)
-            {
-                template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab_only", tbl);
-            }
-            else
-            {
-                template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_detail_ontab", tbl);
-            }
-            return template;
-        }
-
-        public string HTML_ChildTable_Detail_OnTab(TableInfo tbl)
-        {
-            string template = "";
-            if (tbl.IsOnlyOne)
-            {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab_only", tbl);
-            }
-            else
-            {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_detail_ontab", tbl);
-            }
-            return template;
-        }
-
-        //====================================
-        //on master
-        public string JS_ChildTable_OnMaster(TableInfo tbl)
-        {
-            string template = "";
-            if (tbl.IsOnlyOne)
-            {
-                template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_onmaster_only", tbl);
-            }
-            else
-            {
-                template = GenerateHelper.CompileTemplate("js._master_detail.js_childtable_onmaster", tbl);
-            }
-            return template;
-        }
-
-        public string HTML_ChildTable_OnMaster(TableInfo tbl)
-        {
-            string template = "";
-            if (tbl.IsOnlyOne)
-            {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_onmaster_only", tbl);
-            }
-            else
-            {
-                template = GenerateHelper.CompileTemplate("html._master_detail.childtable_onmaster", tbl);
-            }
-            return template;
-        }
-   
+       
     }
 }

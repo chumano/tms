@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Map";
+}
+
+@Styles.Render("~/openlayers/css")
+@Scripts.Render("~/openlayers")
+
+<script type="text/javascript">
+    CHUNOApp.requires.push('openlayers-directive');
+
+</script>
+
+<div class="container-fluid">
+    <b>Ban do</b>
+   
+</div>
+ <openlayers width="100%" height="300px"></openlayers>

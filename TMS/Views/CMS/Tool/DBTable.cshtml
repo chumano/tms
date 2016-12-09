@@ -18,8 +18,7 @@
     <div ng-if="!ctrl.IsShowDetail">
         <!-- TOP BUTTONS -------------------->
         <div class="row" style="padding-top: 5px">
-            <div class="col-md-5 pull-right text-right" >
-
+            <div class="col-md-5 pull-right text-right" > {{CurrentUrl}}
                 <button class="btn btn-primary"  ng-disabled="!ctrl.FormConfig._CanUpdate " ng-click="ctrl.GenerateDBTable()">
                     <i class="fa fa-rocket"></i> Tạo từ CSDL
                 </button>

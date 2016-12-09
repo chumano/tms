@@ -125,6 +125,12 @@ function getAjaxErrorMessage(jqXHR, exception) {
 
     return msg;
 }
+
+function GetListDataFromConfig(config) {
+    var dataService = new DataService(config);
+    var data = dataService.GetListData();
+    return data;
+}
 //===================================================================================
 var CommonHelper = {};
 CommonHelper.CopyNeedFields= function (fromObject, toObject) {

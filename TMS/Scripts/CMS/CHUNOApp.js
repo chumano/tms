@@ -1,5 +1,5 @@
 ﻿var CHUNOApp = angular.module('CHUNOApp', ['ngSanitize', 'ngTable', 'ui.bootstrap', 'pascalprecht.translate', 'ngCookies', 'LocalStorageModule']);
-
+//CHUNOApp.requires.push('openlayers-directive');
 CHUNOApp.config(function ($translateProvider, localStorageServiceProvider) {
     $translateProvider.translations('en', {
         TITLE: 'Hello',

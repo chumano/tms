@@ -1,4 +1,8 @@
-﻿.mainContent {
+﻿body{
+    line-height: 20px;
+}
+
+.mainContent {
     margin-top: 60px;
 }
 
@@ -102,6 +106,15 @@ table th {
 .fixed .right-side {
     padding-top: 30px;
 }
+
+@media (max-width:767px)
+{
+    .fixed .content-wrapper, .fixed .right-side
+    {
+        padding-top: 60px;
+    }
+}
+
 .container-fluid
 {
     padding-top: 2px;
@@ -144,6 +157,8 @@ table th {
     padding: 5px 5px;
 }
 
+
+
 .sidebar-menu > li > a {
     padding: 6px 5px 6px 15px;
     display: block;
@@ -176,7 +191,42 @@ table th {
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
 }
+/******************************************************/
+/*table header fixed*/
+.header-fixed {
+    width: 100% 
+}
 
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 150px;
+}
+
+.header-fixed > thead > tr > th {
+    white-space: nowrap;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    float: left;
+}
 /*****************************************************/
 /*modify css*/
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
@@ -189,4 +239,24 @@ table th {
     position: relative;
     display: block;
     padding: 5px 5px;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li.active > a{
+    background-color: #3c8dbc !important;
+    color:#fff !important;
+}
+
+.small-table{
+    margin-bottom: 0px;
+}
+
+.tiny-box{
+    margin-bottom: 0px;
+}
+
+.clip-text th,.clip-text td
+{
+    text-overflow: clip;/*ellipsis;*/
+    white-space: nowrap;
+    overflow: hidden;
 }
