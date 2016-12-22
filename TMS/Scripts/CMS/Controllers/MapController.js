@@ -120,7 +120,7 @@
         $scope.cctv_click = function (cctv) {
             cctv.url = g_url_cctv_image;
             cctv.currenturl = cctv.url;
-            cctv.ipaddress = '172.28.12.200';
+            cctv.ipaddress = '192.168.0.90';
             cctv.login = 'root:root';
             cctv.videourl = "http://" + cctv.ipaddress + "/mjpg/video.mjpg";
             cctv.login_videourl = "http://" + cctv.login + "@" + cctv.ipaddress + "/mjpg/video.mjpg";
@@ -249,7 +249,7 @@
         ];
 
 
-       
+        $scope.isBottomShow = false;
         //=============================================
         function applyHeight() {
             //wait panel colapse
@@ -294,11 +294,13 @@
 
 
             $('#bottomElement').on('shown.bs.collapse', function () {
+                $scope.isBottomShow = true;
                 //call a service here 
                 applyHeight();
             });
 
             $('#bottomElement').on('hidden.bs.collapse', function () {
+                $scope.isBottomShow = false;
                 //call a service here 
                 applyHeight();
             });

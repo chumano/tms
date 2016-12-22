@@ -16,22 +16,6 @@
     {
          @Styles.Render("~/Content/site")
     }
-    <style>
-        @("@")media (min-width: 768px){
-            .sidebar-mini.sidebar-collapse .main-sidebar {
-                width: 0px !important;
-            }
-
-            .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .right-side, .sidebar-mini.sidebar-collapse .main-footer {
-                margin-left: 0px !important;
-            }
-        }
-        
-        body{
-            font-size: 11px;
-            line-height: 20px;
-        }
-    </style>
     
     <!--------------------------app config ------------------------------>
     <script type="text/javascript">
@@ -72,6 +56,71 @@
     @Scripts.Render("~/openlayers")
 
     
+    <!--------------my styles-------------------->
+    <style>
+        @("@")media (min-width: 768px){
+            .sidebar-mini.sidebar-collapse .main-sidebar {
+                width: 0px !important;
+            }
+
+            .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .right-side, .sidebar-mini.sidebar-collapse .main-footer {
+                margin-left: 0px !important;
+            }
+        }
+        
+        body{
+            font-size: 11px;
+            line-height: 20px;
+        }
+
+        .nav-tabs > li > a , .skin-blue .sidebar a {
+            color: #272323;
+        }
+
+        .tooltip-inner {
+            background-color: #3c8dbc;
+        }
+
+    </style>
+    <!---------Layout style------->
+    <style>
+        .main-header .logo , .main-sidebar, .left-side  
+        {
+            width:330px;
+        }
+        .content-wrapper, .right-side, .main-footer,.main-header > .navbar
+        {
+            margin-left:330px;
+        }
+    </style>
+
+    <!---------items style-------->
+    <style>
+        /*total width = 330*/
+        /*common item*/
+        .item-index
+        {
+            width:20px !important;
+        }
+        .item-code
+        {
+            width:50px !important;
+        }
+        /*hiện trạng giao thông*/
+        .item-linkname
+        {
+            width:200px !important;
+        }
+        .item-speed
+        {
+            width:60px !important;
+        }
+        .item-speed span
+        {
+            padding:5px;
+            border-radius: 25px;
+        }
+    </style>
     <!--------------my scripts------------------->
     @Scripts.Render("~/common/js")
 

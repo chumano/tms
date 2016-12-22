@@ -251,6 +251,7 @@
     <Content Include="Content\device\vms\vms.png" />
     <Content Include="Content\img\icons_user_24x24.png" />
     <Content Include="Content\img\icons_user_white_24x24.png" />
+    <Content Include="Content\map\openlayers.css" />
     <Content Include="Scripts\CMS\Controllers\MapController.js" />
     <Content Include="Scripts\CMS\Factories\common-directive.js" />
     <Content Include="Scripts\CMS\Factories\number-directive.js" />

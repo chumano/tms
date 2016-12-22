@@ -20,6 +20,7 @@ namespace TMS
             bundles.Add(new StyleBundle("~/openlayers/css")
                 .Include("~/Scripts/libs/openlayers/ol.css")
                 .Include("~/Scripts/libs/openlayers/openlayers-directive/angular-openlayers-directive.css")
+                .Include("~/Content/map/openlayers.css")
             );
 
             //=======================================

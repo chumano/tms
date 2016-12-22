@@ -4,11 +4,11 @@
 <section class="sidebar" >
     <!----------------------------------------------------->
     <div id="firstElement" style="">
-        <div class="box tiny-box box-success"><span style="margin-left:10px">Thông tin giao thông</span></div>
+        <div class="box tiny-box box-primary"><span style="margin-left:10px">Thông tin giao thông</span></div>
         <!-- tabs  -->
         <div class="tabbable ">
              <ul class="nav nav-tabs" style="">
-                <li class="active"><a href="#traffic" data-toggle="tab" >TH Giao thông</a></li>
+                <li class="active"><a href="#traffic" data-toggle="tab" >Hiện trạng giao thông</a></li>
                 <li><a href="#incident" data-toggle="tab">Sự cố</a></li>
             </ul>
 
@@ -17,24 +17,24 @@
                     <table class="table small-table table-striped header-fixed clip-text" style="width:100%">
                         <thead>
                         <tr>
-                            <th style="width:20px">#</th>
-                            <th style="width:40px">Link</th>
-                            <th style="width:140px">Đường</th>
-                            <th style="width:30px">TĐ</th>
+                            <th class="item-index">#</th>
+                            <th class="item-code">ID</th>
+                            <th class="item-linkname">Đoạn đường</th>
+                            <th class="item-speed">Vận tốc</th>
                         </tr>
                         </thead>
                         <tbody style="height:200px;">
                         <tr>
-                            <td class="filterable-cell" style="width:20px">1</td>
-                            <td class="filterable-cell" style="width:40px">L0001</td>
-                            <td class="filterable-cell" style="width:140px" data-toggle="tooltip" title="NO01-NO02dsadada-NO02dsadada">NO01-NO02</td>
-                            <td class="filterable-cell bg-green" style="width:30px">65</td>
+                            <td  class="item-index">1</td>
+                            <td  class="item-code">L0001</td>
+                            <td  class="item-linkname" > <span data-toggle="tooltip" title="here is tooltip">NO01-NO02</span></td>
+                            <td  class="item-speed"><span class="bg-green">65</span></td>
                         </tr>
                         <tr>
-                            <td class="filterable-cell" style="width:20px">2</td>
-                            <td class="filterable-cell" style="width:40px">L0001</td>
-                            <td class="filterable-cell" style="width:140px">NO01 - NO02</td>
-                            <td class="filterable-cell bg-red" style="width:30px">10</td>
+                            <td  class="item-index">2</td>
+                            <td  class="item-code">L0001</td>
+                            <td  class="item-linkname" > <span data-toggle="tooltip" title="here is tooltip">NO01 - NO02</span></td>
+                            <td  class="item-speed"><span class="bg-red">65</span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -70,7 +70,7 @@
     </div>
     <!----------------------------------------------------->
     <div id="secondElement">
-        <div class="box tiny-box box-warning"><span style="margin-left:10px">Trạng thái thiết bị</span></div>
+        <div class="box tiny-box box-primary"><span style="margin-left:10px">Trạng thái thiết bị</span></div>
 
         <div>
             <!-- tabs  -->
