@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "CCTVControl";
+}
+<div ng-controller="cctvcontroller">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4  control-height">Tên </label>
+                    <div class="col-md-8" ng-model="name">
+                        <input class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-4  control-height">Mã </label>
+                    <div class="col-md-8" ng-model="code">
+                        <input class="form-control"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-6">
+                <!--- Clear --->
+                <button class="btn btn-primary" type="button">
+                    <i class="fa fa-undo white"></i>Clear
+                </button>
+
+                <!--- Search --->
+                <button type="submit" id="btn-search" class="btn  btn-primary search">
+                    <i class="fa fa-search" ng-hide="isSearching"></i>
+                    <i class="fa fa-spinner white loading" ng-show="isSearching"></i>
+                </button>
+            </div>
+        </div>
+
+    <ul>
+        <li ng-repeat="item in list">
+            <a onclick="myfunc" style="cursor:pointer">{{item.Name}}</a>
+        </li>
+    </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    CHUNOApp.controller('cctvcontroller', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    function ($scope, NgTableParams, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
+
+        console.log($scope.name);
+        var dataService = new DataService({});
+        dataService.config = {};
+        dataService.config.dataobject = "T_TMS_CCTV_Device";
+        dataService.config.columns = "Id;Name;Code;IPAddress";
+        dataService.config.action = "getall";
+        dataService.config.sort = "Name";
+
+        //dataService.config.condition = "";
+        dataService.config.condition = "(Name LIKE ''%%'' OR Code LIKE ''%%'')";
+
+        dataService.config.numdata = 5;
+        dataService.config.startrow = 1;
+        dataService.config.endrow = 5;
+
+        var listData = dataService.GetListData();
+        $scope.list = listData;
+        
+        
+
+        
+    }]);
+
+</script>
