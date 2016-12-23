@@ -92,10 +92,47 @@
         {
             margin-left:330px;
         }
+
+        @("@")media (max-width: 767px){
+            .main-header .logo, .main-header .navbar {
+                width: 100%;
+                float: none;
+            }
+            .main-header .navbar {
+                margin: 0;
+            }
+            .main-sidebar, .left-side {
+                padding-top: 60px;
+            }
+            .main-sidebar, .left-side {
+                -webkit-transform: translate(-330px, 0);
+                -ms-transform: translate(-330px, 0);
+                -o-transform: translate(-330px, 0);
+                transform: translate(-330px, 0);
+            }
+
+            .content-wrapper, .right-side, .main-footer {
+                margin-left: 0;
+            }
+
+            .sidebar-open .content-wrapper, .sidebar-open .right-side, .sidebar-open .main-footer {
+                -webkit-transform: translate(230px, 0);
+                -ms-transform: translate(230px, 0);
+                -o-transform: translate(230px, 0);
+                transform: translate(230px, 0);
+            }
+        }
+
     </style>
 
     <!---------items style-------->
     <style>
+        .table > thead > tr > th, .table > tbody > tr > th, 
+        .table > tfoot > tr > th, .table > thead > tr > td, 
+        .table > tbody > tr > td, .table > tfoot > tr > td
+        {
+            padding: 5px;
+        }
         /*total width = 330*/
         /*common item*/
         .item-index
@@ -119,6 +156,34 @@
         {
             padding:5px;
             border-radius: 25px;
+        }
+
+        /*Sự cố*/
+        .item-incidentlocation
+        {
+            width:80px !important;
+        }
+        .item-time
+        {
+            width:120px !important;
+        }
+        .item-incidenttype
+        {
+            width:60px !important;
+        }
+        /*Trạng thái thiết bị*/
+        .item-location
+        {
+            width:180px !important;
+        }
+        .item-status
+        {
+            width:80px !important;
+        }
+        .item-status span
+        {
+            padding:5px;
+            border-radius: 10px;
         }
     </style>
     <!--------------my scripts------------------->

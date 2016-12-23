@@ -1,6 +1,7 @@
-﻿CHUNOApp.controller('CommonController', ['$scope', '$interpolate', '$filter', '$timeout',
-    function ($scope, $interpolate, $filter, $timeout) {
-        
+﻿CHUNOApp.controller('CommonController', ['$scope', '$controller', '$interpolate', '$filter', '$timeout',
+    function ($scope, $controller, $interpolate, $filter, $timeout) {
+        //$controller('LayoutController', { $scope: $scope });//, $controller: $controller
+
         //START : init-auto-complete =====================================================
         $scope.initAutoComplete = function (autocompleteId) {
             var element = $('input[autocomplete-id="' + autocompleteId + '"]');

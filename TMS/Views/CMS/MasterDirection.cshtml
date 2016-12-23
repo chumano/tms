@@ -1,0 +1,322 @@
+﻿
+@{
+    ViewBag.Title = "Phương hướng";
+}
+<div  ng-controller="controller_T_TMS_Master_Direction as master">
+<!-- START : MAIN  --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : true}">
+    <div >
+        <!-- TOP BUTTONS -------------------->
+        <div class="row" >
+            <div class="col-sm-12" >
+                <h4>{{master.ObjectTitle}}</h4>
+            </div>
+        </div>
+
+        <!-- FORM -------------------->
+        <div class="box box-primary box-body">
+        <div class="row " >
+            <div class="col-sm-12">
+            <form name="dataForm" novalidate ng-submit="master.Search()">
+                <div class="row">
+                    <div class="col-md-6">
+
+<!--  MODEL IS COLUMNINFO -->
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Mã </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+        <input class="form-control" ng-model="master.DataObject.Code" required
+            placeholder="Nhập [Mã]" />
+    </div>
+</div>
+
+<!--  MODEL IS COLUMNINFO -->
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tên </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+        <input class="form-control" ng-model="master.DataObject.Name" required
+            placeholder="Nhập [Tên]" />
+    </div>
+</div>
+                    </div>
+
+                    <div class="col-md-6">
+                    </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="row" >
+                     <div class="col-md-6" >
+                        <!--- Thêm --->
+                        <button type="button" class="btn btn-success" ng-show="!master.isEditing"  ng-disabled="!master.FormConfig._CanCreate || dataForm.$invalid" ng-click="master.SaveForm()">
+                            <i class="fa fa-plus white" ng-hide="master.isSaving"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSaving"></i> 
+                            Thêm
+                        </button>
+
+                        <!--- Cập nhật --->
+                        <button type="button" class="btn btn-warning" ng-show="master.isEditing"  ng-disabled="!master.FormConfig._CanUpdate || dataForm.$invalid" ng-click="master.SaveForm()" >
+                            <i class="fa fa-edit white" ng-hide="master.isSaving"></i> 
+                            <i class="fa fa-spinner white loading" ng-show="master.isSaving"></i>
+                            Cập nhật
+                        </button>
+
+                        <!--- Clear --->
+                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                            <i class="fa fa-undo white"></i> Clear
+                        </button>
+
+                        <!--- Search --->
+                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        
+            </div>
+        </div>
+        </div>
+        <!-- TABLE -------------------->
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table  class="table table-responsive  table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                    ng-form="master.TableForm._tableForm" 
+                    ng-table="master.TableForm.tableParams"
+                    demo-tracked-table="master.TableForm._tableTracker"
+                    disable-filter="master.TableForm.isAdding" >
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                        <td title="'#'" class="col-center">
+                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                        </td>
+
+                        <!--------- data columns -------------->
+<td title="'Mã'"  sortable="'Code'">
+    <span  class="editable-text" ng-bind="row.Code"></span>
+</td>
+<td title="'Tên'"  sortable="'Name'">
+    <span  class="editable-text" ng-bind="row.Name"></span>
+</td>
+                        <!---------command buttons -------------->  
+                        <td width="100px" >
+                            <!---edit--->
+                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+
+                            <!----del--->
+                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <!--------------- table footer------------------>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><label>Số dữ liệu : {{master.TableForm.tableParams.total()}} </label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- END   : MAIN  --------------------------------------------->
+
+<!-- START : MODAL --------------------------------------------->
+<div>
+</div>
+<!-- END   : MODAL --------------------------------------------->
+
+</div>
+
+
+<!-- MAIN SCRIPT  --------------------------------------------->
+<script type="text/javascript">
+CHUNOApp.controller('controller_T_TMS_Master_Direction', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    $scope.masterController = this;
+
+    var self = this;
+    self.ObjectTitle = "Phương hướng";
+    //========================================================
+    //Controller Properties
+    self.isEditing = false;
+    self.isSaving = false;
+    self.isLoadingImage = false;
+    //======================================
+    //form config
+    var config = new DataFormConfig();
+    {
+        config.dataobject = 'T_TMS_Master_Direction';
+        config.columns = ['Id',
+'Code'  ,
+'Name'  ,
+            ].join(';'); //ko dc
+        config.sort = 'T_TMS_Master_Direction.Id DESC';
+        config.condition = '(T_TMS_Master_Direction.IsActive = 1 )';
+        config.action = 'get'; //getall/get
+        config.startrow = 0;
+        config.endrow = 10;
+    }
+
+    self.FormConfig = config;
+    self.FormConfig._CanCreate = true;
+    self.FormConfig._CanUpdate = true;
+    self.FormConfig._CanDelete = true;
+
+    //form object
+    self.NewObject = function () {
+        return {
+            Id: 0,   
+Code : '' ,
+Name : '' ,
+            Version: 0,
+            IsActive: true
+        };
+    }
+    self.DataObject = self.NewObject();
+
+    self.FormObject = new DataObject('T_TMS_Master_Direction', $scope);
+    self.FormObject.SetObject(self.DataObject);
+    //======================================
+    self.ClearForm = function () {       
+
+        self.DataObject = self.NewObject();
+        self.isEditing = false;
+    }
+
+    self.EditObject = function (object, rowForm) {
+        self.isEditing = true;
+        self.DataObject = self.NewObject(); //đảm bảo thông tin ko bị undefined
+        CommonHelper.CopyNeedFields(object, self.DataObject); //from -> to
+    }
+
+    self.SaveForm = function () {
+        self.isSaving = true;
+        setTimeout(function () {
+            //change something wrong
+            //=====================
+            //save img
+            
+            //---------------------
+            var isAdd = self.DataObject.Id <= 0 ? true : false;
+            self.SaveObject(self.DataObject);
+            if (isAdd) {
+                self.ClearForm();
+            }
+            self.ReloadTable(self.TableForm);
+
+            self.isSaving = false;
+            $scope.$apply();
+        }, 100);
+    }
+
+    self.SaveObject = function (object) {
+        self.FormObject.SetObject(object);
+        var Id = self.FormObject.SaveObject();
+        if (Id > 0) {
+            self.DataObject.Id = Id;
+            $("button[data-dismiss='modal']:visible").click();
+            ShowSuccessMessage("Đã tạo thành công!");
+        }
+        return Id;
+    }
+
+    self.DeleteObject = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [Phương hướng] " + object.Id + " - " + object.Name + "?",
+            function () {
+                if (self.FormObject.DeleteObject(object.Id)) {
+
+                    self.ReloadTable(self.TableForm);
+                    ShowSuccessMessage("Đã xóa thành công!");
+                }
+            });
+    }
+
+    //======================================
+    //tableform
+    self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+        var config = {};
+        $.extend(config, self.FormConfig);
+        //===========================    
+        var filter = params.filter();
+        var sorting = params.sorting();
+        var pagesize = params.count();
+        var page = params.page();
+        //===========================    
+        //condition
+        var conditionarr = [];
+        for (var key in filter) {
+            var column = 'T_TMS_Master_Direction' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            var cond = CommonHelper.CreateCondition(column, filter[key]);
+            conditionarr.push(cond);
+        }
+        if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+        //sort
+        var sortnarr = [];
+        for (var key in sorting) {
+            var column = 'T_TMS_Master_Direction' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            sortnarr.push(column + " " + sorting[key] + "");
+        }
+
+        if (config.sort != '') sortnarr.push(config.sort);
+        config.sort = sortnarr.join(",");
+        //===========================
+        return config;
+    });
+
+    self.ReloadTable = function (tableForm) {
+        tableForm.reload();
+    }
+    //======================================
+    self.Search = function () {
+        if (self.DataObject == undefined) return;
+        //===================================
+        var object = self.DataObject;
+        var filterobj = {};
+
+
+if (!CommonHelper.IsNullOrEmpty(object.Code)) {
+    filterobj = { Code: object.Code };
+}
+
+if (!CommonHelper.IsNullOrEmpty(object.Name)) {
+    filterobj = { Name: object.Name };
+}
+        self.TableForm.search(filterobj);
+    };
+
+    self.showloading = function () { self.isSearching = true; }
+    self.hideloading = function () { self.isSearching = false; }
+
+
+    //=======================================
+    //init - data
+
+    //=================================================
+    //Hanlder modal for col
+}
+]);
+
+</script>
+
+<!-- MODEL SCRIPT  --------------------------------------------->

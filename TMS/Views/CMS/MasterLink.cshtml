@@ -1,0 +1,926 @@
+﻿
+@{
+    ViewBag.Title = "Đường Link";
+   
+}
+<div  ng-controller="controller_T_TMS_Master_Link as master">
+<!-- START : MAIN  --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
+    <div ng-if="!master.IsShowDetail" >
+        <!-- TOP BUTTONS -------------------->
+        <div class="row" >
+            <div class="col-sm-6" >
+                <h4>{{master.ObjectTitle}}</h4>
+            </div>
+            <div class="col-md-6 pull-right text-right" >
+
+                <button class="btn btn-success  "  ng-disabled="!master.FormConfig._CanCreate" ng-click="master.AddItem()">
+                    <i class="fa fa-plus white"></i> Thêm
+                </button>
+            </div>
+        </div>
+
+        <!-- FORM SEARCH-------------------->
+        <div class="box box-primary box-body">
+        <div class="row " >
+            <div class="col-sm-12">
+            <form name="dataForm" novalidate ng-submit="master.Search()">
+                <div class="row">
+                    <div class="col-md-6">
+
+<div class="row form-group">
+    <label class="col-md-4  ">Mã </label>
+    <div class="col-md-8">
+        <input class="form-control" ng-model="master.DataObject.Code" required
+            placeholder="Nhập [Mã]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Tên </label>
+    <div class="col-md-8">
+        <input class="form-control" ng-model="master.DataObject.Name" required
+            placeholder="Nhập [Tên]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Tên nút bắt đầu </label>
+    <div class="col-md-8">
+        <input  my-autocomplete  ng-model="master.DataObject.NodeStartId_Name" required
+            autocomplete-id="auto_NodeStartId"
+            autocomplete-table="T_TMS_Master_Node"
+            autocomplete-condition=""
+
+            autocomplete-column-value="Id" autocomplete-column-name="Name"
+            autocomplete-column-filters="Id,Name"
+                
+            autocomplete-model-id="#auto_value_NodeStartId"
+            class="form-control "
+            placeholder="Tìm kiếm" />
+        <input type="text" id="auto_value_NodeStartId" ng-model="master.DataObject.NodeStartId" class="none-display" /> 
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Tên nút kết thúc </label>
+    <div class="col-md-8">
+        <input  my-autocomplete  ng-model="detail.DataObject.NodeEndId_Name" required
+            autocomplete-id="auto_NodeEndId"
+            autocomplete-table="T_TMS_Master_Node"
+            autocomplete-condition=""
+
+            autocomplete-column-value="Id" autocomplete-column-name="Name"
+            autocomplete-column-filters="Id,Name"
+                
+            autocomplete-model-id="#auto_value_NodeEndId"
+            class="form-control "
+            placeholder="Tìm kiếm" />
+        <input type="text" id="auto_value_NodeEndId" ng-model="master.DataObject.NodeEndId" class="none-display" />
+    </div>
+</div>
+                    </div>
+
+                    <div class="col-md-6">
+
+<div class="row form-group">
+    <label class="col-md-4  ">Hướng </label>
+    <div class="col-md-8">
+        <select class="form-control " ng-model="master.DataObject.DirectionId" required
+            my-dropdown
+            dropdown-id="dd_DirectionId"
+            dropdown-table="T_TMS_Master_Direction"
+            dropdown-condition="IsActive=1"
+            dropdown-column-value="Id"
+            dropdown-column-name="Name"
+            dropdown-empty-value=""
+            dropdown-empty-text="-- Chọn --"
+            check-empty="" check-empty-message="Vui lòng chọn [Hướng].">
+        </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Cấp độ đường </label>
+    <div class="col-md-8">
+        <select class="form-control " ng-model="master.DataObject.TransportLevelId" 
+            my-dropdown
+            dropdown-id="dd_TransportLevelId"
+            dropdown-table="T_TMS_Master_TranportLevel"
+            dropdown-condition="IsActive=1"
+            dropdown-column-value="Id"
+            dropdown-column-name="Name"
+            dropdown-empty-value=""
+            dropdown-empty-text="-- Chọn --"
+            check-empty="" check-empty-message="Vui lòng chọn [Cấp độ đường].">
+        </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-md-4  ">Nhóm giao thông </label>
+    <div class="col-md-8">
+        <select class="form-control " ng-model="master.DataObject.TransportLevelGroupId" required
+            my-dropdown
+            dropdown-id="dd_TransportLevelGroupId"
+            dropdown-table="T_TMS_Master_TransportLevelGroup"
+            dropdown-condition="IsActive=1"
+            dropdown-column-value="Id"
+            dropdown-column-name="Name"
+            dropdown-empty-value=""
+            dropdown-empty-text="-- Chọn --"
+            check-empty="" check-empty-message="Vui lòng chọn [Nhóm giao thông].">
+        </select>
+    </div>
+</div>
+                    </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="row" >
+                     <div class="col-md-6" >
+
+                        <!--- Clear --->
+                        <button class="btn btn-primary" ng-click="master.ClearForm()" type="button">
+                            <i class="fa fa-undo white"></i> Clear
+                        </button>
+
+                        <!--- Search --->
+                        <button type="submit" id="btn-search" class="btn  btn-primary search"  >
+                            <i class="fa fa-search" ng-hide="master.isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="master.isSearching"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        
+            </div>
+        </div>
+        </div>
+        
+        <!-- TABLE -------------------->
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table  class="table table-bordered table-striped table-hover table-condensed editable-table no-margin" 
+                    ng-form="master.TableForm._tableForm" 
+                    ng-table="master.TableForm.tableParams"
+                    demo-tracked-table="master.TableForm._tableTracker"
+                    disable-filter="master.TableForm.isAdding" >
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row">
+                        <td title="'#'" class="col-center">
+                            <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
+                        </td>
+
+                        <!--------- data columns -------------->
+<td title="'Mã'"  sortable="'Code'">
+    <span  class="editable-text" ng-bind="row.Code"></span>
+</td>
+<td title="'Tên'"  sortable="'Name'">
+    <span  class="editable-text" ng-bind="row.Name"></span>
+</td>
+<td title="'Hướng'"  sortable="'DirectionId.Name'">
+    <span  class="editable-text" ng-bind="row.DirectionId_Name" ></span>
+</td>
+<td title="'Cấp độ đường'"  sortable="'TransportLevelId.Name'">
+    <span  class="editable-text" ng-bind="row.TransportLevelId_Name" ></span>
+</td>
+<td title="'Nhóm giao thông'"  sortable="'TransportLevelGroupId.Name'">
+    <span  class="editable-text" ng-bind="row.TransportLevelGroupId_Name" ></span>
+</td>
+<td title="'Tên nút bắt đầu'"  sortable="'NodeStartId.Name'">
+    <span  class="editable-text" ng-bind="row.NodeStartId_Name" ></span>
+</td>
+<td title="'Tên nút kết thúc'"  sortable="'NodeEndId.Name'">
+    <span  class="editable-text" ng-bind="row.NodeEndId_Name" ></span>
+</td>
+                        <!---------command buttons -------------->  
+                        <td width="100px" >
+                            <!---edit--->
+                            <button class="btn btn-default btn-sm" ng-click="master.EditObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanUpdate"><span class="glyphicon glyphicon-pencil"></span></button>
+
+                            <!----del--->
+                            <button class="btn btn-danger btn-sm" ng-click="master.DeleteObject(row)" 
+                                ng-if="!row.isEditing && master.FormConfig._CanDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <!--------------- table footer------------------>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9"><label>Số dữ liệu : {{master.TableForm.tableParams.total()}} </label></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- END   : MAIN  --------------------------------------------->
+
+<!-- START : DETAIL --------------------------------------------->
+<div class="container-fluid none-display" ng-class="{'active-content' : master.IsShowDetail}"
+     ng-controller="controller_detail_T_TMS_Master_Link as detail">
+    <div ng-if="master.IsShowDetail"  >
+        <!-- TOP BUTTONS -------------------------->
+        <div class="row" >
+            <div class="col-sm-6" ng-switch="detail.IsNew()" >
+                <h4 ng-switch-default > Thêm mới : {{master.ObjectTitle}}</h4>
+                <h4 ng-switch-when="false"> Chỉnh sửa : {{master.ObjectTitle}}</h4>
+            </div>
+
+            <div class="col-md-6 pull-right text-right">
+                <button class="btn btn-primary" ng-if="master.CurrentTab=='T_TMS_Master_Link' && (detail.IsNew() || detail.IsEditingDetail) && detail.DataObject._CanUpdate" ng-click="detail.SaveForm(false)">
+                    <i class="fa fa-check white"></i>
+                    <span>Lưu</span>
+                </button>
+
+                <button class="btn btn-warning" ng-if="master.CurrentTab=='T_TMS_Master_Link' && !detail.IsNew() && !detail.IsEditingDetail && detail.DataObject._CanUpdate" ng-click="detail.EditDetail()">
+                    <i class="fa fa-edit white"></i>
+                    <span>Sửa</span>
+                </button>
+               
+                <button class="btn btn-default" ng-click="master.CloseDetail()">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>Trở về</span>
+                </button>
+            </div>
+
+        </div>
+        
+        <!-- NAV TAB   ---------------------------->
+        <div class="row"><div class="col-sm-12">
+            <div class="tabbable" >
+                <ul class="nav nav-tabs padding-left-18">
+                    <li class="active" ng-click="master.SetCurrentTab('T_TMS_Master_Link')">
+                        <a data-toggle="tab">
+                            <i class="blue fa-heart fa"></i>
+                            <span>Đường Link</span>
+                        </a>
+                    </li>
+
+                    <!---------------------------------------------->
+                    <!------------------CHILD NAV TAB--------------->
+                    <!---------------------------------------------->
+                    
+                   
+                </ul>
+            </div>
+        </div></div>
+
+        <!-- START BODY-DETAIL -------------------->
+        <div class="row ">
+        <div class="col-sm-12">
+            <div class="tab-content no-border active">
+                <!-------------------------------------------------->
+                <!------------------ MAIN CONTENT TAB -------------->
+                <!-------------------------------------------------->
+                <div class="tab-pane active" ng-class="{active : (master.CurrentTab =='T_TMS_Master_Link')  }">
+                <div ng-show="master.CurrentTab =='T_TMS_Master_Link'">
+                    <div class="box box-primary box-body"  >
+                    <!----------- MASTER DETAIL ---------->
+                    <div class="row " >
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-6">
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Mã </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.Code || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.Code" required
+                placeholder="Nhập [Mã]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tên </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.Name || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.Name" required
+                placeholder="Nhập [Tên]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tên nút bắt đầu </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.NodeStartId_Name || ''" class=""></span>
+            <input ng-class="{'none-display' : !detail.IsEditingDetail}" my-autocomplete  ng-model="detail.DataObject.NodeStartId_Name" required
+                autocomplete-id="edit_auto_NodeStartId"
+                autocomplete-table="T_TMS_Master_Node"
+                autocomplete-condition=""
+
+                autocomplete-column-value="Id" autocomplete-column-name="Name"
+                autocomplete-column-filters="Id,Name"
+                
+                autocomplete-model-id="#auto_value_NodeStartId"
+                class="form-control "
+                placeholder="Tìm kiếm" />
+            <input type="text" id="auto_value_NodeStartId" ng-model="detail.DataObject.NodeStartId" class="none-display" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tên nút kết thúc </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.NodeEndId_Name || ''" class=""></span>
+            <input ng-class="{'none-display' : !detail.IsEditingDetail}" my-autocomplete  ng-model="detail.DataObject.NodeEndId_Name" required
+                autocomplete-id="edit_auto_NodeEndId"
+                autocomplete-table="T_TMS_Master_Node"
+                autocomplete-condition=""
+
+                autocomplete-column-value="Id" autocomplete-column-name="Name"
+                autocomplete-column-filters="Id,Name"
+                
+                autocomplete-model-id="#auto_value_NodeEndId"
+                class="form-control "
+                placeholder="Tìm kiếm" />
+            <input type="text" id="auto_value_NodeEndId" ng-model="detail.DataObject.NodeEndId" class="none-display" />
+    </div>
+</div>
+                                </div>
+
+                                <div class="col-md-6">
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Hướng </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.DirectionId_Name || ''" class=""></span>
+            <select ng-class="{'none-display' : !detail.IsEditingDetail}"  class="form-control " ng-model="detail.DataObject.DirectionId" required
+                my-dropdown
+                dropdown-id="edit_dd_DirectionId"
+                dropdown-table="T_TMS_Master_Direction"
+                dropdown-condition="IsActive=1"
+                dropdown-column-value="Id"
+                dropdown-column-name="Name"
+                dropdown-empty-value=""
+                dropdown-empty-text="-- Chọn --"
+                check-empty="" check-empty-message="Vui lòng chọn [Hướng].">
+            </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Số đường </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.StreetNo || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" ng-model="detail.DataObject.StreetNo" required
+                placeholder="Nhập [Số đường]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Cấp độ đường </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.TransportLevelId_Name || ''" class=""></span>
+            <select ng-class="{'none-display' : !detail.IsEditingDetail}"  class="form-control " ng-model="detail.DataObject.TransportLevelId" 
+                my-dropdown
+                dropdown-id="edit_dd_TransportLevelId"
+                dropdown-table="T_TMS_Master_TranportLevel"
+                dropdown-condition="IsActive=1"
+                dropdown-column-value="Id"
+                dropdown-column-name="Name"
+                dropdown-empty-value=""
+                dropdown-empty-text="-- Chọn --"
+                check-empty="" check-empty-message="Vui lòng chọn [Cấp độ đường].">
+            </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Số làn đường </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.StreetLaneNumber || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" type="number" ng-model="detail.DataObject.StreetLaneNumber" 
+                placeholder="Nhập [Số làn đường]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Chiều dài (m) </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.StreetLength || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" type="number" ng-model="detail.DataObject.StreetLength" 
+            placeholder="Nhập [Chiều dài (m)]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tốc độ giới hạn (km/g) </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.SpeedLimit || ''" class=""></span>
+            <input ng-if="detail.IsEditingDetail" class="form-control" type="number" ng-model="detail.DataObject.SpeedLimit" 
+            placeholder="Nhập [Tốc độ giới hạn (km/g)]" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Nhóm giao thông </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+
+            <span ng-if="!detail.IsEditingDetail" ng-bind="detail.DataObject.TransportLevelGroupId_Name || ''" class=""></span>
+            <select ng-class="{'none-display' : !detail.IsEditingDetail}"  class="form-control " ng-model="detail.DataObject.TransportLevelGroupId" required
+                my-dropdown
+                dropdown-id="edit_dd_TransportLevelGroupId"
+                dropdown-table="T_TMS_Master_TransportLevelGroup"
+                dropdown-condition="IsActive=1"
+                dropdown-column-value="Id"
+                dropdown-column-name="Name"
+                dropdown-empty-value=""
+                dropdown-empty-text="-- Chọn --"
+                check-empty="" check-empty-message="Vui lòng chọn [Nhóm giao thông].">
+            </select>
+    </div>
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!----------- CHILDs ON MASTER ------->
+                    <div class="row " ng-hide="detail.IsNew()">
+                        <div class="col-sm-12">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                <!-------------------------------------------------->
+                <!------------------CHILD CONTENT TAB--------------->
+                <!-------------------------------------------------->
+            </div>
+        </div>
+        </div>
+        <!-- END   BODY-DETAIL -------------------->
+
+        <!-- START : MODEL --------------------------------------------->
+        <!----- MODAL OF FOREIGN COLUMN------->
+        
+        <!-- END   : MODEL --------------------------------------------->
+        <div ng-init="detail.InitForeignModals()"></div>
+    </div>
+</div>
+<!-- END   : DETAIL --------------------------------------------->
+
+</div>
+
+
+<!----- MASTER SCRIPT ------------->
+<script type="text/javascript">
+CHUNOApp.controller('controller_T_TMS_Master_Link', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+function ($scope, NgTableParams, $controller, $q, $timeout) {
+    $controller('CommonController', { $scope: $scope });
+    $scope.masterController = this;
+
+    var self = this;
+    self.ObjectTitle = "Đường Link";
+    //========================================================
+    //Controller Properties
+    
+    self.isLoadingImage = false;
+
+    self.IsShowDetail = false;
+    self.CurrentTab = 'T_TMS_Master_Link';
+
+    $scope.DetailAPI = {};
+    //======================================
+    //form config
+    var config = new DataFormConfig();
+    {
+        config.dataobject = 'T_TMS_Master_Link';
+        config.columns = ['Id',
+'Code'  ,
+'Name'  ,
+'DirectionId' ,
+'DirectionId.Name , DirectionId_Name' ,
+'StreetNo'  ,
+'TransportLevelId' ,
+'TransportLevelId.Name , TransportLevelId_Name' ,
+'StreetLaneNumber'  ,
+'StreetLength' ,
+'SpeedLimit' ,
+'TransportLevelGroupId' ,
+'TransportLevelGroupId.Name , TransportLevelGroupId_Name' ,
+'NodeStartId' ,
+'NodeStartId.Name , NodeStartId_Name' ,
+'NodeEndId' ,
+'NodeEndId.Name , NodeEndId_Name' ,
+            ].join(';'); //ko dc
+        config.sort = 'T_TMS_Master_Link.Id DESC';
+        config.condition = '(T_TMS_Master_Link.IsActive = 1 )';
+        config.action = 'get'; //getall/get
+        config.startrow = 0;
+        config.endrow = 10;
+    }
+
+    self.FormConfig = config;
+    self.FormConfig._CanCreate = true;
+    self.FormConfig._CanUpdate = true;
+    self.FormConfig._CanDelete = true;
+
+    //form object
+    self.NewObject = function () {
+        return {
+            Id: 0,   
+Code : '' ,
+Name : '' ,
+DirectionId : '' , DirectionId_Name : '' ,
+StreetNo : '' ,
+TransportLevelId : '' , TransportLevelId_Name : '' ,
+StreetLaneNumber : '' ,
+StreetLength : '' ,
+SpeedLimit : '' ,
+TransportLevelGroupId : '' , TransportLevelGroupId_Name : '' ,
+NodeStartId : '' , NodeStartId_Name : '' ,
+NodeEndId : '' , NodeEndId_Name : '' ,
+            Version: 0,
+            IsActive: true
+        };
+    }
+    self.DataObject = self.NewObject();
+
+    self.FormObject = new DataObject('T_TMS_Master_Link', $scope);
+    self.FormObject.SetObject(self.DataObject);
+    //======================================
+    self.ClearForm = function () {       
+        self.DataObject = self.NewObject();
+    }
+
+    self.AddItem = function () {
+        //create newobject
+        var newobject = self.NewObject();
+
+        //============================================
+        self.ShowDetailObject(newobject);
+    };
+
+    self.EditObject = function (object, rowForm) {
+        //load object
+        var loadobject = self.FormObject.GetObject(object.Id); //GetObject(value, colname)
+             
+        //copy object
+        var copyobject = self.NewObject();
+        //copyobject có thuộc tính nào thì object mới đưa vào
+        CommonHelper.CopyFields(loadobject, copyobject);
+        
+        //morefields
+        //TODO
+        copyobject.DirectionId_Name = object.DirectionId_Name;
+        copyobject.TransportLevelId_Name = object.TransportLevelId_Name;
+        copyobject.TransportLevelGroupId_Name = object.TransportLevelGroupId_Name;
+        copyobject.NodeStartId_Name = object.NodeStartId_Name;
+        copyobject.NodeEndId_Name = object.NodeEndId_Name;
+        //============================================
+        self.ShowDetailObject(copyobject);
+    }
+
+    self.ShowDetailObject = function(object){
+        //============================================
+        //check permission
+        object._CanUpdate = self.FormConfig._CanUpdate;//item._CanUpdate;
+        object._CanDelete = self.FormConfig._CanDelete;
+
+        //====================================
+        //set object to detail view
+        $scope.DetailAPI.SetObject(object);
+
+        //show detail
+        self.IsShowDetail = true;
+
+        //set default tab
+        self.SetCurrentTab('T_TMS_Master_Link');
+    }
+
+    
+
+    self.DeleteObject = function (object) {
+        ShowConfirmModal("Bạn có muốn xóa [Đường Link] " + object.Id + " - " + object.Name + "?",
+            function () {
+                if (self.FormObject.DeleteObject(object.Id)) {
+
+                    self.ReloadTable(self.TableForm);
+                    ShowSuccessMessage("Đã xóa thành công!");
+                }
+            });
+    }
+
+    //======================================
+    self.CloseDetail = function () {
+        if ($scope.DetailAPI.IsEditing() && !$scope.DetailAPI.IsNew()) {
+            $scope.DetailAPI.SetEditing(false) ; //tử trạng thái đang chỉnh sửa -> only view
+        }
+        else {
+            $scope.DetailAPI.SetEditing(false);
+            self.IsShowDetail = false; //
+        }
+    }
+
+    self.SetCurrentTab = function (tab) {
+        if (tab != self.CurrentTab) {
+            self.CurrentTab = tab;
+        }
+    }
+
+    //======================================
+    //tableform
+    self.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+        var config = {};
+        $.extend(config, self.FormConfig);
+        //===========================    
+        var filter = params.filter();
+        var sorting = params.sorting();
+        var pagesize = params.count();
+        var page = params.page();
+        //===========================    
+        //condition
+        var conditionarr = [];
+        for (var key in filter) {
+            var column = 'T_TMS_Master_Link' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            var cond = CommonHelper.CreateCondition(column, filter[key]);
+            conditionarr.push(cond);
+        }
+        if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+        //sort
+        var sortnarr = [];
+        for (var key in sorting) {
+            var column = 'T_TMS_Master_Link' +'.' + key;
+            if (key.indexOf('.') >= 0)
+                column = key;
+            sortnarr.push(column + " " + sorting[key] + "");
+        }
+
+        if (config.sort != '') sortnarr.push(config.sort);
+        config.sort = sortnarr.join(",");
+        //===========================
+        return config;
+    });
+
+    self.ReloadMainTable = function(){
+        self.ReloadTable(self.TableForm);
+    }
+
+    self.ReloadTable = function (tableForm) {
+        tableForm.reload();
+    }
+    //======================================
+    self.Search = function () {
+        if (self.DataObject == undefined) return;
+        //===================================
+        var object = self.DataObject;
+        var filterobj = {};
+
+
+if (!CommonHelper.IsNullOrEmpty(object.Code)) {
+    filterobj = { Code: object.Code };
+}
+
+if (!CommonHelper.IsNullOrEmpty(object.Name)) {
+    filterobj = { Name: object.Name };
+}
+
+if (CommonHelper.IsSearchableValue(object.DirectionId)) {
+    $.extend(filterobj, { DirectionId: object.DirectionId });
+}
+
+
+if (CommonHelper.IsSearchableValue(object.TransportLevelId)) {
+    $.extend(filterobj, { TransportLevelId: object.TransportLevelId });
+}
+
+
+if (CommonHelper.IsSearchableValue(object.TransportLevelGroupId)) {
+    $.extend(filterobj, { TransportLevelGroupId: object.TransportLevelGroupId });
+}
+
+
+if (CommonHelper.IsSearchableValue(object.NodeStartId)) {
+    $.extend(filterobj, { NodeStartId: object.NodeStartId });
+}
+
+
+if (CommonHelper.IsSearchableValue(object.NodeEndId)) {
+    $.extend(filterobj, { NodeEndId: object.NodeEndId });
+}
+
+        self.TableForm.search(filterobj);
+    };
+
+    self.showloading = function () { self.isSearching = true; }
+    self.hideloading = function () { self.isSearching = false; }
+
+    //=======================================
+    //init - data
+    $timeout(function(){
+        var startup_object = @Model.objectid;
+        if(startup_object > 0){
+            var loadobject = self.FormObject.GetObject(startup_object); //GetObject(value, colname)
+
+            //check object exist
+            if(loadobject.Id){
+                //morefields
+                //TODO
+
+                self.ShowDetailObject(loadobject);
+            }
+        }
+    },200);
+}
+]);
+
+</script>
+
+<!----- DETAIL SCRIPT ------------->
+<script type="text/javascript">
+    CHUNOApp.controller('controller_detail_T_TMS_Master_Link', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+     function ($scope, NgTableParams, $controller, $q, $timeout) {
+         $controller('CommonController', { $scope: $scope });
+
+
+         var self = this;
+         //========================================================
+         //Controller Properties
+         self.IsEditingDetail = false;
+
+         self.FormObject = new DataObject("T_TMS_Master_Link", $scope);
+
+         //========================================================
+         //Controller Methods
+         self.IsNew =function(){
+             return self.DataObject.Id <=0;
+         }
+
+         self.EditDetail = function () {
+             self.IsEditingDetail = true;
+         }
+
+         self.SaveForm = function () {
+             self.isSaving = true;
+             setTimeout(function () {
+                //change something wrong
+                
+                if (self.DataObject.DirectionId == '' || self.DataObject.DirectionId == 0)
+                    self.DataObject.DirectionId = '';
+                
+                
+                if (self.DataObject.TransportLevelId == '' || self.DataObject.TransportLevelId == 0)
+                    self.DataObject.TransportLevelId = '';
+                
+                
+                if (self.DataObject.TransportLevelGroupId == '' || self.DataObject.TransportLevelGroupId == 0)
+                    self.DataObject.TransportLevelGroupId = '';
+                
+                
+                if (self.DataObject.NodeStartId == '' || self.DataObject.NodeStartId == 0)
+                    self.DataObject.NodeStartId = '';
+                
+                
+                if (self.DataObject.NodeEndId == '' || self.DataObject.NodeEndId == 0)
+                    self.DataObject.NodeEndId = '';
+                
+                //=====================
+                //save img
+            
+                //---------------------
+                var isAdd = self.DataObject.Id <= 0 ? true : false;
+                self.SaveObject(self.DataObject);
+
+                //-----------------------
+                //reload master table
+                var master = $scope.masterController;
+                if(master.ReloadMainTable)
+                    master.ReloadMainTable();
+
+                self.isSaving = false;
+                $scope.$apply();
+            }, 100);
+         }
+
+         self.SaveObject = function (object) {
+             self.FormObject.SetObject(object);
+             var Id = self.FormObject.SaveObject();
+             if (Id > 0) {
+                 self.DataObject.Id = Id;
+                 $("button[data-dismiss='modal']:visible").click();
+                 ShowSuccessMessage("Đã tạo thành công!");
+             }
+             return Id;
+         }
+
+         self.ReloadTable = function (tableForm) {
+             tableForm.reload();
+         }
+
+         
+         //==========================================================
+         //=================Child Table Detail=======================
+         //==========================================================
+         $scope.ChildControllers = {};
+         
+         //==========================================================
+         //==================END Child Table Detail =================
+         //==========================================================
+
+         self.InitForeignModals = function () {
+             if (typeof init_modals !== 'undefined') init_modals();
+         }
+
+         //========================================================
+         //DetailAPI
+         $scope.DetailAPI.SetObject = function (object) {
+             self.DataObject = object;
+
+             if (!(self.DataObject.Id > 0))
+                 self.IsEditingDetail = true; //when add item , isEditing = true n start
+             else self.IsEditingDetail = false;
+             //================================//
+             //===========init - data==========//
+             $timeout(function(){
+                //======================
+                 //init - child controller
+
+                 //======================
+                 //init - handlers
+             
+             },100);
+         };
+         $scope.DetailAPI.IsEditing = function () {
+             return self.IsEditingDetail;
+         };
+         $scope.DetailAPI.IsNew = function () {
+             return !(self.DataObject.Id > 0);
+         };
+         $scope.DetailAPI.SetEditing = function (isediting) {
+             self.IsEditingDetail = isediting;
+         };
+         //========================================================
+     }
+    ]);
+
+
+</script>
+
+<!-- ========================================================== -->
+<!-- =======================CHILD CONTROLLER=================== -->
+<!-- ================== END CHILD CONTROLLER=================== -->
+<!-- ========================================================== -->

@@ -107,10 +107,17 @@ table th {
     padding-top: 30px;
 }
 
+.main-sidebar, .left-side {
+    padding-top: 30px;
+}
+
 @media (max-width:767px)
 {
     .fixed .content-wrapper, .fixed .right-side
     {
+        padding-top: 60px;
+    }
+    .main-sidebar, .left-side {
         padding-top: 60px;
     }
 }
@@ -120,9 +127,8 @@ table th {
     padding-top: 2px;
 }
 
-.main-sidebar, .left-side {
-    padding-top: 30px;
-}
+
+
 
 @media (max-width: 991px)
 {
@@ -134,7 +140,7 @@ table th {
     }
 }
 
-@media (min-width: 768px)
+@media (min-width: 767px)
 {
     .navbar-nav > li > a
     {

@@ -1,6 +1,7 @@
 ﻿CHUNOApp.controller('MenuController',
 ['$rootScope','$scope', '$filter', '$controller', '$interpolate','$translate', 'localStorageService',
-    function ($rootScope,$scope, $filter, $controller, $interpolate, $translate, localStorageService) {
+    function ($rootScope, $scope, $filter, $controller, $interpolate, $translate, localStorageService) {
+        
         //==============================
         //session variable
         $rootScope.CurrentAccount = $scope.CurrentAccount = _session_accountid;

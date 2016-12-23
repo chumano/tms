@@ -1,6 +1,6 @@
-﻿CHUNOApp.controller('MapController', ['$rootScope', '$scope','$sce', 'olData','olHelpers', '$controller', '$q', '$timeout',
-    function ($rootScope, $scope,$sce, olData,olHelpers, $controller, $q, $timeout) {
-
+﻿CHUNOApp.controller('MapController', ['$rootScope', '$scope', '$controller', '$sce', 'olData', 'olHelpers', '$controller', '$q', '$timeout',
+    function ($rootScope, $scope, $controller, $sce, olData, olHelpers, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
         //=========================================
         var self = this;
         $rootScope.main = self;

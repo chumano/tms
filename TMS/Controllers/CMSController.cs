@@ -52,5 +52,65 @@ namespace TMS.Controllers
             //if (!SessionCollection.IsLogIn) return LoginView();
             return View();
         }
+
+        #region object manangement
+        public ActionResult MasterNode()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+        public ActionResult MasterLink(int objectid = 0)
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            dynamic model = new System.Dynamic.ExpandoObject();
+            model.objectid = objectid;
+            return View(model);
+        }
+        public ActionResult MasterZone()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+        public ActionResult MasterDirection()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+        public ActionResult MasterTransportLevel()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+        public ActionResult MasterTransportGroup()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+        //==================================
+        //VDS
+        public ActionResult VDSDevice(int objectid = 0)
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            dynamic model = new System.Dynamic.ExpandoObject();
+            model.objectid = objectid;
+            return View(model);
+        }
+
+        //==================================
+        //VMS
+        public ActionResult VMSDevice(int objectid = 0)
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            dynamic model = new System.Dynamic.ExpandoObject();
+            model.objectid = objectid;
+            return View(model);
+        }
+
+        #endregion
+
     }
 }
