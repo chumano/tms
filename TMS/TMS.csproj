@@ -230,6 +230,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\device\cctv\cctv-demo.png" />
     <Content Include="Content\device\cctv\security-camera-16.png" />
     <Content Include="Content\device\cctv\security-camera-24.png" />
     <Content Include="Content\device\cctv\security-camera-32.png" />
@@ -249,6 +250,14 @@
     <Content Include="Content\device\vds\Video-Camera-32px.png" />
     <Content Include="Content\device\vds\Video-Camera-64px.png" />
     <Content Include="Content\device\vms\vms.png" />
+    <Content Include="Content\direction-arrow\down.png" />
+    <Content Include="Content\direction-arrow\left-bottom.png" />
+    <Content Include="Content\direction-arrow\left-top.png" />
+    <Content Include="Content\direction-arrow\left.png" />
+    <Content Include="Content\direction-arrow\right-bottom.png" />
+    <Content Include="Content\direction-arrow\right-top.png" />
+    <Content Include="Content\direction-arrow\right.png" />
+    <Content Include="Content\direction-arrow\up.png" />
     <Content Include="Content\img\icons_user_24x24.png" />
     <Content Include="Content\img\icons_user_white_24x24.png" />
     <Content Include="Content\map\openlayers.css" />
@@ -7423,10 +7432,12 @@
     <Content Include="Views\CMS\MasterTransportGroup.cshtml" />
     <Content Include="Views\CMS\MasterZone.cshtml" />
     <Content Include="Views\CMS\VDSDevice.cshtml" />
-    <Content Include="Views\CMS\T_TMS_VMS_Size.cshtml" />
+    <Content Include="Views\CMS\VMSSize.cshtml" />
     <Content Include="Views\CMS\VMSDevice.cshtml" />
-    <Content Include="Views\CMS\T_TMS_VMS_DeviceType.cshtml" />
-    <Content Include="Views\CMS\T_TMS_VMS_OperateMode.cshtml" />
+    <Content Include="Views\CMS\VMSDeviceType.cshtml" />
+    <Content Include="Views\CMS\VMSOperateMode.cshtml" />
+    <Content Include="Views\CMS\CCTVDevice.cshtml" />
+    <Content Include="Views\CMS\CCTVControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\outputs\" />

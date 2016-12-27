@@ -1,15 +1,8 @@
-﻿@using Template;
-@* ----------------------------comment-------------------------- *@
-@("@"){
-    ViewBag.Title = "@Model.Title";
+﻿
+@{
+    ViewBag.Title = "Chế độ vận hành";
 }
-@if(@Model.Bundle!="")
-{
-<text>@("@")Scripts.Render("~/bundles/cms/@Model.Bundle");</text>
-}
-
-@* ----------------------------comment-------------------------- *@
-<div  ng-controller="@iTemplate.ControllerName(@Model.TableName) as master">
+<div  ng-controller="controller_T_TMS_VMS_OperateMode as master">
 <!-- START : MAIN  --------------------------------------------->
 <div class="container-fluid none-display" ng-class="{'active-content' : true}">
     <div >
@@ -27,23 +20,37 @@
             <form name="dataForm" novalidate ng-submit="master.Search()">
                 <div class="row">
                     <div class="col-md-6">
-                        @foreach (var col in @Model.Columns)
-                        {
-                            if(col.Position==EPosition.LEFT)
-                            {
-                                @iTemplate.HTML_Column_In_SearchEditForm("master",col);
-                            }
-                        }
+
+<!--  MODEL IS COLUMNINFO -->
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Mã </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+        <input class="form-control" ng-model="master.DataObject.Code" required
+            placeholder="Nhập [Mã]" />
+    </div>
+</div>
+
+<!--  MODEL IS COLUMNINFO -->
+
+<div class="row form-group">
+    <div  class="col-md-4  "><label>Tên </label></div>
+    <div class="col-md-8">
+
+        
+        
+        
+        <input class="form-control" ng-model="master.DataObject.Name" required
+            placeholder="Nhập [Tên]" />
+    </div>
+</div>
                     </div>
 
                     <div class="col-md-6">
-                        @foreach (var col in @Model.Columns)
-                        {
-                            if(col.Position==EPosition.RIGHT)
-                            {
-                                @iTemplate.HTML_Column_In_SearchEditForm("master",col);
-                            }
-                        }
                     </div>
                 </div>
 
@@ -94,16 +101,14 @@
                         <td title="'#'" class="col-center">
                             <span>{{ ((master.TableForm.tableParams.page() - 1)  *master.TableForm.tableParams.count()) + ($index +1) }}</span>
                         </td>
-                        @{var count_column = 2;}
+
                         <!--------- data columns -------------->
-                        @foreach (var col in @Model.Columns)
-                        {
-                            if(col.IsView)
-                            {
-                                @iTemplate.HTML_Column_In_Table("row",col);
-                                count_column++;
-                            }
-                        }
+<td title="'Mã'"  sortable="'Code'">
+    <span  class="editable-text" ng-bind="row.Code"></span>
+</td>
+<td title="'Tên'"  sortable="'Name'">
+    <span  class="editable-text" ng-bind="row.Name"></span>
+</td>
                         <!---------command buttons -------------->  
                         <td width="100px" >
                             <!---edit--->
@@ -118,7 +123,7 @@
                     <!--------------- table footer------------------>
                     <tfoot>
                         <tr>
-                            <td colspan="@count_column"><label>Số dữ liệu : {{master.TableForm.tableParams.total()}} </label></td>
+                            <td colspan="4"><label>Số dữ liệu : {{master.TableForm.tableParams.total()}} </label></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -132,13 +137,6 @@
 
 <!-- START : MODAL --------------------------------------------->
 <div>
-@foreach(var col in @Model.Columns)
-{
-    if (col.IsForeignKey && !col.IsImage && !col.IsFile && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
-    {
-@Model.HTML_MODAL_COLUMN(col);
-    }
-}
 </div>
 <!-- END   : MODAL --------------------------------------------->
 
@@ -147,13 +145,13 @@
 
 <!-- MAIN SCRIPT  --------------------------------------------->
 <script type="text/javascript">
-CHUNOApp.controller('@iTemplate.ControllerName(@Model.TableName)', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+CHUNOApp.controller('controller_T_TMS_VMS_OperateMode', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
 function ($scope, NgTableParams, $controller, $q, $timeout) {
     $controller('CommonController', { $scope: $scope });
     $scope.masterController = this;
 
     var self = this;
-    self.ObjectTitle = "@Model.Title";
+    self.ObjectTitle = "Chế độ vận hành";
     //========================================================
     //Controller Properties
     self.isEditing = false;
@@ -163,15 +161,13 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
     //form config
     var config = new DataFormConfig();
     {
-        config.dataobject = '@Model.TableName';
+        config.dataobject = 'T_TMS_VMS_OperateMode';
         config.columns = ['Id',
-            @foreach(var col in @Model.Columns)
-            {
-            @iTemplate.JS_Column_On_FormConfig("",col)
-            }
+'Code'  ,
+'Name'  ,
             ].join(';'); //ko dc
-        config.sort = '@iTemplate.TableDotColumn(@Model.TableName,"Id") DESC';
-        config.condition = '(@iTemplate.TableDotColumn(@Model.TableName,"IsActive") = 1 )';
+        config.sort = 'T_TMS_VMS_OperateMode.Id DESC';
+        config.condition = '(T_TMS_VMS_OperateMode.IsActive = 1 )';
         config.action = 'get'; //getall/get
         config.startrow = 0;
         config.endrow = 10;
@@ -186,29 +182,18 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
     self.NewObject = function () {
         return {
             Id: 0,   
-            @foreach(var col in @Model.Columns){
-            @iTemplate.JS_Column_On_NewObject("",col)
-            }
+Code : '' ,
+Name : '' ,
             Version: 0,
             IsActive: true
         };
     }
     self.DataObject = self.NewObject();
 
-    self.FormObject = new DataObject('@Model.TableName', $scope);
+    self.FormObject = new DataObject('T_TMS_VMS_OperateMode', $scope);
     self.FormObject.SetObject(self.DataObject);
     //======================================
     self.ClearForm = function () {       
-        @foreach(var col in @Model.Columns)
-        {
-            if(col.IsImage)
-            {
-        <text>
-        $("#input_@col.Name").val("");
-        $("#img_@col.Name").attr("src", CommonHelper.GetImageSrc(0));
-        </text>
-            }
-        }
 
         self.DataObject = self.NewObject();
         self.isEditing = false;
@@ -224,24 +209,8 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         self.isSaving = true;
         setTimeout(function () {
             //change something wrong
-            @foreach(var col in @Model.Columns)
-            {
-                if(col.IsForeignKey && !col.IsImage && !col.IsFile){
-            <text>
-            if (self.DataObject.@col.Name == '' || self.DataObject.@col.Name == 0)
-                self.DataObject.@col.Name = '';
-            </text>
-                }
-            }
             //=====================
             //save img
-            @foreach(var col in @Model.Columns)
-            {
-                if(col.IsImage)
-                {
-            @iTemplate.JS_Column_Image_Save("",col);
-                }
-            }
             
             //---------------------
             var isAdd = self.DataObject.Id <= 0 ? true : false;
@@ -268,7 +237,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
     }
 
     self.DeleteObject = function (object) {
-        ShowConfirmModal("Bạn có muốn xóa [@Model.Title] " + object.Id + " - " + object.Name + "?",
+        ShowConfirmModal("Bạn có muốn xóa [Chế độ vận hành] " + object.Id + " - " + object.Name + "?",
             function () {
                 if (self.FormObject.DeleteObject(object.Id)) {
 
@@ -292,7 +261,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         //condition
         var conditionarr = [];
         for (var key in filter) {
-            var column = '@Model.TableName' +'.' + key;
+            var column = 'T_TMS_VMS_OperateMode' +'.' + key;
             if (key.indexOf('.') >= 0)
                 column = key;
             var cond = CommonHelper.CreateCondition(column, filter[key]);
@@ -303,7 +272,7 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         //sort
         var sortnarr = [];
         for (var key in sorting) {
-            var column = '@Model.TableName' +'.' + key;
+            var column = 'T_TMS_VMS_OperateMode' +'.' + key;
             if (key.indexOf('.') >= 0)
                 column = key;
             sortnarr.push(column + " " + sorting[key] + "");
@@ -325,13 +294,14 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
         var object = self.DataObject;
         var filterobj = {};
 
-        @foreach(var col in @Model.Columns)
-        {
-            if(col.IsFilter)
-            {
-            @iTemplate.JS_Column_On_Filter("",col);
-            }
-        }
+
+if (!CommonHelper.IsNullOrEmpty(object.Code)) {
+    filterobj = { Code: object.Code };
+}
+
+if (!CommonHelper.IsNullOrEmpty(object.Name)) {
+    filterobj = { Name: object.Name };
+}
         self.TableForm.search(filterobj);
     };
 
@@ -341,44 +311,12 @@ function ($scope, NgTableParams, $controller, $q, $timeout) {
 
     //=======================================
     //init - data
-    @foreach(var col in @Model.Columns)
-    {
-        if(col.IsImage)
-        {
-    @iTemplate.JS_Column_Image_Init_Hanlder("",col);
-        }
-    }
 
     //=================================================
     //Hanlder modal for col
-    @foreach(var col in @Model.Columns)
-    {
-        if (col.IsForeignKey && !col.IsImage && !col.IsFile && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
-        {
-    <text>
-    $scope.@(col.ForeignTable)_ModalAPI = {};
-    self.ShowModal_@(col.ForeignTable) = function (object){
-
-        $timeout(function () {
-            $scope.@(col.ForeignTable)_ModalAPI.SetObject(object);
-            $("#ModalCol_@Model.TableName").modal('show');
-
-        }, 100);
-        
-    }
-    </text>
-        }
-    }
 }
 ]);
 
 </script>
 
 <!-- MODEL SCRIPT  --------------------------------------------->
-@foreach(var col in @Model.Columns)
-{
-    if (col.IsForeignKey && !col.IsImage && !col.IsFile && col.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)
-    {
-@Model.JS_MODAL_COLUMN(col);
-    }
-}

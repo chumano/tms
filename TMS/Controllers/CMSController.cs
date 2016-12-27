@@ -110,6 +110,22 @@ namespace TMS.Controllers
             return View(model);
         }
 
+        //==================================
+        //CCTV
+        public ActionResult CCTVDevice(int objectid = 0)
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            dynamic model = new System.Dynamic.ExpandoObject();
+            model.objectid = objectid;
+            return View(model);
+        }
+
+        public ActionResult CCTVControl()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
         #endregion
 
     }

@@ -47,7 +47,7 @@
             else if (@Model.ForeignKeyType == EForeignKeyType.AUTOCOMPLETE)
             {
             //================================================================
-        <input  my-autocomplete  ng-model="detail.DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" @required
+        <input  my-autocomplete  ng-model="@(@Model.Controller).DataObject.@iTemplate.NameOfForeignColumn(@Model.Name,@Model.ForeignColumnName)" @required
             autocomplete-id="auto_@Model.Name"
             autocomplete-table="@Model.ForeignTable"
             autocomplete-condition=""
@@ -58,7 +58,7 @@
             autocomplete-model-id="#auto_value_@Model.Name"
             class="form-control @width"
             placeholder="Tìm kiếm" />
-        <input type="text" id="auto_value_@Model.Name" ng-model="detail.DataObject.@Model.Name" class="none-display" />
+        <input type="text" id="auto_value_@Model.Name" ng-model="@(@Model.Controller).DataObject.@Model.Name" class="none-display" />
             
                 
                 if(@Model.ForeignKeyModal == EForeignKeyModal.ON_FLY_MODAL)

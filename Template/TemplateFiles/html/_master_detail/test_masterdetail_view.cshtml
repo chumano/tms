@@ -14,7 +14,7 @@
 <div  ng-controller="@iTemplate.ControllerName(@Model.TableName) as master">
 <!-- START : MAIN  --------------------------------------------->
 <div class="container-fluid none-display" ng-class="{'active-content' : !master.IsShowDetail}">
-    <div >
+    <div ng-if="!master.IsShowDetail">
         <!-- TOP BUTTONS -------------------->
         <div class="row" >
             <div class="col-sm-6" >
@@ -114,7 +114,7 @@
                     <!--------------- table footer------------------>
                     <tfoot>
                         <tr>
-                            <td colspan="@count_column"><label>Số records : {{master.TableForm.tableParams.total()}} </label></td>
+                            <td colspan="@count_column"><label>Số dữ liệu : {{master.TableForm.tableParams.total()}} </label></td>
                         </tr>
                     </tfoot>
                 </table>
