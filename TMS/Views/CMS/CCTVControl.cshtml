@@ -112,7 +112,7 @@
                                         <tr>
                                             <td><button class="btn" ng-click="CCTV_zoomIn()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
                                             <td></td>
-                                            <td><button class="btn" ng-click="CCTV_zoomOut()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
+                                            <td><button class="btn" ng-click="CCTV_focusIn()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
                                         </tr>
                                         <tr>
                                             <td>Zoom</td>
@@ -120,7 +120,7 @@
                                             <td>Focus</td>
                                         </tr>
                                         <tr>
-                                            <td><button class="btn"  ng-click="CCTV_focusIn()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></button></td>
+                                            <td><button class="btn"  ng-click="CCTV_zoomOut()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></button></td>
                                             <td></td>
                                             <td><button class="btn"  ng-click="CCTV_focusOut()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></button></td>
                                         </tr>
@@ -281,11 +281,12 @@
         //=================================
         //CCTV Camera function
         var url_camera_action = '@Url.Action("Control", "CCTV")';
-        function control_camera(cctvid, par, value) {
+        function control_camera(cctvid, par, value1, value2) {
             var pars = {
                 cctvid: cctvid,
                 par: par,
-                value : value
+                value1: value1,
+                value2: value2
             };
 
             AjaxSync(url_camera_action, JSON.stringify(pars));
@@ -293,73 +294,74 @@
         /*
         rpan=<float>5 -360.0 ... 360.0
         rtilt=<float>5 -360.0 ... 360.0
-        rzoom=<int>5 -9999 ... 99994
+        rzoom=<int>5 -9999 ... 9999
         rfocus=<int> -9999 ... 9999
         */
+
         var delta_pan = 5;
         var delta_tilt = 5;
-        var delta_zoom = 5;
-        var delta_focus = 5;
+        var delta_zoom = 20;
+        var delta_focus = 20;
         //--
         $scope.CCTV_moveLeftTop = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'lefttop', -delta_pan);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'lefttop', -delta_pan, delta_tilt);
         }
 
         $scope.CCTV_moveUp = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'up', delta_tilt);
         }
 
         $scope.CCTV_moveRightTop = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'righttop', delta_pan);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'righttop', delta_pan, delta_tilt);
         }
         //--
         $scope.CCTV_moveLeft = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'left', -delta_pan);
         }
 
         $scope.CCTV_moveRight = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'right', delta_pan);
         }
         //--
         $scope.CCTV_moveLeftBottom = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'leftbottom', -delta_pan);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'leftbottom', -delta_pan, -delta_tilt);
         }
 
         $scope.CCTV_moveDown = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'down', delta_tilt);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'down', -delta_tilt, -delta_tilt);
         }
 
         $scope.CCTV_moveRightBottom = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'rightbottom', delta_pan);
         }
         //===
         //zoom
         $scope.CCTV_zoomIn = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'zoomIn', -delta_zoom);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'zoomIn', delta_zoom);//zoomIn là zoom to vào 1 vị trí, giá trị phải cộng vô
         }
 
         $scope.CCTV_zoomOut = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
-            control_camera($scope.SelectedCCTV.Id, 'zoomOut', delta_zoom);
+            //if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'zoomOut', -delta_zoom);
         }
         //===
         //focus
         $scope.CCTV_focusIn = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'focusIn', -delta_focus);
         }
 
         $scope.CCTV_focusOut = function () {
-            if ($scope.SelectedCCTV.Id <= 0) return;
+            //if ($scope.SelectedCCTV.Id <= 0) return;
             control_camera($scope.SelectedCCTV.Id, 'focusOut', delta_focus);
         }
     }]);
