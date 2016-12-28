@@ -75,7 +75,7 @@
             <!-------------OBJECT DETAIL--------------------->
             <div class="col-md-8">
                 <div class="box box-primary box-body">
-                    <h4>{{SelectedCCTV.Name}}</h4>
+                    <h4>{{SelectedCCTV.Code}} - {{SelectedCCTV.Name}}</h4>
 
                     <div class="row">
                     
@@ -84,30 +84,65 @@
                             <div>
                                 <img alt="Camera" src="@Url.Content("~/Content/device/cctv/cctv-demo.png")" style="width:100%"/>
                             </div>
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/left-top.png")" width="20px"/></td>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></td>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/right-top.png")" width="20px"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/left.png")" width="20px"/></td>
-                                        <td style="width:30px;height:30px" align="center" ></td>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/right.png")" width="20px"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/left-bottom.png")" width="20px"/></td>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></td>
-                                        <td style="width:30px;height:30px" align="center" ><img src="@Url.Content("~/Content/direction-arrow/right-bottom.png")" width="20px"/></td>
-                                    </tr>
-                                </table>
+                            <div class="row" style="margin-top:20px">
+                                <div class="col-md-6  col-xs-6">
+                                    <table>
+                                        <tr>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveLeftTop()"><img src="@Url.Content("~/Content/direction-arrow/left-top.png")" width="20px"/></button></td>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveUp()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveRightTop()"><img src="@Url.Content("~/Content/direction-arrow/right-top.png")" width="20px"/></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveLeft()"><img src="@Url.Content("~/Content/direction-arrow/left.png")" width="20px"/></button></td>
+                                            <td style="width:30px;height:30px" align="center" ></td>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveRight()"><img src="@Url.Content("~/Content/direction-arrow/right.png")" width="20px"/></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveLeftBottom()"><img src="@Url.Content("~/Content/direction-arrow/left-bottom.png")" width="20px"/></button></td>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveDown()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px" /></button></td>
+                                            <td style="width:30px;height:30px" align="center" ><button class="btn" ng-click="CCTV_moveRightBottom()"><img src="@Url.Content("~/Content/direction-arrow/right-bottom.png")" width="20px"/></button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6 col-xs-6">
+                                    <table>
+                                        <tr>
+                                            <td><button class="btn" ng-click="CCTV_zoomIn()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
+                                            <td></td>
+                                            <td><button class="btn" ng-click="CCTV_zoomOut()"><img src="@Url.Content("~/Content/direction-arrow/up.png")" width="20px"/></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Zoom</td>
+                                            <td width="30px"></td>
+                                            <td>Focus</td>
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn"  ng-click="CCTV_focusIn()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></button></td>
+                                            <td></td>
+                                            <td><button class="btn"  ng-click="CCTV_focusOut()"><img src="@Url.Content("~/Content/direction-arrow/down.png")" width="20px"/></button></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>
 
                         <!---info--->
-                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                CompanyName : 
+                                <div>
+                                <label class="form-control" >{{SelectedCCTV.CompanyName}}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                IPAddress : 
+                                <div>
+                                <label class="form-control" >{{SelectedCCTV.IPAddress}}</label>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -143,6 +178,7 @@
         };
 
         $scope.SelectedCCTV = {
+            Id : 0,
             Name: '...'
         };
         //======================================
@@ -238,6 +274,92 @@
             $scope.SelectedCCTV = cctv;
         }
         
+
+
+        //=================================
+        //CCTV Camera function
+        var url_camera_action = '@Url.Action("Control", "CCTV")';
+        function control_camera(cctvid, par, value) {
+            var pars = {
+                cctvid: cctvid,
+                par: par,
+                value : value
+            };
+
+            AjaxSync(url_camera_action, JSON.stringify(pars));
+        }
+        /*
+        rpan=<float>5 -360.0 ... 360.0
+        rtilt=<float>5 -360.0 ... 360.0
+        rzoom=<int>5 -9999 ... 99994
+        rfocus=<int> -9999 ... 9999
+        */
+        var delta_pan = 5;
+        var delta_tilt = 5;
+        var delta_zoom = 5;
+        var delta_focus = 5;
+        //--
+        $scope.CCTV_moveLeftTop = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'lefttop', -delta_pan);
+        }
+
+        $scope.CCTV_moveUp = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'up', delta_tilt);
+        }
+
+        $scope.CCTV_moveRightTop = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'righttop', delta_pan);
+        }
+        //--
+        $scope.CCTV_moveLeft = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'left', -delta_pan);
+        }
+
+        $scope.CCTV_moveRight = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'right', delta_pan);
+        }
+        //--
+        $scope.CCTV_moveLeftBottom = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'leftbottom', -delta_pan);
+        }
+
+        $scope.CCTV_moveDown = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'down', delta_tilt);
+        }
+
+        $scope.CCTV_moveRightBottom = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'rightbottom', delta_pan);
+        }
+        //===
+        //zoom
+        $scope.CCTV_zoomIn = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'zoomIn', -delta_zoom);
+        }
+
+        $scope.CCTV_zoomOut = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'zoomOut', delta_zoom);
+        }
+        //===
+        //focus
+        $scope.CCTV_focusIn = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'focusIn', -delta_focus);
+        }
+
+        $scope.CCTV_focusOut = function () {
+            if ($scope.SelectedCCTV.Id <= 0) return;
+            control_camera($scope.SelectedCCTV.Id, 'focusOut', delta_focus);
+        }
     }]);
 
 </script>

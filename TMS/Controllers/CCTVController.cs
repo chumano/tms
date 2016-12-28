@@ -15,14 +15,29 @@ namespace TMS.Controllers
         static WebRequest WReq;
         public CCTVController(IDataService _dataService)
             : base(_dataService)
-        {String MyURI = "http://172.28.12.200/jpg/image.jpg";
-             WReq= WebRequest.Create(MyURI);
+        {
+            String MyURI = "http://172.28.12.102/jpg/image.jpg";
+            WReq= WebRequest.Create(MyURI);
             WReq.Credentials = new NetworkCredential("root", "root");
         }
-
-        //
+        //=================================================
+        //Control
+        public ActionResult Control(int cctvid, string par, string value)
+        {
+            try
+            {
+                var server = "172.28.12.102";
+                var url = string.Format("http://{0}/axis-cgi/com/ptz.cgi?{1}={2}",server, par, value);
+                var req = WebRequest.Create(url);
+                req.Credentials = new NetworkCredential("root", "root");
+                var response = req.GetResponse();
+            }catch(Exception ex){
+                return Json("#error: CCTVController.Control - " + ex.Message );
+            }
+            return Json(true);
+        }
+        //=================================================
         // GET: /CCTV/
-        
         public ActionResult LiveView()
         {
             try

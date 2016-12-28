@@ -78,7 +78,8 @@ div.col-value
 }
 
 table th {
-    background-color:rgb(232, 232, 232);
+    background-color: #3c8dbc;
+    color : white;
 }
 
 .col-center
