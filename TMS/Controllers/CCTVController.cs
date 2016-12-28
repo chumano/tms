@@ -22,12 +22,42 @@ namespace TMS.Controllers
         }
         //=================================================
         //Control
-        public ActionResult Control(int cctvid, string par, string value)
+        public ActionResult Control(int cctvid, string par, string value1, string value2)
         {
+            System.Diagnostics.Debug.WriteLine(par);
             try
             {
                 var server = "172.28.12.102";
-                var url = string.Format("http://{0}/axis-cgi/com/ptz.cgi?{1}={2}",server, par, value);
+                var controlUrl = "";
+                switch (par)
+                {
+                    case "up":
+                    case "down":
+                        controlUrl = "rtilt=" + value1;
+                        break;
+                    case "left":
+                    case "right":
+                        controlUrl = "rpan=" + value1;
+                        break;
+
+                    case "lefttop":
+                    case "righttop":
+                    case "leftbottom":
+                    case "rightbottom":
+                        controlUrl = "rpan=" + value1 + "&rtilt=" + value2;
+                        break;
+                    case "zoomIn":
+                    case "zoomOut":
+                        controlUrl = "rzoom=" + value1;
+                        break;
+                    case "focusIn":
+                    case "focusOut":
+                        controlUrl = "rfocus=" + value1;
+                        break;
+
+                }
+
+                var url = string.Format("http://{0}/axis-cgi/com/ptz.cgi?{1}", server, controlUrl);
                 var req = WebRequest.Create(url);
                 req.Credentials = new NetworkCredential("root", "root");
                 var response = req.GetResponse();
