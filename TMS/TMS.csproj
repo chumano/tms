@@ -7464,7 +7464,6 @@
     <Content Include="Scripts\libs\adminlte\images\Thumbs.db" />
     <Content Include="Scripts\libs\adminlte\plugins\blueimp\bootstrap-img\css\bootstrap-image-gallery.min.css.map" />
     <Content Include="Scripts\libs\adminlte\plugins\blueimp\bootstrap-img\js\bootstrap-image-gallery.min.js.map" />
-    <Content Include="Scripts\libs\adminlte\plugins\blueimp\gallery\css\blueimp-gallery.less" />
     <Content Include="Scripts\libs\adminlte\plugins\blueimp\gallery\css\blueimp-gallery.min.css.map" />
     <Content Include="Scripts\libs\adminlte\plugins\blueimp\gallery\js\blueimp-gallery.min.js.map" />
     <Content Include="Scripts\libs\adminlte\plugins\blueimp\gallery\js\jquery.blueimp-gallery.min.js.map" />
