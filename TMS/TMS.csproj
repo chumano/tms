@@ -7438,6 +7438,8 @@
     <Content Include="Views\CMS\VMSOperateMode.cshtml" />
     <Content Include="Views\CMS\CCTVDevice.cshtml" />
     <Content Include="Views\CMS\CCTVControl.cshtml" />
+    <Content Include="Views\CMS\MonitorDeviceStatus.cshtml" />
+    <Content Include="Views\CMS\MonitorCCTV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\outputs\" />

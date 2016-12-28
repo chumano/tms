@@ -210,7 +210,7 @@
             ].join(';'); //ko dc
             config.sort = 'T_TMS_CCTV_Device.Id DESC';
             config.condition = '(T_TMS_CCTV_Device.IsActive = 1 )';
-            config.action = 'get'; //getall/get
+            config.action = 'getall'; //getall/get
             config.startrow = 0;
             config.endrow = 10;
         }
@@ -221,7 +221,7 @@
         $scope.FormConfig._CanDelete = true;
         //====================
         //tableform
-        $scope.TableForm = new DynamicTableForm(NgTableParams, $q, self, function (params) {
+        $scope.TableForm = new DynamicTableForm(NgTableParams, $q, $scope, function (params) {
             var config = {};
             $.extend(config, $scope.FormConfig);
             //===========================    

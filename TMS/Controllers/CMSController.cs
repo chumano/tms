@@ -90,6 +90,22 @@ namespace TMS.Controllers
             return View();
         }
 
+        #region Theo dõi giám sát
+        public ActionResult MonitorDeviceStatus()
+        {
+            //if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+
+        public ActionResult MonitorCCTV()
+        {
+            //if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+        #endregion
+
+        #region Quản lý thiết bị
         //==================================
         //VDS
         public ActionResult VDSDevice(int objectid = 0)
@@ -120,11 +136,13 @@ namespace TMS.Controllers
             return View(model);
         }
 
+        //Điểu khiển thiết bị
         public ActionResult CCTVControl()
         {
             if (!SessionCollection.IsLogIn) return LoginView();
             return View();
         }
+        #endregion
 
         #endregion
 

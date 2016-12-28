@@ -1,0 +1,325 @@
+﻿@{
+    ViewBag.Title = "Thiết bị VDS";
+}
+
+<div ng-controller="MonitorDeviceStatusController">
+<div class="container-fluid">
+    <!-- TOP BUTTONS -------------------->
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Giám sát tình trạng thiết bị</h4>
+        </div>
+    </div>
+
+    <!-------------SUMMARY----------------->
+    <div class="row">
+        <!--VDS-->
+        <div class="col-md-4">
+            <div class="box box-primary box-solid">
+                <div class="box-header">VDS <span class="pull-right"><button class="btn btn-success" ng-click="ShowSubSystem('vds')" >Xem tất cả</button></span></div>
+                <div class="box-body">
+                    <span>Toàn bộ : <span ng-bind="summary_vds.total" class="label label-primary"></span></span> 
+                    <span class="pull-right">Mất kết nối : <span ng-bind="summary_vds.error" class="label bg-red"></span></span>
+                </div>
+            </div>
+        </div>
+        <!--VMS-->
+        <div class="col-md-4">
+            <div class="box box-primary box-solid">
+                <div class="box-header">VMS <span class="pull-right"><button class="btn btn-success" ng-click="ShowSubSystem('vms')" >Xem tất cả</button></span></div>
+                <div class="box-body">
+                    <span>Toàn bộ : <span ng-bind="summary_vms.total" class="label label-primary"></span></span> 
+                    <span class="pull-right">Mất kết nối : <span ng-bind="summary_vms.error" class="label bg-red"></span></span>
+                </div>
+            </div>
+        </div>
+        <!--CCTV-->
+        <div class="col-md-4">
+            <div class="box box-primary box-solid">
+                <div class="box-header">CCTV <span class="pull-right"><button class="btn btn-success" ng-click="ShowSubSystem('cctv')" >Xem tất cả</button></span></div>
+                <div class="box-body">
+                    <span>Toàn bộ : <span ng-bind="summary_cctv.total" class="label label-primary"></span></span> 
+                    <span class="pull-right">Mất kết nối : <span ng-bind="summary_cctv.error" class="label bg-red"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-------------DETAIL----------------->
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <i class="fa fa-th"></i>
+            <h4 class="box-title">Giám sát hệ thống :
+                <strong ng-if="SubSystem=='vds'">VDS</strong>
+                <strong ng-if="SubSystem=='vms'">VMS</strong>
+                <strong ng-if="SubSystem=='cctv'">CCTV</strong>
+            </h4>
+        </div>
+        
+        <div class="box-body">
+            <!--search-->
+            <div class="row">
+                <div class="col-md-6">
+                    <form name="searchForm" novalidate ng-submit="Search()">
+                    <div class="">
+                        <input class="pull-left form-control" style="max-width:200px" ng-model="SearchText"/>
+
+                        <button class="pull-left btn  btn-primary search" type="submit" id="btn-search" >
+                            <i class="fa fa-search" ng-hide="isSearching"></i>
+                            <i class="fa fa-spinner white loading" ng-show="isSearching"></i>
+                        </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--VDS-->
+            <div class="" ng-if="SubSystem=='vds'">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+                            ng-table="VDS_TableForm.tableParams">
+                            <tr ng-repeat="row in $data" >
+                                <td title="'#'" class="col-center">
+                                    <span>{{ ((VDS_TableForm.tableParams.page() - 1)  *VDS_TableForm.tableParams.count()) + ($index +1) }}</span>
+                                </td>
+
+                                <!--------- data columns -------------->
+                                <td title="'ID VDS'" sortable="'Code'">
+                                    <span class="editable-text" ng-bind="row.Code"></span>
+                                </td>
+                                <td title="'Tên thiết bị'" sortable="'Name'">
+                                    <span class="editable-text" ng-bind="row.Name"></span>
+                                </td>
+                                <td title="'Vị trí cài đặt'" sortable="'SetupSpot'">
+                                    <span class="editable-text" ng-bind="row.SetupSpot"></span>
+                                </td>
+                                <td title="'Tình trạng'" sortable="'Status'">
+                                    <span class="editable-text" ng-bind="row.Status"></span>
+                                </td>
+                                <td title="'Thời gian bị lỗi'" sortable="'ErrorDateTime'">
+                                    <span class="editable-text" ng-bind="row.ErrorDateTime"></span>
+                                </td>
+                            </tr>
+                            <!--------------- table footer------------------>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <label>Số dữ liệu : {{VDS_TableForm.tableParams.total()}} </label>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+        
+            <!--VMS-->
+            <div class="" ng-if="SubSystem=='vms'">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+                            ng-table="VMS_TableForm.tableParams">
+                            <tr ng-repeat="row in $data" >
+                                <td title="'#'" class="col-center">
+                                    <span>{{ ((VMS_TableForm.tableParams.page() - 1)  *VMS_TableForm.tableParams.count()) + ($index +1) }}</span>
+                                </td>
+
+                                <!--------- data columns -------------->
+                                <td title="'ID VMS'" sortable="'Code'">
+                                    <span class="editable-text" ng-bind="row.Code"></span>
+                                </td>
+                                <td title="'Tên thiết bị'" sortable="'Name'">
+                                    <span class="editable-text" ng-bind="row.Name"></span>
+                                </td>
+                                <td title="'Vị trí cài đặt'" sortable="'SetupSpot'">
+                                    <span class="editable-text" ng-bind="row.SetupSpot"></span>
+                                </td>
+                                <td title="'Tình trạng'" sortable="'Status'">
+                                    <span class="editable-text" ng-bind="row.Status"></span>
+                                </td>
+                                <td title="'Thời gian bị lỗi'" sortable="'ErrorDateTime'">
+                                    <span class="editable-text" ng-bind="row.ErrorDateTime"></span>
+                                </td>
+                            </tr>
+                            <!--------------- table footer------------------>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <label>Số dữ liệu : {{VMS_TableForm.tableParams.total()}} </label>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+        
+            <!--CCTV-->
+            <div class="" ng-if="SubSystem=='cctv'">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered table-striped table-hover table-condensed editable-table no-margin"
+                            ng-table="CCTV_TableForm.tableParams">
+                            <tr ng-repeat="row in $data" >
+                                <td title="'#'" class="col-center">
+                                    <span>{{ ((CCTV_TableForm.tableParams.page() - 1)  *CCTV_TableForm.tableParams.count()) + ($index +1) }}</span>
+                                </td>
+
+                                <!--------- data columns -------------->
+                                <td title="'ID CCTV'" sortable="'Code'">
+                                    <span class="editable-text" ng-bind="row.Code"></span>
+                                </td>
+                                <td title="'Tên thiết bị'" sortable="'Name'">
+                                    <span class="editable-text" ng-bind="row.Name"></span>
+                                </td>
+                                <td title="'Vị trí cài đặt'" sortable="'SetupSpot'">
+                                    <span class="editable-text" ng-bind="row.SetupSpot"></span>
+                                </td>
+                                <td title="'Tình trạng'" sortable="'Status'">
+                                    <span class="editable-text" ng-bind="row.Status"></span>
+                                </td>
+                                <td title="'Thời gian bị lỗi'" sortable="'ErrorDateTime'">
+                                    <span class="editable-text" ng-bind="row.ErrorDateTime"></span>
+                                </td>
+                            </tr>
+                            <!--------------- table footer------------------>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <label>Số dữ liệu : {{CCTV_TableForm.tableParams.total()}} </label>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+</div>
+</div>
+<script type="text/javascript">
+CHUNOApp.controller('MonitorDeviceStatusController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    function ($scope, NgTableParams, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
+        $scope.summary_vds = {
+            total: 110,
+            error: 10
+
+        };
+        $scope.summary_vms = {
+            total: 120,
+            error: 20
+
+        };
+        $scope.summary_cctv = {
+            total: 130,
+            error: 20
+
+        };
+
+        //=======================
+        $scope.SubSystem = ""; //vds , vms, cctv
+
+        $scope.ShowSubSystem = function (subsytem) {
+            $scope.SubSystem = subsytem;
+        }
+
+        //=======================
+        //search
+        $scope.SearchText = "";
+        $scope.Search = function () {
+        }
+
+        //=======================
+        //load data
+        //1. summary
+        //2. all device
+        //================================================================
+        //=======================VDS======================================
+        $scope.VDS_FormConfig = {};
+        {
+            var config = new DataFormConfig();
+            config.dataobject = 'T_TMS_CCTV_Device';
+            config.columns = ['Id',
+                            'Code',
+                            'Name',
+                            'CompanyName',
+                            'ModuleName',
+                            'DeviceTyped',
+                            'DeviceTyped.Name , DeviceTyped_Name',
+                            'DeviceGroupId',
+                            'DeviceGroupId.Name , DeviceGroupId_Name',
+                            'SetupDate',
+                            'SetupInfo',
+                            'SetupSpot',
+                            'ZoneId',
+                            'ZoneId.Name , ZoneId_Name',
+                            'Lng',
+                            'Lat',
+                            'IPAddress',
+                            'ConnectPort',
+                            'IsUse',
+            ].join(';'); //ko dc
+            config.sort = 'T_TMS_CCTV_Device.Id DESC';
+            config.condition = '(T_TMS_CCTV_Device.IsActive = 1 )';
+            config.action = 'get'; //getall/get
+            config.startrow = 0;
+            config.endrow = 10;
+
+            $scope.VDS_FormConfig = config;
+        }
+
+        $scope.VDS_TableForm = new StaticTableForm(NgTableParams, $q, $scope,$scope, function (params) {
+            var config = {};
+            $.extend(config, $scope.VDS_FormConfig);
+            //===========================    
+            var filter = params.filter();
+            var sorting = params.sorting();
+            var pagesize = params.count();
+            var page = params.page();
+            //===========================    
+            //condition
+            var conditionarr = [];
+            for (var key in filter) {
+                var column = 'T_TMS_CCTV_Device' + '.' + key;
+                if (key.indexOf('.') >= 0)
+                    column = key;
+                var cond = CommonHelper.CreateCondition(column, filter[key]);
+                conditionarr.push(cond);
+            }
+            if (conditionarr.length > 0) config.condition += (config.condition == '' ? '' : ' AND ') + conditionarr.join(" AND ");
+
+            //sort
+            var sortnarr = [];
+            for (var key in sorting) {
+                var column = 'T_TMS_CCTV_Device' + '.' + key;
+                if (key.indexOf('.') >= 0)
+                    column = key;
+                sortnarr.push(column + " " + sorting[key] + "");
+            }
+
+            if (config.sort != '') sortnarr.push(config.sort);
+            config.sort = sortnarr.join(",");
+            //===========================
+            return config;
+        });
+
+        //================================================================
+        //=======================VMS======================================
+
+
+        //================================================================
+        //=======================CCTV======================================
+    }
+]);
+</script>

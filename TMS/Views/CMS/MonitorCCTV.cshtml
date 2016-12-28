@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Giám sát hệ thống CCTV";
+}
+
+<div ng-controller="MonitorCCTVController">
+<div class="container-fluid">
+    <!-- TOP BUTTONS -------------------->
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Giám sát hệ thống CCTV</h4>
+        </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+CHUNOApp.controller('MonitorDeviceStatusController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    function ($scope, NgTableParams, $controller, $q, $timeout) {
+        $controller('CommonController', { $scope: $scope });
+    }
+]);
+</script>
