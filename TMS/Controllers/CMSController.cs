@@ -97,6 +97,17 @@ namespace TMS.Controllers
             return View();
         }
 
+        public ActionResult MonitorVDS()
+        {
+            //if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
+
+        public ActionResult MonitorVMS()
+        {
+            //if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
+        }
 
         public ActionResult MonitorCCTV()
         {
@@ -124,6 +135,13 @@ namespace TMS.Controllers
             dynamic model = new System.Dynamic.ExpandoObject();
             model.objectid = objectid;
             return View(model);
+        }
+
+        //Điểu khiển thiết bị
+        public ActionResult VMSControl()
+        {
+            if (!SessionCollection.IsLogIn) return LoginView();
+            return View();
         }
 
         //==================================

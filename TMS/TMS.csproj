@@ -249,6 +249,8 @@
     <Content Include="Content\device\vds\Video-Camera-24px.png" />
     <Content Include="Content\device\vds\Video-Camera-32px.png" />
     <Content Include="Content\device\vds\Video-Camera-64px.png" />
+    <Content Include="Content\device\vms\vms-demo1.png" />
+    <Content Include="Content\device\vms\vms-demo2.png" />
     <Content Include="Content\device\vms\vms.png" />
     <Content Include="Content\direction-arrow\down.png" />
     <Content Include="Content\direction-arrow\left-bottom.png" />
@@ -261,6 +263,7 @@
     <Content Include="Content\img\icons_user_24x24.png" />
     <Content Include="Content\img\icons_user_white_24x24.png" />
     <Content Include="Content\map\openlayers.css" />
+    <Content Include="Content\PlayerDemo.html" />
     <Content Include="Scripts\CMS\Common\LayoutController.js" />
     <Content Include="Scripts\CMS\Controllers\MapController.js" />
     <Content Include="Scripts\CMS\Factories\common-directive.js" />
@@ -7440,6 +7443,9 @@
     <Content Include="Views\CMS\CCTVControl.cshtml" />
     <Content Include="Views\CMS\MonitorDeviceStatus.cshtml" />
     <Content Include="Views\CMS\MonitorCCTV.cshtml" />
+    <Content Include="Views\CMS\MonitorVDS.cshtml" />
+    <Content Include="Views\CMS\MonitorVMS.cshtml" />
+    <Content Include="Views\CMS\VMSControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\outputs\" />

@@ -1,7 +1,22 @@
 ﻿@{
     ViewBag.Title = "Giám sát hệ thống CCTV";
 }
-
+<!----------------------------------->
+<style>
+    .containing-table {
+        display: table;
+    }
+    .centre-align {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .child-img{
+        max-width:100%;
+        max-height:100%;
+    }
+</style>
+<!------------------------------>
 <div ng-controller="MonitorCCTVController">
 <div class="container-fluid">
     <!-- TOP BUTTONS -------------------->
@@ -12,13 +27,56 @@
     </div>
 
     <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary box-solid">
+                <div class="box-header text-center">
+                    <span  class="pull-left">CCTV</span>
+                    <span >CCTV0001</span>
+                    <span class="pull-right" style="margin-left:10px">
+                        <button class="btn btn-success" ng-click="ShowSubSystem('vms')" ><i class="fa fa-edit"></i>Chọn</button>
+                    </span>
+                    <span class="pull-right">
+                        <button class="btn btn-success" ng-click="ShowSubSystem('vms')" >Chụp hình</button>
+                    </span>
+                </div>
+                <div class="box-body">
+                   <div  class="containing-table" style="width:80%;height:90px;margin:auto">
+                       <div class="centre-align" style="">
+                          <img src="@Url.Content("~/Content/device/cctv/cctv-demo.png")" class="child-img" style="height:100%" />   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-6">
+            <div class="box box-primary box-solid">
+                <div class="box-header text-center">
+                    <span  class="pull-left">CCTV</span>
+                    <span >CCTV0001</span>
+                    <span class="pull-right" style="margin-left:10px">
+                        <button class="btn btn-success" ng-click="ShowSubSystem('vms')" ><i class="fa fa-edit"></i>Chọn</button>
+                    </span>
+                    <span class="pull-right">
+                        <button class="btn btn-success" ng-click="ShowSubSystem('vms')" >Chụp hình</button>
+                    </span>
+                </div>
+                <div class="box-body">
+                   <div  class="containing-table" style="width:80%;height:90px;margin:auto">
+                       <div class="centre-align" style="">
+                          <img src="@Url.Content("~/Content/device/cctv/cctv-demo.png")" class="child-img" style="height:100%" />   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
     </div>
 </div>
 </div>
 
 <script type="text/javascript">
-CHUNOApp.controller('MonitorDeviceStatusController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
+    CHUNOApp.controller('MonitorCCTVController', ['$scope', 'NgTableParams', '$controller', '$q', '$timeout',
     function ($scope, NgTableParams, $controller, $q, $timeout) {
         $controller('CommonController', { $scope: $scope });
     }

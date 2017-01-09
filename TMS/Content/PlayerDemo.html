@@ -1,0 +1,481 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>VioStor SDK Client ActiveX Controls</title>
+<script language ="javascript">
+    //chrome-extension://hehijbfgiekmjfkfjpbkbammjbdenadd/nhc.htm#url=http://localhost:47847/Content/PlayerDemo.html
+function SimplePlay()
+{
+	//Login();
+	VGCliPlayer1.Stop();
+
+	VGCliPlayer1.SetPlayFilePath(textFilePath.value);
+	VGCliPlayer1.Playfile();
+}
+
+function PlaybackByTime()
+{
+	Login();
+	VGCliPlayer1.Stop();
+
+	ResetRenderType();
+	VGCliPlayer1.SetPlaybackQueryRangebyDatetime(textFromTime.value, textToTime.value);
+}
+
+function Snapshot() 
+{
+    VGCliPlayer1.SetSnapshotResizeMode(SnapShotResize.options[SnapShotResize.selectedIndex].value); 
+	VGCliPlayer1.Snapshot(textFileName.value);
+}
+
+function Export()
+{
+	VGCliPlayer1.SetExportPath(textExportPath.value);
+	VGCliPlayer1.SetExportFile(textExportFile.value);
+	VGCliPlayer1.EnableExport();
+}
+
+function EnableLiveAudio() 
+{
+    if ("EnableAudio" == btnLiveAudio.value) {
+        btnLiveAudio.value = "DisableAudio";
+        VGCliPlayer1.EnableAudio(1);
+    }
+    else {
+        btnLiveAudio.value = "EnableAudio";
+        VGCliPlayer1.EnableAudio(0);
+    }
+}
+
+function EnablePlaybackAudio()
+{
+    if ("EnableAudio" == btnPlybackAudio.value)
+	{
+	    btnPlybackAudio.value = "DisableAudio";
+		VGCliPlayer1.EnableAudio(1);
+	}
+	else
+	{
+	    btnPlybackAudio.value = "EnableAudio";
+		VGCliPlayer1.EnableAudio(0);
+	}
+}
+
+function Play()
+{
+	Login();
+	ResetRenderType();
+	VGCliPlayer1.Play();
+}
+
+function Pause()
+{
+	VGCliPlayer1.Pause();
+}
+
+function StepBkd()
+{
+    VGCliPlayer1.StepBackward();
+
+    var Idx = oSpeed.selectedIndex;
+    if (Idx < 9)
+     {
+         Idx = 9 + (8 - Idx);
+         oSpeed.selectedIndex = Idx;
+    }
+
+     VGCliPlayer1.SetPlaySpeed(oSpeed.options[oSpeed.selectedIndex].value);
+}
+
+function StepFwd()
+{
+    VGCliPlayer1.StepForward();
+
+    var Idx = oSpeed.selectedIndex;
+    if (Idx >= 9) 
+    {
+        Idx = 9 - (Idx-8);
+        oSpeed.selectedIndex = Idx;
+    }
+
+    VGCliPlayer1.SetPlaySpeed(oSpeed.options[oSpeed.selectedIndex].value);
+}
+
+function Stop()
+{
+	VGCliPlayer1.Stop();
+}
+
+function Login()
+{
+	VGCliPlayer1.ServerIP = textSvrIP.value;
+	VGCliPlayer1.ServerPort = textSvrPort.value;
+	VGCliPlayer1.SetChannelIdx(oSelect.options[oSelect.selectedIndex].value);
+	VGCliPlayer1.SetAuthentication(textAdmName.value, textAdmPassword.value);
+}
+
+function GetServerName()
+{
+	Login();
+	
+	var svrName;
+	svrName = VGCliPlayer1.GetStatus();
+	textServerName.value = svrName;
+}	
+
+function GetPlayerStatus()
+{
+	var nStatus;
+	nStatus = VGCliPlayer1.GetStatus();
+	
+	if ( nStatus == 0 ) 
+		textPlayerStatus.value = "Stopped. (0)";
+	else
+	if ( nStatus == 1 ) 
+		textPlayerStatus.value = "Playing. (1)";
+	else
+	if ( nStatus == 2 ) 
+		textPlayerStatus.value = "Paused. (2)";
+	else
+		textPlayerStatus.value = nStatus;
+
+}
+
+function GetTime()
+{
+	var strTime;
+	//strTime = VGCliPlayer1.CurTime;
+	strTime = VGCliPlayer1.GetTime();	
+	textTime.value = strTime;
+}
+
+function ReSize()
+{
+	VGCliPlayer1.style.height = WindowHeight.value;
+	VGCliPlayer1.style.width = WindowWidth.value;
+}
+
+function AspectRatio()
+{
+	if ("Disable" == btnAspectRatio.value)
+	{ 
+		btnAspectRatio.value="Enable";
+		VGCliPlayer1.SetAspectRatio(1);
+	}
+	else
+	{
+		btnAspectRatio.value="Disable";
+		VGCliPlayer1.SetAspectRatio(0);
+	}
+}
+
+function EnableSSL()
+{
+	if ("ON" == btnSSL.value)
+	{
+		btnSSL.value="OFF";
+		VGCliPlayer1.EnableSSL(0)
+	}
+	else
+	{
+		btnSSL.value="ON";
+		VGCliPlayer1.EnableSSL(1)
+	}
+}
+
+function EnableLowBandwidth()
+{
+	if ("ON" == btnLowBandwidth.value)
+	{
+		btnLowBandwidth.value="OFF";
+		VGCliPlayer1.EnableLowBandwidth(0)
+	}
+	else
+	{
+		btnLowBandwidth.value="ON";
+		VGCliPlayer1.EnableLowBandwidth(1)
+	}
+}
+
+function ResetRenderType() 
+{
+    VGCliPlayer1.SetRenderType(RenderSelect.options[RenderSelect.selectedIndex].value); 
+}
+
+function OnModeChange(x) 
+{
+    LiveRadio.checked = false;
+    PlaybackRadio.checked = false;
+    //MultiChannelRadio.checked = false;
+
+    Live_IO.style.display = "none";
+    Playback_IO.style.display = "none";
+    RenderSelect.style.display = "none";
+
+    switch(x)
+    {
+    case 0:
+        LiveRadio.checked = true;
+        Live_IO.style.display = "inline";
+        RenderSelect.style.display = "inline";
+        break;
+
+    case 1:
+        PlaybackRadio.checked = true;
+        Playback_IO.style.display = "inline";
+        RenderSelect.style.display = "inline";
+        break;
+
+//    case 2:
+//        MultiChannelRadio.checked = true;
+//        break;
+    } //switch(x)
+
+    VGCliPlayer1.SwitchPlayerMode(x);
+}
+
+function LiveConnection() 
+{
+    Login();
+    ResetRenderType();
+    VGCliPlayer1.LiveConnection();
+}
+
+function OnPlaybackSpeedChange()
+{
+    VGCliPlayer1.SetPlaySpeed(oSpeed.options[oSpeed.selectedIndex].value);
+}
+
+function SetSnapshotFormat(x) {
+    BmpRadio.checked = false;
+    JpegRadio.checked = false;
+    PngRadio.checked = false;
+    
+    switch (x) {
+        case 0:
+            BmpRadio.checked = true;            
+            break;
+
+        case 1:
+            JpegRadio.checked = true;            
+            break;
+
+        case 2:
+            PngRadio.checked = true;  
+            break;
+    } //switch(x)       
+
+    VGCliPlayer1.SetSnapshotFormat(x);
+}
+
+</script>
+    <style type="text/css">
+        #Radio1
+        {
+            width: 110px;
+        }
+        #Radio2
+        {
+            width: 110px;
+        }
+    </style>
+</head>
+
+<body>
+<table>
+<tr>
+	<td>
+		<OBJECT id=VGCliPlayer1 style="LEFT: 0px; WIDTH: 1080; TOP: 0px; HEIGHT: 720" 
+		height=960 width=640 classid="clsid:78506021-0C6D-4E9E-A829-552129201173"
+		codeBase="VioStorSDK.cab#Version=1,0,0,0">
+		<PARAM NAME="ServerIP" VALUE="192.168.0.1">
+		<PARAM NAME="ServerPort" VALUE="80">
+		<!--<PARAM NAME="UseDblClickFullScreen" VALUE="0">-->
+        </OBJECT>
+	</td>
+	<td>
+        <P>
+        Mode Select :
+		    Live<input id="LiveRadio" checked name="LiveRadio" type="radio" value="V1" onclick="OnModeChange(0)"/>
+            Playback<input id="PlaybackRadio" name="PlaybackRadio" type="radio" value="V1" onclick="OnModeChange(1)"/>
+            <!--
+            Multi Channel<input id="MultiChannelRadio" name="MultiChannelRadio" type="radio" value="V1" onclick="OnModeChange(2)"/>
+            -->
+        </P>
+		<P>
+		VioStor IP:
+		<input value="172.28.12.100" ID="textSvrIP" >
+		Port:
+		<input value="80" ID="textSvrPort" SIZE=8 > 
+		SSL:
+		<input type="button" value="OFF" ID="btnSSL" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="EnableSSL();">		
+		</P>
+		<P> 
+		Username:
+		<input value="admin" ID="textAdmName" >
+		Password:
+		<input value="admin" ID="textAdmPassword" SIZE=16 > 
+		</P>
+		<!--
+		<P> 
+		<INPUT id=btnGetServerName style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick=GetServerName(); type=button value="Get Server Name"> 
+		Server name: <INPUT id=textServerName size=60> </P>
+		-->
+		<P>
+		Channel:
+            <select id="oSelect" name="Channel" size="1">
+                <option value="0" selected>Channel 1
+                    <option value="1">Channel 2
+                        <option value="2">Channel 3
+                            <option value="3">Channel 4
+                                <option value="4">Channel 5
+                                    <option value="5">Channel 6
+                                        <option value="6">Channel 7
+                                            <option value="7">Channel 8
+                                                <option value="8">Channel 9
+                                                    <option value="9">Channel 10
+                                                        <option value="10">Channel 11
+                                                            <option value="11">Channel 12
+                                                                <option value="12">Channel 13
+                                                                    <option value="13">Channel 14
+                                                                        <option value="14">Channel 15
+                                                                            <option value="15">Channel 16
+                                                                                <option value="16">Channel 17
+                                                                                    <option value="17">Channel 18
+                                                                                        <option value="18">Channel 19
+                                                                                            <option value="19">Channel 20
+                                                                                                <option value="20">
+                Channel 21
+            </select>		
+		Render:
+        <select id="RenderSelect" name="RenderSelect" size="1" > <!--onschange="OnRenderTypeChange();"-->
+                <option value="0">VMR7
+                <option value="1">VMR9                
+                <option value="3" selected>GDI                                
+            </select>
+		</P>        
+        <P>
+        Bmp<input id="BmpRadio" checked name="BmpRadio" type="radio" value="V1" onclick="SetSnapshotFormat(0)"/>
+        Jpeg<input id="JpegRadio" name="JpegRadio" type="radio" value="V1" onclick="SetSnapshotFormat(1)"/>
+        Png<input id="PngRadio" name="PngRadio" type="radio" value="V1" onclick="SetSnapshotFormat(2)"/>
+        <SELECT ID="SnapShotResize" NAME="SnapShotResize" SIZE="1">
+		<OPTION VALUE="0">1 x
+		<OPTION VALUE="1">1/2 x
+		<OPTION VALUE="2">1/4 x
+		</SELECT>
+		<input value="D:/Snapshot" ID="textFileName" >		
+		<input type="button" value="Snapshot" ID="btnSnapshot" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="Snapshot();">		
+		</P>
+        <P>
+		width:
+		<input value="640" ID="WindowWidth" SIZE=8 >
+		height:
+		<input value="480" ID="WindowHeight" SIZE=8 >
+		<input type="button" value="ReSize" ID="btnReSize" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="ReSize();">
+		</P>
+		<P>
+		AspectRatio:<input type="button" value="Enable" ID="btnAspectRatio" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="AspectRatio();">
+		</P>      
+		<P>
+		<input type="button" value="Play" ID="btnPlay" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="Play();"> 
+		<input type="button" value="Pause" ID="btnPause" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="Pause();"> 
+		<input type="button" value="Stop" ID="btnStop" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="Stop();"> 
+        </P>
+		<P> 
+		<INPUT id=btnGetTime style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick=GetTime(); type=button value="GetTime"> 
+		Time : <INPUT id=textTime size=30> 
+		</P>		
+		<P> 
+		<INPUT id=btnGetPlayerStatus style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick=GetPlayerStatus(); type=button value="Get Player Status"> 
+		Player Status: <INPUT id=textPlayerStatus size=16> 
+		</P>
+        <!--Live_IO Start-->
+        <section id="Live_IO">
+		<P>
+        <input type="button" value="DisableAudio" ID="btnLiveAudio" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="EnableLiveAudio();">
+        </P>
+        </section>
+        <!--Live_IO End-->
+		
+        <!--Playback_IO Start-->
+        <section hidden id="Playback_IO">
+        <P> 
+		From:
+		<input value="2008-11-12 09:00:00" ID="textFromTime" >
+		To:
+		<input value="2008-11-12 10:00:00" ID="textToTime" >
+		<input type="button" value="Playback Search by Time..." ID="btnPlaybackByTime" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="PlaybackByTime();">
+		</P>
+		<P>
+		<input type="button" value="Step Backward" ID="btnStepBkd" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="StepBkd();"> 
+		<input type="button" value="Step Forward" ID="btnStepFwd" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="StepFwd();"> 
+        Play Speed:
+		<SELECT ID="oSpeed" NAME="Speed" SIZE="1" onchange="OnPlaybackSpeedChange();">
+        <OPTION VALUE="4096">16 x
+		<OPTION VALUE="2048">8 x
+		<OPTION VALUE="1024">4 x
+		<OPTION VALUE="512">2 x
+		<OPTION VALUE="256" SELECTED>1 x
+		<OPTION VALUE="128">1/2 x
+		<OPTION VALUE="64">1/4 x
+		<OPTION VALUE="32">1/8 x
+		<OPTION VALUE="16">1/16 x
+        <OPTION VALUE="-16">-1/16 x
+        <OPTION VALUE="-32">-1/8 x
+		<OPTION VALUE="-64">-1/4 x
+		<OPTION VALUE="-128">-1/2 x
+		<OPTION VALUE="-256">-1 x
+		<OPTION VALUE="-512">-2 x
+        <OPTION VALUE="-1024">-4 x
+		<OPTION VALUE="-2048">-8 x
+        <OPTION VALUE="-4096">-16 x
+		</SELECT>        
+        </P>
+        <P>
+        <input type="button" value="DisableAudio" ID="btnPlybackAudio" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="EnablePlaybackAudio();">
+        </P>
+        <P>
+        UseLowBandwidth : 
+		<input type="button" value="OFF" ID="btnLowBandwidth" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="EnableLowBandwidth();">
+		</P>		        
+		<P>
+		<input value="D:/" ID="textExportPath" >
+		<input value="ExpFile" ID="textExportFile" >
+		<input type="button" value="Export" ID="btnExport" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="Export();">&nbsp;
+		</P>				
+		<p>
+        <input type="button" value="Play file..." ID="btnPlayfile" style="FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana" onclick="SimplePlay();">
+        File Path & Name : <INPUT id=textFilePath size=30"> 
+		</p>
+        </section>
+        <!--Playback_IO End-->
+
+	</td>
+</tr>
+</table>
+
+<script language="javascript">
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1;
+var day = today.getDate();
+var hourStart = today.getHours();
+var hourEnd = today.getHours() + 1;
+
+if ( month < 10 )
+	month = "0" + month;
+if ( day < 10 )
+	day = "0" + day;
+if ( hourStart < 10 )
+	hourStart = "0" + hourStart;
+if ( hourEnd < 10 )
+	hourEnd = "0" + hourEnd;
+
+textFromTime.value = year + "-" + month + "-" + day + " " + hourStart + ":00:00";
+textToTime.value = year + "-" + month + "-" + day + " " + hourEnd + ":00:00";	
+</script>
+
+</body>
+
+</html>
